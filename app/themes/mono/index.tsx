@@ -90,11 +90,8 @@ const MonoTheme: React.FC = () => {
 					</div>
 					<div className="portfolio-grid__right">
 						<ProjectList />
-						<hr />
 						<ExperienceList />
-						<hr />
 						<EducationList />
-						<hr />
 						<AsciiFooter />
 					</div>
 				</main>
