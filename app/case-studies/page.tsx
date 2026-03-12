@@ -29,46 +29,33 @@ export default function CaseStudiesIndexPage() {
 	return (
 		<main className="case-study-page">
 			<div className="case-study-shell case-study-shell--index">
-				<nav className="case-study-breadcrumb" aria-label="Breadcrumb">
-					<Link href="/" className="case-study-backlink">
-						Back home
-					</Link>
-				</nav>
+				<Link href="/" className="case-study-backlink">
+					Back home
+				</Link>
 				<header className="case-studies-hero">
-					<p className="case-study-eyebrow">Case Studies</p>
-					<h1 className="case-studies-title">
-						Selected hackathon builds, explained with more context.
-					</h1>
+					<h1 className="case-studies-title">Case Studies</h1>
 					<p className="case-studies-intro">
-						Short write-ups on what was built, which constraints mattered, and how
-						each prototype came together once the rough demo phase was over.
+						Short write-ups on what was built, which constraints mattered, and
+						how each prototype came together once the rough demo phase was over.
 					</p>
 				</header>
 				<section aria-label="Case study list" className="case-studies-list">
 					{caseStudies.map((caseStudy) => (
-						<article key={caseStudy.slug} className="case-study-row">
-							<p className="case-study-row__meta">
+						<article key={caseStudy.slug} className="case-study-card">
+							<h2 className="case-study-card__title">
+								<Link
+									href={`/case-studies/${caseStudy.slug}`}
+									className="case-study-card__link"
+								>
+									{caseStudy.title}
+								</Link>
+							</h2>
+							<p className="case-study-card__summary">{caseStudy.summary}</p>
+							<p className="case-study-card__meta">
 								{caseStudy.projectType}
-								<span aria-hidden="true"> / </span>
-								Updated {formatCaseStudyDate(caseStudy.updatedAt)}
+								<span aria-hidden="true"> · </span>
+								{formatCaseStudyDate(caseStudy.updatedAt)}
 							</p>
-							<div className="case-study-row__body">
-								<h2 className="case-study-row__title">
-									<Link
-										href={`/case-studies/${caseStudy.slug}`}
-										className="case-study-row__title-link"
-									>
-										{caseStudy.title}
-									</Link>
-								</h2>
-								<p className="case-study-row__summary">{caseStudy.summary}</p>
-							</div>
-							<Link
-								href={`/case-studies/${caseStudy.slug}`}
-								className="case-study-link"
-							>
-								read write-up
-							</Link>
 						</article>
 					))}
 				</section>
