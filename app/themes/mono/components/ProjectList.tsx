@@ -10,8 +10,8 @@ const ProjectList = () => {
 			<div className="section-heading">
 				<h2 id="projects-heading">Hackathon Projects</h2>
 				<p className="section-intro">
-					Selected prototypes and experiments from hackathons, with direct links to
-					the source, demos, and deeper write-ups where they exist.
+					Selected prototypes and experiments from hackathons, with direct links
+					to the source, demos, and deeper write-ups where they exist.
 				</p>
 			</div>
 			<Accordion.Root
@@ -36,9 +36,13 @@ const ProjectList = () => {
 									<div className="section-list__header">
 										<div className="section-list__meta">
 											<span className="section-list__year">{project.year}</span>
-											<span className="section-list__title">{project.title}</span>
+											<span className="section-list__title">
+												{project.title}
+											</span>
 										</div>
-										<p className="section-list__summary">{project.description}</p>
+										<p className="section-list__summary">
+											{project.description}
+										</p>
 									</div>
 								</Accordion.Trigger>
 							</Accordion.Header>

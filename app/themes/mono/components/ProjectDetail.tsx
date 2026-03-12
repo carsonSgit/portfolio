@@ -19,7 +19,10 @@ const ProjectDetail = ({
 		<div className="detail-panel__content">
 			<div className="detail-panel__group">
 				<p className="detail-panel__label">Stack</p>
-				<ul className="detail-panel__badge-list" aria-label={`${projectTitle} stack`}>
+				<ul
+					className="detail-panel__badge-list"
+					aria-label={`${projectTitle} stack`}
+				>
 					{stack.map((item) => (
 						<li key={item.name} className="detail-panel__badge-item">
 							<span className="detail-panel__badge">{item.name}</span>

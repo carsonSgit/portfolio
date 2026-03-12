@@ -63,9 +63,9 @@ const Intro = () => {
 				Sciences at Memorial University.
 			</p>
 			<p className="intro__about intro__about--secondary">
-				This site is a concise archive of hackathon builds, technical experiments,
-				and a few deeper write-ups where the implementation details are worth
-				explaining clearly.
+				This site is a concise archive of hackathon builds, technical
+				experiments, and a few deeper write-ups where the implementation details
+				are worth explaining clearly.
 			</p>
 			<nav className="intro__links" aria-label="Primary links">
 				{LINKS.map((link) => (

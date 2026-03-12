@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef } from "react";
-import "../../styles/guide-modal.scss";
 
 interface GuideModalProps {
 	isOpen: boolean;

@@ -14,7 +14,7 @@ import ExperienceList from "./components/ExperienceList";
 import Intro from "./components/Intro";
 import ProjectList from "./components/ProjectList";
 import { useVimNavigation } from "./hooks/useVimNavigation";
-import "./styles/v2.scss";
+import "@/styles.scss";
 import Shader from "@/components/ui/shader";
 
 const GuideModal = lazy(() => import("../../components/shared/GuideModal"));

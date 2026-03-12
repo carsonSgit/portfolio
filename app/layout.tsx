@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import {
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: "#0d0d0f",
+	themeColor: "#111",
 };
 
 const jsonLd = {
@@ -142,6 +143,19 @@ export default function RootLayout({
 	return (
 		<html lang="en-CA" data-theme="mono">
 			<head>
+				{process.env.NODE_ENV === "development" && (
+					<Script
+						src="//unpkg.com/react-grab/dist/index.global.js"
+						crossOrigin="anonymous"
+						strategy="beforeInteractive"
+					/>
+				)}
+				{process.env.NODE_ENV === "development" && (
+					<Script
+						src="//unpkg.com/@react-grab/mcp/dist/client.global.js"
+						strategy="lazyOnload"
+					/>
+				)}
 				<link
 					rel="preload"
 					href="/fonts/CommitMono-400-Regular.woff2"

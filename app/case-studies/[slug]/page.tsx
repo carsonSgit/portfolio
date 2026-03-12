@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import "@/themes/mono/styles/v2.scss";
+import "@/styles.scss";
 import { caseStudies, getCaseStudyBySlug } from "@/data/caseStudies";
 
 const BASE_URL = "https://carsonspriggs.me";
@@ -12,7 +12,7 @@ type RouteParams = {
 };
 
 type PageProps = {
-	params: Promise<RouteParams>;
+	readonly params: Promise<RouteParams>;
 };
 
 function formatCaseStudyDate(value: string) {
@@ -28,7 +28,9 @@ export function generateStaticParams() {
 	return caseStudies.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps): Promise<Metadata> {
 	const { slug } = await params;
 	const caseStudy = getCaseStudyBySlug(slug);
 
@@ -36,7 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		return {};
 	}
 
-	const title = caseStudy.seo?.title ?? `${caseStudy.title} Case Study | Carson Spriggs`;
+	const title =
+		caseStudy.seo?.title ?? `${caseStudy.title} Case Study | Carson Spriggs`;
 	const description = caseStudy.seo?.description ?? caseStudy.summary;
 	const socialImage = caseStudy.seo?.socialImage ?? DEFAULT_SOCIAL_IMAGE;
 	const canonicalPath = `/case-studies/${caseStudy.slug}`;
@@ -89,7 +92,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
 	const articleSchema = {
 		"@context": "https://schema.org",
 		"@type": "Article",
-		headline: caseStudy.seo?.title ?? `${caseStudy.title} Case Study | Carson Spriggs`,
+		headline:
+			caseStudy.seo?.title ?? `${caseStudy.title} Case Study | Carson Spriggs`,
 		description: caseStudy.seo?.description ?? caseStudy.summary,
 		datePublished: caseStudy.publishedAt,
 		dateModified: caseStudy.updatedAt,
@@ -138,7 +142,10 @@ export default async function CaseStudyPage({ params }: PageProps) {
 						<span aria-hidden="true"> · </span>
 						Updated {formatCaseStudyDate(caseStudy.updatedAt)}
 					</p>
-					<ul className="case-study-stack" aria-label={`${caseStudy.title} stack`}>
+					<ul
+						className="case-study-stack"
+						aria-label={`${caseStudy.title} stack`}
+					>
 						{caseStudy.stack.map((item) => (
 							<li key={item} className="case-study-stack__item">
 								{item}
@@ -163,7 +170,10 @@ export default async function CaseStudyPage({ params }: PageProps) {
 						</section>
 					))}
 
-					<section className="case-study-section" aria-labelledby="links-heading">
+					<section
+						className="case-study-section"
+						aria-labelledby="links-heading"
+					>
 						<h2 id="links-heading">Links</h2>
 						<div className="case-study-links">
 							{caseStudy.links.map((link) => (

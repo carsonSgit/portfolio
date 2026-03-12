@@ -11,7 +11,7 @@ body {
   font-family: 'CommitMono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0d0d0f;
+  background-color: #111;
 }
 
 @font-face {
@@ -50,11 +50,6 @@ code {
 
 ::-webkit-scrollbar {
   display: none;
-}
-
-::selection {
-  background-color: #000000e5;
-  color: #f0f0f0;
 }
 
 :root {

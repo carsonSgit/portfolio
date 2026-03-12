@@ -98,8 +98,7 @@ export const projects: z.infer<typeof projectSchema>[] = [
 			},
 			{
 				label: "notebook",
-				href:
-					"https://github.com/carsonSgit/Mice-Neural-Decoding-ML/blob/main/PharmaHacks%202024%20Neural%20Decoding%20Single%20File.ipynb",
+				href: "https://github.com/carsonSgit/Mice-Neural-Decoding-ML/blob/main/PharmaHacks%202024%20Neural%20Decoding%20Single%20File.ipynb",
 			},
 		],
 	},

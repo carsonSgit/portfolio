@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "@/themes/mono/styles/v2.scss";
+import "@/styles.scss";
 import { caseStudies } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
 
