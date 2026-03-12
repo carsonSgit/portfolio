@@ -1,49 +1,70 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import {
+	BASE_URL,
+	DEFAULT_DESCRIPTION,
+	DEFAULT_SOCIAL_IMAGE,
+	DEFAULT_SOCIAL_IMAGE_ALT,
+	DEFAULT_TITLE,
+	SITE_NAME,
+	absoluteUrl,
+	siteVerification,
+} from "@/lib/seo";
 import "./globals.scss";
 
-const BASE_URL = "https://carsonspriggs.me";
+const HOME_KEYWORDS = [
+	"Carson Spriggs",
+	"software engineer",
+	"product engineer",
+	"software developer Canada",
+	"TypeScript developer",
+	"developer tools",
+	"hackathon projects",
+	"Fundica",
+	"Memorial University",
+	"CUSEC",
+];
 
 export const metadata: Metadata = {
-	title: "carsonSgit",
-	description:
-		"Portfolio of Carson Spriggs. Fullstack developer, AI research, UI/UX.",
 	metadataBase: new URL(BASE_URL),
+	title: DEFAULT_TITLE,
+	description: DEFAULT_DESCRIPTION,
+	applicationName: SITE_NAME,
+	authors: [{ name: SITE_NAME, url: BASE_URL }],
+	creator: SITE_NAME,
+	publisher: SITE_NAME,
+	keywords: HOME_KEYWORDS,
 	alternates: {
-		canonical: "/",
+		canonical: absoluteUrl("/"),
 	},
-	authors: [{ name: "Carson Spriggs" }],
-	keywords: [
-		"Carson Spriggs",
-		"software developer",
-		"portfolio",
-		"full-stack",
-		"AI",
-		"Memorial University",
-		"Concordia University",
-		"CUSEC",
-		"John Abbott College",
-	],
+	verification: siteVerification,
 	icons: {
 		icon: "/favicon.ico",
 	},
+	manifest: "/manifest.json",
 	openGraph: {
-		title: "carsonSgit",
-		description:
-			"Portfolio of Carson Spriggs. Fullstack developer, AI research, UI/UX.",
+		title: DEFAULT_TITLE,
+		description: DEFAULT_DESCRIPTION,
 		url: BASE_URL,
-		siteName: "carsonSgit",
-		locale: "en_US",
+		siteName: SITE_NAME,
+		locale: "en_CA",
 		type: "website",
+		images: [
+			{
+				url: absoluteUrl(DEFAULT_SOCIAL_IMAGE),
+				width: 1200,
+				height: 630,
+				alt: DEFAULT_SOCIAL_IMAGE_ALT,
+			},
+		],
 	},
 	twitter: {
-		card: "summary",
-		title: "carsonSgit",
-		description:
-			"Portfolio of Carson Spriggs. Fullstack developer, AI research, UI/UX.",
+		card: "summary_large_image",
+		title: DEFAULT_TITLE,
+		description: DEFAULT_DESCRIPTION,
+		images: [absoluteUrl(DEFAULT_SOCIAL_IMAGE)],
 	},
-	manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
@@ -52,42 +73,64 @@ export const viewport: Viewport = {
 
 const jsonLd = {
 	"@context": "https://schema.org",
-	"@type": "Person",
-	name: "Carson Spriggs",
-	url: BASE_URL,
-	sameAs: [
-		"https://github.com/carsonSgit",
-		"https://linkedin.com/in/carsonspriggs",
-	],
-	jobTitle: "Software Developer",
-	worksFor: {
-		"@type": "Organization",
-		name: "Botpress",
-	},
-	alumniOf: [
+	"@graph": [
 		{
-			"@type": "CollegeOrUniversity",
-			name: "Memorial University of Newfoundland",
-			url: "https://www.mun.ca/",
+			"@type": "Person",
+			"@id": `${BASE_URL}#person`,
+			name: "Carson Spriggs",
+			description: DEFAULT_DESCRIPTION,
+			url: BASE_URL,
+			image: absoluteUrl(DEFAULT_SOCIAL_IMAGE),
+			sameAs: [
+				"https://github.com/carsonSgit",
+				"https://linkedin.com/in/carsonspriggs",
+			],
+			jobTitle: "Software Engineer",
+			worksFor: {
+				"@type": "Organization",
+				name: "Fundica",
+				url: "https://fundica.com/",
+			},
+			homeLocation: {
+				"@type": "Country",
+				name: "Canada",
+			},
+			alumniOf: [
+				{
+					"@type": "CollegeOrUniversity",
+					name: "Memorial University of Newfoundland",
+					url: "https://www.mun.ca/",
+				},
+				{
+					"@type": "CollegeOrUniversity",
+					name: "Concordia University",
+					url: "https://www.concordia.ca/",
+				},
+				{
+					"@type": "CollegeOrUniversity",
+					name: "John Abbott College",
+					url: "https://www.johnabbott.qc.ca/",
+				},
+			],
+			knowsAbout: [
+				"Product engineering",
+				"Developer tools",
+				"TypeScript",
+				"Web applications",
+				"Technical communication",
+			],
 		},
 		{
-			"@type": "CollegeOrUniversity",
-			name: "Concordia University",
-			url: "https://www.concordia.ca/",
+			"@type": "WebSite",
+			"@id": `${BASE_URL}#website`,
+			url: BASE_URL,
+			name: SITE_NAME,
+			description: DEFAULT_DESCRIPTION,
+			inLanguage: "en-CA",
+			publisher: {
+				"@id": `${BASE_URL}#person`,
+			},
 		},
-		{
-			"@type": "CollegeOrUniversity",
-			name: "John Abbott College",
-			url: "https://www.johnabbott.qc.ca/",
-		},
-	],
-	knowsAbout: [
-		"Software Development",
-		"Artificial Intelligence",
-		"IoT",
-		"Full-Stack Development",
-		"DevOps",
-		"Machine Learning",
 	],
 };
 
@@ -97,7 +140,7 @@ export default function RootLayout({
 	readonly children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" data-theme="mono">
+		<html lang="en-CA" data-theme="mono">
 			<head>
 				<link
 					rel="preload"

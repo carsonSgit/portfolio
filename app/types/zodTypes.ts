@@ -15,12 +15,17 @@ export const experienceSchema = z.object({
 	link: z.string(),
 });
 
+export const projectLinkSchema = z.object({
+	label: z.string(),
+	href: z.string(),
+});
+
 export const projectSchema = z.object({
 	year: z.number(),
 	title: z.string(),
 	description: z.string(),
-	github: z.string().optional(),
-	website: z.string().optional(),
+	caseStudySlug: z.string().optional(),
+	links: z.array(projectLinkSchema),
 	languages: z.record(
 		z.string(),
 		z.object({
