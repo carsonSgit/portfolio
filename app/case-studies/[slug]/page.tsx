@@ -119,33 +119,24 @@ export default async function CaseStudyPage({ params }: PageProps) {
 					// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD with trusted local data
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
 				/>
-				<div className="case-study-nav">
-					<Link href="/case-studies" className="case-study-backlink">
-						Back to case studies
-					</Link>
-					<nav className="case-study-breadcrumb" aria-label="Breadcrumb">
-						<Link href="/" className="case-study-breadcrumb__link">
-							Home
-						</Link>
-						<span>/</span>
-						<Link href="/case-studies" className="case-study-breadcrumb__link">
-							Case Studies
-						</Link>
-						<span>/</span>
-						<span aria-current="page">{caseStudy.title}</span>
-					</nav>
-				</div>
 
-				<header className="case-study-article">
-					<p className="case-study-eyebrow">Case Study</p>
-					<h1 className="case-study-article__title">{caseStudy.title}</h1>
-					<p className="case-study-article__summary">{caseStudy.summary}</p>
-					<p className="case-study-meta">
-						<span>{caseStudy.projectType}</span>
-						<span aria-hidden="true">/</span>
-						<span>Published {formatCaseStudyDate(caseStudy.publishedAt)}</span>
-						<span aria-hidden="true">/</span>
-						<span>Updated {formatCaseStudyDate(caseStudy.updatedAt)}</span>
+				<nav className="case-study-breadcrumb" aria-label="Breadcrumb">
+					<Link href="/case-studies" className="case-study-breadcrumb__link">
+						Case Studies
+					</Link>
+					<span aria-hidden="true">/</span>
+					<span aria-current="page">{caseStudy.title}</span>
+				</nav>
+
+				<header className="case-study-header">
+					<h1 className="case-study-header__title">{caseStudy.title}</h1>
+					<p className="case-study-header__summary">{caseStudy.summary}</p>
+					<p className="case-study-header__meta">
+						{caseStudy.projectType}
+						<span aria-hidden="true"> · </span>
+						Published {formatCaseStudyDate(caseStudy.publishedAt)}
+						<span aria-hidden="true"> · </span>
+						Updated {formatCaseStudyDate(caseStudy.updatedAt)}
 					</p>
 					<ul className="case-study-stack" aria-label={`${caseStudy.title} stack`}>
 						{caseStudy.stack.map((item) => (
@@ -156,7 +147,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 					</ul>
 				</header>
 
-				<div className="case-study-sections">
+				<div className="case-study-content">
 					{caseStudy.sections.map((section) => (
 						<section
 							key={section.id}
@@ -181,7 +172,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 									href={link.href}
 									target="_blank"
 									rel="noreferrer"
-									className="case-study-link"
+									className="case-study-ext-link"
 								>
 									{link.label}
 									<span className="sr-only">
