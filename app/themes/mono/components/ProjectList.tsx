@@ -1,64 +1,58 @@
 import { Accordion } from "@base-ui/react/accordion";
 import type * as z from "zod";
-import { Badge } from "@/components/ui/badge";
 import type { projectSchema } from "@/types/zodTypes";
-import { getBadgeStyle } from "@/utils/colors";
 import { projects } from "../../../data/projects";
 import ProjectDetail from "./ProjectDetail";
 
 const ProjectList = () => {
 	return (
 		<section aria-labelledby="projects-heading">
-			<h2 id="projects-heading">Projects</h2>
-			<Accordion.Root multiple className="section-list" aria-label="Projects">
-				{projects.map((project: z.infer<typeof projectSchema>) => (
-					<Accordion.Item
-						key={project.title}
-						value={project.title}
-						className="section-list__item"
-					>
-						<Accordion.Header>
-							<Accordion.Trigger className="section-list__trigger">
-								<span
-									className="section-list__marker mt-0.5 ml-1"
-									aria-hidden="true"
-								>
-									*
-								</span>
-								<div className="section-list__header ml-2">
-									<span className="section-list__year">{project.year}</span>
-									<span className="section-list__title">{project.title}</span>
-									<div className="section-list__badges flex flex-row flex-wrap gap-2 mt-2">
-										{Object.values(project.languages).map((lang) => (
-											<Badge
-												key={lang.name}
-												className="section-list__badge rounded-none text-xs"
-												style={{
-													backgroundColor: getBadgeStyle(lang.backgroundColour)
-														.background,
-													borderColor: getBadgeStyle(lang.backgroundColour)
-														.foreground,
-													color: getBadgeStyle(lang.backgroundColour)
-														.foreground,
-												}}
-											>
-												{lang.name}
-											</Badge>
-										))}
+			<div className="section-heading">
+				<h2 id="projects-heading">Hackathon Projects</h2>
+				<p className="section-intro">
+					Selected prototypes and experiments from hackathons, with direct links to
+					the source, demos, and deeper write-ups where they exist.
+				</p>
+			</div>
+			<Accordion.Root
+				multiple
+				className="section-list"
+				aria-label="Hackathon projects"
+			>
+				{projects.map((project: z.infer<typeof projectSchema>) => {
+					const stack = Object.values(project.languages);
+
+					return (
+						<Accordion.Item
+							key={project.title}
+							value={project.title}
+							className="section-list__item"
+						>
+							<Accordion.Header>
+								<Accordion.Trigger className="section-list__trigger">
+									<span className="section-list__marker" aria-hidden="true">
+										*
+									</span>
+									<div className="section-list__header">
+										<div className="section-list__meta">
+											<span className="section-list__year">{project.year}</span>
+											<span className="section-list__title">{project.title}</span>
+										</div>
+										<p className="section-list__summary">{project.description}</p>
 									</div>
-								</div>
-							</Accordion.Trigger>
-						</Accordion.Header>
-						<Accordion.Panel className="detail-panel" keepMounted>
-							<ProjectDetail
-								description={project.description}
-								projectTitle={project.title}
-								github={project.github}
-								website={project.website}
-							/>
-						</Accordion.Panel>
-					</Accordion.Item>
-				))}
+								</Accordion.Trigger>
+							</Accordion.Header>
+							<Accordion.Panel className="detail-panel" keepMounted>
+								<ProjectDetail
+									projectTitle={project.title}
+									links={project.links}
+									caseStudySlug={project.caseStudySlug}
+									stack={stack}
+								/>
+							</Accordion.Panel>
+						</Accordion.Item>
+					);
+				})}
 			</Accordion.Root>
 		</section>
 	);

@@ -1,6 +1,6 @@
 {
-	"short_name": "carsonSgit Portfolio",
-	"name": "carsonSgit Portfolio",
+	"short_name": "Carson Spriggs",
+	"name": "Carson Spriggs | Software Engineer",
 	"icons": [
 		{
 			"src": "favicon.ico",
@@ -12,6 +12,6 @@
 	"display": "standalone",
 	"theme_color": "#0d0d0f",
 	"background_color": "#0d0d0f",
-	"description": "Welcome to my personal portfolio!",
-	"lang": "en-US"
+	"description": "Canada-based software engineer portfolio with product work, developer tools, and concise hackathon write-ups.",
+	"lang": "en-CA"
 }
