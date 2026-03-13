@@ -42,20 +42,22 @@ export default function CaseStudiesIndexPage() {
 				<section aria-label="Case study list" className="case-studies-list">
 					{caseStudies.map((caseStudy) => (
 						<article key={caseStudy.slug} className="case-study-card">
-							<h2 className="case-study-card__title">
-								<Link
-									href={`/case-studies/${caseStudy.slug}`}
-									className="case-study-card__link"
-								>
-									{caseStudy.title}
-								</Link>
-							</h2>
-							<p className="case-study-card__summary">{caseStudy.summary}</p>
-							<p className="case-study-card__meta">
-								{caseStudy.projectType}
-								<span aria-hidden="true"> · </span>
-								{formatCaseStudyDate(caseStudy.updatedAt)}
-							</p>
+							<div className="case-study-card__content">
+								<h2 className="case-study-card__title">
+									<Link
+										href={`/case-studies/${caseStudy.slug}`}
+										className="case-study-card__link"
+									>
+										{caseStudy.title}
+									</Link>
+								</h2>
+								<p className="case-study-card__summary">{caseStudy.summary}</p>
+								<p className="case-study-card__meta">
+									{caseStudy.projectType}
+									<span aria-hidden="true"> · </span>
+									{formatCaseStudyDate(caseStudy.updatedAt)}
+								</p>
+							</div>
 						</article>
 					))}
 				</section>

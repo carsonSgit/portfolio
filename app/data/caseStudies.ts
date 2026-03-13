@@ -21,6 +21,7 @@ export interface CaseStudy {
 	summary: string;
 	projectType: string;
 	stack: string[];
+	image?: string;
 	sections: CaseStudySection[];
 	links: CaseStudyLink[];
 	publishedAt: string;
@@ -34,8 +35,9 @@ export const caseStudies: CaseStudy[] = [
 		title: "Argus",
 		summary:
 			"Hackathon prototype for monitoring live video feeds with event detection and operator review tools.",
-		projectType: "Hackathon prototype",
+		projectType: "2x Hackathon Winning Project",
 		stack: ["TypeScript", "AI", "Computer Vision", "PostgreSQL", "RTMP"],
+		image: "/argus-concept.png",
 		sections: [
 			{
 				id: "context",
@@ -80,8 +82,9 @@ export const caseStudies: CaseStudy[] = [
 		title: "CropCare",
 		summary:
 			"Hackathon prototype for plant monitoring and control using sensors, cloud messaging, and operator dashboards.",
-		projectType: "Hackathon prototype",
+		projectType: "Capstone Project",
 		stack: ["Python", "C#", "IoT", "Azure", "MQTT", "Hardware"],
+		image: "/cropcare-concept.png",
 		sections: [
 			{
 				id: "context",
@@ -112,8 +115,8 @@ export const caseStudies: CaseStudy[] = [
 			{ label: "GitHub", href: "https://github.com/carsonSgit/CropCare" },
 			{ label: "Live demo", href: "https://carsonsgit.github.io/cropcare-3d/" },
 		],
-		publishedAt: "2025-01-20",
-		updatedAt: "2026-03-11",
+		publishedAt: "2024-01-20",
+		updatedAt: "2024-03-11",
 		seo: {
 			title: "CropCare Case Study | Carson Spriggs",
 			description:
@@ -126,8 +129,9 @@ export const caseStudies: CaseStudy[] = [
 		title: "Linky",
 		summary:
 			"Hackathon prototype that turns a URL into a searchable knowledge base with retrieval-backed answers.",
-		projectType: "Hackathon prototype",
+		projectType: "Hackathon Winning Project",
 		stack: ["TypeScript", "AI", "RAG", "PostgreSQL", "Mantine"],
+		image: "/linky-concept.png",
 		sections: [
 			{
 				id: "context",
@@ -158,8 +162,8 @@ export const caseStudies: CaseStudy[] = [
 			{ label: "GitHub", href: "https://github.com/carsonSgit/Linky" },
 			{ label: "Website", href: "https://www.linky.im/" },
 		],
-		publishedAt: "2025-01-28",
-		updatedAt: "2026-03-11",
+		publishedAt: "2024-01-28",
+		updatedAt: "2024-03-11",
 		seo: {
 			title: "Linky Case Study | Carson Spriggs",
 			description:

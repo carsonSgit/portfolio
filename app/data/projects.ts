@@ -22,7 +22,7 @@ export const projects: z.infer<typeof projectSchema>[] = [
 		caseStudySlug: "argus",
 	},
 	{
-		year: 2025,
+		year: 2024,
 		title: "CropCare",
 		description:
 			"Sensor-driven farming prototype that connects plant monitoring, cloud messaging, and remote control.",
@@ -40,7 +40,7 @@ export const projects: z.infer<typeof projectSchema>[] = [
 		caseStudySlug: "cropcare",
 	},
 	{
-		year: 2025,
+		year: 2024,
 		title: "Linky",
 		description:
 			"Retrieval-backed learning tool that turns a URL into a searchable knowledge base.",

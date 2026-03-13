@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import "@/styles.scss";
 import { caseStudies, getCaseStudyBySlug } from "@/data/caseStudies";
@@ -134,27 +135,41 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
 				<header className="case-study-header">
 					<h1 className="case-study-header__title">{caseStudy.title}</h1>
-					<p className="case-study-header__summary">{caseStudy.summary}</p>
-					<p className="case-study-header__meta">
-						{caseStudy.projectType}
-						<span aria-hidden="true"> · </span>
-						Published {formatCaseStudyDate(caseStudy.publishedAt)}
-						<span aria-hidden="true"> · </span>
-						Updated {formatCaseStudyDate(caseStudy.updatedAt)}
-					</p>
-					<ul
-						className="case-study-stack"
-						aria-label={`${caseStudy.title} stack`}
-					>
-						{caseStudy.stack.map((item) => (
-							<li key={item} className="case-study-stack__item">
-								{item}
-							</li>
-						))}
-					</ul>
+					<div className="case-study-header__meta">
+						<p className="case-study-header__summary">{caseStudy.summary}</p>
+						<p className="case-study-header__details">
+							{caseStudy.projectType}
+							<span aria-hidden="true"> · </span>
+							Published {formatCaseStudyDate(caseStudy.publishedAt)}
+							<span aria-hidden="true"> · </span>
+							Updated {formatCaseStudyDate(caseStudy.updatedAt)}
+						</p>
+						<ul
+							className="case-study-stack"
+							aria-label={`${caseStudy.title} stack`}
+						>
+							{caseStudy.stack.map((item) => (
+								<li key={item} className="case-study-stack__item">
+									{item}
+								</li>
+							))}
+						</ul>
+					</div>
 				</header>
 
 				<div className="case-study-content">
+					{caseStudy.image && (
+						<div className="case-study-header__image-wrapper">
+							<Image
+								src={caseStudy.image}
+								alt={`${caseStudy.title} hero image`}
+								fill
+								priority
+								className="case-study-header__image"
+								sizes="(max-width: 768px) 100vw, 1200px"
+							/>
+						</div>
+					)}
 					{caseStudy.sections.map((section) => (
 						<section
 							key={section.id}
@@ -163,8 +178,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
 						>
 							<h2 id={`${section.id}-heading`}>{section.title}</h2>
 							<div className="case-study-section__body">
-								{section.paragraphs.map((paragraph) => (
-									<p key={paragraph}>{paragraph}</p>
+								{section.paragraphs.map((paragraph, idx) => (
+									<p key={`${section.id}-p-${idx}`}>{paragraph}</p>
 								))}
 							</div>
 						</section>
