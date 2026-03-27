@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import "@/styles.scss";
 import { caseStudies } from "@/data/caseStudies";
@@ -33,31 +34,56 @@ export default function CaseStudiesIndexPage() {
 					Back home
 				</Link>
 				<header className="case-studies-hero">
+					<p className="case-studies-kicker">Selected work</p>
 					<h1 className="case-studies-title">Case Studies</h1>
 					<p className="case-studies-intro">
-						Short write-ups on what was built, which constraints mattered, and
-						how each prototype came together once the rough demo phase was over.
+						Readable project write-ups on how each prototype was framed, built,
+						and shaped into something more intentional than a demo.
 					</p>
 				</header>
 				<section aria-label="Case study list" className="case-studies-list">
 					{caseStudies.map((caseStudy) => (
-						<article key={caseStudy.slug} className="case-study-card">
-							<div className="case-study-card__content">
-								<h2 className="case-study-card__title">
-									<Link
-										href={`/case-studies/${caseStudy.slug}`}
-										className="case-study-card__link"
-									>
-										{caseStudy.title}
-									</Link>
-								</h2>
-								<p className="case-study-card__summary">{caseStudy.summary}</p>
-								<p className="case-study-card__meta">
-									{caseStudy.projectType}
-									<span aria-hidden="true"> · </span>
-									{formatCaseStudyDate(caseStudy.updatedAt)}
-								</p>
-							</div>
+						<article
+							key={caseStudy.slug}
+							className="case-study-card"
+							data-accent={caseStudy.presentation?.accent ?? "mist"}
+						>
+							<Link
+								href={`/case-studies/${caseStudy.slug}`}
+								className="case-study-card__surface"
+							>
+								<div className="case-study-card__content">
+									<p className="case-study-card__meta">
+										{caseStudy.projectType}
+										<span aria-hidden="true"> {" | "} </span>
+										Updated {formatCaseStudyDate(caseStudy.updatedAt)}
+									</p>
+									<div className="case-study-card__text">
+										<h2 className="case-study-card__title">{caseStudy.title}</h2>
+										<p className="case-study-card__summary">
+											{caseStudy.summary}
+										</p>
+									</div>
+									<ul className="case-study-card__stack" aria-hidden="true">
+										{caseStudy.stack.slice(0, 3).map((item) => (
+											<li key={item}>{item}</li>
+										))}
+									</ul>
+								</div>
+								{caseStudy.image ? (
+									<div className="case-study-card__media">
+										<div className="case-study-card__image-wrap">
+											<Image
+												src={caseStudy.image}
+												alt=""
+												fill
+												className="case-study-card__image"
+												sizes="(max-width: 900px) 100vw, 30rem"
+											/>
+										</div>
+									</div>
+								) : null}
+							</Link>
 						</article>
 					))}
 				</section>

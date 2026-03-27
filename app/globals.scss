@@ -4,6 +4,13 @@
 
 html {
   color-scheme: dark;
+  cursor: default;
+}
+
+li,
+button,
+a {
+  cursor: default !important;
 }
 
 body {
@@ -26,6 +33,19 @@ body {
   font-family: 'CommitMono';
   src: url('/fonts/CommitMono-700-Regular.woff2') format('woff2');
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaseStudySans';
+  src:
+    local('Aptos'),
+    local('Aptos Display'),
+    local('Segoe UI Variable Text'),
+    local('Segoe UI'),
+    local('Helvetica Neue');
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
@@ -73,6 +93,7 @@ code {
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -85,6 +106,7 @@ code {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

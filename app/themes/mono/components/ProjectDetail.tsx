@@ -1,12 +1,13 @@
 import type * as z from "zod";
-import BracketLink from "./BracketLink";
 import type { projectLinkSchema } from "@/types/zodTypes";
+import BracketLink from "./BracketLink";
 
 interface ProjectDetailProps {
 	projectTitle: string;
 	links: z.infer<typeof projectLinkSchema>[];
 	caseStudySlug?: string;
 	stack: { name: string }[];
+	meta?: string;
 }
 
 const ProjectDetail = ({
@@ -14,9 +15,11 @@ const ProjectDetail = ({
 	links,
 	caseStudySlug,
 	stack,
+	meta,
 }: ProjectDetailProps) => {
 	return (
 		<div className="detail-panel__content">
+			{meta ? <p className="detail-panel__meta">{meta}</p> : null}
 			<div className="detail-panel__group">
 				<p className="detail-panel__label">Stack</p>
 				<ul
@@ -32,7 +35,7 @@ const ProjectDetail = ({
 			</div>
 			<div className="detail-panel__group">
 				<p className="detail-panel__label">Explore</p>
-				<div className="detail-panel__links">
+				<div className="detail-panel__links detail-panel__links--quiet">
 					{links.map((link) => (
 						<BracketLink
 							key={link.href}

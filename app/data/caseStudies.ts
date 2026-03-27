@@ -15,6 +15,19 @@ export interface CaseStudySection {
 	paragraphs: string[];
 }
 
+export interface CaseStudyHighlight {
+	label: string;
+	value: string;
+}
+
+export interface CaseStudyPresentation {
+	eyebrow?: string;
+	accent?: "gold" | "mist" | "meadow";
+	heroLayout?: "balanced" | "immersive";
+	highlights?: CaseStudyHighlight[];
+	indexLabel?: string;
+}
+
 export interface CaseStudy {
 	slug: string;
 	title: string;
@@ -27,6 +40,7 @@ export interface CaseStudy {
 	publishedAt: string;
 	updatedAt: string;
 	seo?: CaseStudySeo;
+	presentation?: CaseStudyPresentation;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -37,21 +51,32 @@ export const caseStudies: CaseStudy[] = [
 			"Hackathon prototype for monitoring live video feeds with event detection and operator review tools.",
 		projectType: "2x Hackathon Winning Project",
 		stack: ["TypeScript", "AI", "Computer Vision", "PostgreSQL", "RTMP"],
-		image: "/argus-concept.png",
+		image: "/argus.png",
+		presentation: {
+			eyebrow: "Live ops tooling for machine-assisted review",
+			accent: "mist",
+			heroLayout: "immersive",
+			indexLabel: "Monitoring workflow prototype",
+			highlights: [
+				{ label: "Outcome", value: "2x hackathon winner" },
+				{ label: "Focus", value: "Signal-first operator review" },
+				{ label: "Stack", value: "Vision, streaming, storage" },
+			],
+		},
 		sections: [
 			{
 				id: "context",
 				title: "Context",
 				paragraphs: [
-					"Argus started as a fast experiment in making live video review feel more usable for teams that need signal without watching every frame themselves.",
-					"The core question was whether ingest, computer-vision analysis, and operator review could be shown as one coherent workflow instead of three disconnected tools.",
+					"Argus began as an attempt to make live video review feel more humane for teams that need signal without sitting through every frame themselves.",
+					"The central question was whether ingest, computer-vision analysis, and operator review could read as one coherent workflow instead of three disconnected tools.",
 				],
 			},
 			{
 				id: "build",
 				title: "Build",
 				paragraphs: [
-					"I framed the demo around one continuous loop: bring in a live feed, analyze it automatically, and surface notable events in a review interface that still felt operator-driven.",
+					"I framed the demo around one continuous loop: bring in a live feed, analyze it automatically, and surface notable events in a review interface that still felt operator-led.",
 					"The prototype stayed grounded in real constraints, with streaming, typed application code, and persistent storage carrying the idea beyond a superficial hackathon mock-up.",
 				],
 			},
@@ -59,8 +84,8 @@ export const caseStudies: CaseStudy[] = [
 				id: "takeaways",
 				title: "Takeaways",
 				paragraphs: [
-					"The result showed that computer-vision assistance could reduce constant manual watching while keeping clear review points for a human operator.",
-					"It also became a better portfolio story because the architecture, product choices, and tradeoffs could be explained as one end-to-end system.",
+					"The result suggested that computer-vision assistance could reduce constant manual watching while still preserving clear review points for a human operator.",
+					"It also became a stronger portfolio story because the architecture, product choices, and tradeoffs could be explained as one end-to-end system.",
 				],
 			},
 		],
@@ -84,7 +109,18 @@ export const caseStudies: CaseStudy[] = [
 			"Hackathon prototype for plant monitoring and control using sensors, cloud messaging, and operator dashboards.",
 		projectType: "Capstone Project",
 		stack: ["Python", "C#", "IoT", "Azure", "MQTT", "Hardware"],
-		image: "/cropcare-concept.png",
+		image: "/cropcare.png",
+		presentation: {
+			eyebrow: "Connected agriculture system spanning hardware and software",
+			accent: "meadow",
+			heroLayout: "balanced",
+			indexLabel: "IoT monitoring and response prototype",
+			highlights: [
+				{ label: "Focus", value: "Readable monitoring and control" },
+				{ label: "System", value: "Sensors, Azure, MQTT" },
+				{ label: "Outcome", value: "End-to-end field workflow" },
+			],
+		},
 		sections: [
 			{
 				id: "context",
@@ -131,7 +167,18 @@ export const caseStudies: CaseStudy[] = [
 			"Hackathon prototype that turns a URL into a searchable knowledge base with retrieval-backed answers.",
 		projectType: "Hackathon Winning Project",
 		stack: ["TypeScript", "AI", "RAG", "PostgreSQL", "Mantine"],
-		image: "/linky-concept.png",
+		image: "/linky.png",
+		presentation: {
+			eyebrow: "A calmer interface for retrieval-backed learning",
+			accent: "gold",
+			heroLayout: "balanced",
+			indexLabel: "URL-to-knowledge product concept",
+			highlights: [
+				{ label: "Focus", value: "Learning workflow over chat UX" },
+				{ label: "System", value: "Retrieval, storage, typed frontend" },
+				{ label: "Outcome", value: "Searchable knowledge experience" },
+			],
+		},
 		sections: [
 			{
 				id: "context",

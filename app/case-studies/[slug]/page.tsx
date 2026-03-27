@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import "@/styles.scss";
 import { caseStudies, getCaseStudyBySlug } from "@/data/caseStudies";
@@ -117,7 +117,10 @@ export default async function CaseStudyPage({ params }: PageProps) {
 	};
 
 	return (
-		<main className="case-study-page">
+		<main
+			className="case-study-page"
+			data-accent={caseStudy.presentation?.accent ?? "mist"}
+		>
 			<article className="case-study-shell case-study-shell--article">
 				<script
 					type="application/ld+json"
@@ -133,15 +136,18 @@ export default async function CaseStudyPage({ params }: PageProps) {
 					<span aria-current="page">{caseStudy.title}</span>
 				</nav>
 
-				<header className="case-study-header">
-					<h1 className="case-study-header__title">{caseStudy.title}</h1>
+				<header
+					className="case-study-header"
+					data-layout={caseStudy.presentation?.heroLayout ?? "balanced"}
+				>
 					<div className="case-study-header__meta">
+						<h1 className="case-study-header__title">{caseStudy.title}</h1>
 						<p className="case-study-header__summary">{caseStudy.summary}</p>
 						<p className="case-study-header__details">
 							{caseStudy.projectType}
-							<span aria-hidden="true"> · </span>
+							<span aria-hidden="true"> {" | "} </span>
 							Published {formatCaseStudyDate(caseStudy.publishedAt)}
-							<span aria-hidden="true"> · </span>
+							<span aria-hidden="true"> {" | "} </span>
 							Updated {formatCaseStudyDate(caseStudy.updatedAt)}
 						</p>
 						<ul
@@ -155,38 +161,43 @@ export default async function CaseStudyPage({ params }: PageProps) {
 							))}
 						</ul>
 					</div>
+
+					{caseStudy.image ? (
+						<div className="case-study-header__art-panel">
+							<div className="case-study-header__image-wrapper">
+								<Image
+									src={caseStudy.image}
+									alt={`${caseStudy.title} hero image`}
+									fill
+									priority
+									className="case-study-header__image"
+									sizes="(max-width: 960px) 100vw, 720px"
+								/>
+							</div>
+						</div>
+					) : null}
 				</header>
 
 				<div className="case-study-content">
-					{caseStudy.image && (
-						<div className="case-study-header__image-wrapper">
-							<Image
-								src={caseStudy.image}
-								alt={`${caseStudy.title} hero image`}
-								fill
-								priority
-								className="case-study-header__image"
-								sizes="(max-width: 768px) 100vw, 1200px"
-							/>
-						</div>
-					)}
-					{caseStudy.sections.map((section) => (
-						<section
-							key={section.id}
-							className="case-study-section"
-							aria-labelledby={`${section.id}-heading`}
-						>
-							<h2 id={`${section.id}-heading`}>{section.title}</h2>
-							<div className="case-study-section__body">
-								{section.paragraphs.map((paragraph, idx) => (
-									<p key={`${section.id}-p-${idx}`}>{paragraph}</p>
-								))}
-							</div>
-						</section>
-					))}
+					<div className="case-study-body">
+						{caseStudy.sections.map((section) => (
+							<section
+								key={section.id}
+								className="case-study-section"
+								aria-labelledby={`${section.id}-heading`}
+							>
+								<h2 id={`${section.id}-heading`}>{section.title}</h2>
+								<div className="case-study-section__body">
+									{section.paragraphs.map((paragraph, idx) => (
+										<p key={`${section.id}-p-${idx}`}>{paragraph}</p>
+									))}
+								</div>
+							</section>
+						))}
+					</div>
 
 					<section
-						className="case-study-section"
+						className="case-study-resources"
 						aria-labelledby="links-heading"
 					>
 						<h2 id="links-heading">Links</h2>
@@ -199,7 +210,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
 									rel="noreferrer"
 									className="case-study-ext-link"
 								>
-									{link.label}
+									<span>{link.label}</span>
+									<span aria-hidden="true">{"->"}</span>
 									<span className="sr-only">
 										{` (${link.label} for ${caseStudy.title}, opens in new tab)`}
 									</span>

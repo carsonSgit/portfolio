@@ -74,17 +74,7 @@ const MonoTheme: React.FC = () => {
 				<main id="main-content" className="portfolio-grid">
 					<div className="portfolio-grid__left">
 						<Shader />
-						<div className="intro-terminal">
-							<div className="intro-terminal__titlebar">
-								<span className="intro-terminal__dots">
-									<span className="intro-terminal__dot intro-terminal__dot--red" />
-									<span className="intro-terminal__dot intro-terminal__dot--yellow" />
-									<span className="intro-terminal__dot intro-terminal__dot--green" />
-								</span>
-								<span className="intro-terminal__title">
-									carson@portfolio:~
-								</span>
-							</div>
+						<div className="intro-panel">
 							<Intro />
 						</div>
 					</div>

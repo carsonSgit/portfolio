@@ -67,6 +67,9 @@ const Intro = () => {
 				experiments, and a few deeper write-ups where the implementation details
 				are worth explaining clearly.
 			</p>
+			<p className="intro__note">
+				Based in Canada. Building product-focused software.
+			</p>
 			<nav className="intro__links" aria-label="Primary links">
 				{LINKS.map((link) => (
 					<BracketLink

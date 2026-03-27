@@ -5,8 +5,18 @@ import { educationExp } from "../../../data/experiences";
 
 const EducationList = () => {
 	return (
-		<section aria-labelledby="education-heading">
-			<h2 id="education-heading">Education</h2>
+		<section
+			aria-labelledby="education-heading"
+			className="section-block section-block--editorial"
+		>
+			<div className="section-heading">
+				<h2
+					id="education-heading"
+					className="section-title section-title--secondary"
+				>
+					Study & training
+				</h2>
+			</div>
 			<Accordion.Root multiple className="section-list" aria-label="Education">
 				{educationExp.map((item) => {
 					const dateRange = item.date.join(" - ");
@@ -19,11 +29,7 @@ const EducationList = () => {
 						>
 							<Accordion.Header>
 								<Accordion.Trigger className="section-list__trigger">
-									<span className="section-list__marker" aria-hidden="true">
-										*
-									</span>
 									<div className="section-list__header">
-										<span className="section-list__date">{dateRange}</span>
 										<span className="section-list__role">
 											{item.title}{" "}
 											<a
@@ -38,33 +44,45 @@ const EducationList = () => {
 												<span className="sr-only">(opens in new tab)</span>
 											</a>
 										</span>
+										<p className="section-list__summary">
+											{item.description[0]}
+										</p>
 									</div>
 								</Accordion.Trigger>
 							</Accordion.Header>
 							<Accordion.Panel className="detail-panel" keepMounted>
-								<div className="detail-panel__content">
-									<ul className="detail-panel__description-list">
-										{item.description.map((desc) => (
-											<li key={desc}>{desc}</li>
-										))}
-									</ul>
-									<div className="detail-panel__badges flex flex-row flex-wrap gap-2 mt-2">
-										{Object.values(item.experienceBadges).map((badge) => (
-											<Badge
-												key={badge.label}
-												className="detail-panel__badge rounded-none text-xs hover:cursor-default"
-												style={{
-													backgroundColor: getBadgeStyle(badge.backgroundColour)
-														.background,
-													borderColor: getBadgeStyle(badge.backgroundColour)
-														.foreground,
-													color: getBadgeStyle(badge.backgroundColour)
-														.foreground,
-												}}
-											>
-												{badge.label}
-											</Badge>
-										))}
+								<div className="detail-panel__inner">
+									<div className="detail-panel__content">
+										<p className="detail-panel__meta">{dateRange}</p>
+										<ul className="detail-panel__description-list">
+											{item.description.map((desc) => (
+												<li
+													key={desc}
+													className="detail-panel__description-item"
+												>
+													{desc}
+												</li>
+											))}
+										</ul>
+										<div className="detail-panel__badges">
+											{Object.values(item.experienceBadges).map((badge) => (
+												<Badge
+													key={badge.label}
+													className="detail-panel__badge"
+													style={{
+														backgroundColor: getBadgeStyle(
+															badge.backgroundColour,
+														).background,
+														borderColor: getBadgeStyle(badge.backgroundColour)
+															.foreground,
+														color: getBadgeStyle(badge.backgroundColour)
+															.foreground,
+													}}
+												>
+													{badge.label}
+												</Badge>
+											))}
+										</div>
 									</div>
 								</div>
 							</Accordion.Panel>
