@@ -45,8 +45,8 @@ const Intro = () => {
 					<Avatar.Image
 						src="/klungo.webp"
 						alt="Carson Spriggs"
-						width={56}
-						height={56}
+						width={72}
+						height={72}
 					/>
 					<Avatar.Fallback>CS</Avatar.Fallback>
 				</Avatar.Root>
@@ -57,23 +57,20 @@ const Intro = () => {
 				</div>
 			</div>
 			<p className="intro__about">
-				I am a Canada-based software engineer building product-focused web
-				experiences and developer tools. I currently ship customer-facing
-				software at Fundica while studying Engineering Technology and Applied
-				Sciences at Memorial University.
-			</p>
-			<p className="intro__about intro__about--secondary">
-				This site is a concise archive of hackathon builds, technical
-				experiments, and a few deeper write-ups where the implementation details
-				are worth explaining clearly.
+				Canada-based software engineer building product-focused web
+				experiences, internal tools, and clear technical work. I ship
+				customer-facing software at Fundica and study Engineering Technology and
+				Applied Sciences at Memorial University.
 			</p>
 			<p className="intro__note">
-				Based in Canada. Building product-focused software.
+				Based in Canada. Focused on practical software, thoughtful interfaces,
+				and strong implementation details.
 			</p>
 			<nav className="intro__links" aria-label="Primary links">
 				{LINKS.map((link) => (
 					<BracketLink
 						key={link.label}
+						className="intro__action"
 						href={link.href}
 						target={link.target}
 						rel={link.rel}

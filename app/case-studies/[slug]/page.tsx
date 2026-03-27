@@ -211,7 +211,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
 									className="case-study-ext-link"
 								>
 									<span>{link.label}</span>
-									<span aria-hidden="true">{"->"}</span>
 									<span className="sr-only">
 										{` (${link.label} for ${caseStudy.title}, opens in new tab)`}
 									</span>

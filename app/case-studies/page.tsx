@@ -55,8 +55,6 @@ export default function CaseStudiesIndexPage() {
 								<div className="case-study-card__content">
 									<p className="case-study-card__meta">
 										{caseStudy.projectType}
-										<span aria-hidden="true"> {" | "} </span>
-										Updated {formatCaseStudyDate(caseStudy.updatedAt)}
 									</p>
 									<div className="case-study-card__text">
 										<h2 className="case-study-card__title">{caseStudy.title}</h2>

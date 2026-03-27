@@ -22,7 +22,7 @@ export function useVimNavigation({
 			const subtitle = intro.querySelector(".intro__subtitle");
 			const about = intro.querySelector(".intro__about");
 			const socialLinks = Array.from(
-				intro.querySelectorAll<HTMLElement>(".intro__links .bracket-link"),
+				intro.querySelectorAll<HTMLElement>(".intro__links"),
 			);
 
 			if (title) rows.push([title as HTMLElement]);

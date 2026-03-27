@@ -93,8 +93,8 @@ export const caseStudies: CaseStudy[] = [
 			{ label: "GitHub", href: "https://github.com/GodPuffin/Argus" },
 			{ label: "Devpost", href: "https://devpost.com/software/argus-w6i0pv" },
 		],
-		publishedAt: "2025-02-01",
-		updatedAt: "2026-03-11",
+		publishedAt: "2025-10-26",
+		updatedAt: "2026-03-26",
 		seo: {
 			title: "Argus Case Study | Carson Spriggs",
 			description:
@@ -151,8 +151,8 @@ export const caseStudies: CaseStudy[] = [
 			{ label: "GitHub", href: "https://github.com/carsonSgit/CropCare" },
 			{ label: "Live demo", href: "https://carsonsgit.github.io/cropcare-3d/" },
 		],
-		publishedAt: "2024-01-20",
-		updatedAt: "2024-03-11",
+		publishedAt: "2024-05-23",
+		updatedAt: "2026-03-26",
 		seo: {
 			title: "CropCare Case Study | Carson Spriggs",
 			description:
@@ -209,8 +209,8 @@ export const caseStudies: CaseStudy[] = [
 			{ label: "GitHub", href: "https://github.com/carsonSgit/Linky" },
 			{ label: "Website", href: "https://www.linky.im/" },
 		],
-		publishedAt: "2024-01-28",
-		updatedAt: "2024-03-11",
+		publishedAt: "2024-04-11",
+		updatedAt: "2026-03-26",
 		seo: {
 			title: "Linky Case Study | Carson Spriggs",
 			description:

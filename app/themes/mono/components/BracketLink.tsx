@@ -9,10 +9,15 @@ const BracketLink = ({
 	children,
 	target,
 	srContext,
+	className,
 	...props
 }: BracketLinkProps) => {
 	return (
-		<a className="bracket-link" target={target} {...props}>
+		<a
+			className={[className].filter(Boolean).join(" ")}
+			target={target}
+			{...props}
+		>
 			{children}
 			{target === "_blank" && (
 				<span className="sr-only">

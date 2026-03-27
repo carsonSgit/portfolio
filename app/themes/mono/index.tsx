@@ -73,9 +73,11 @@ const MonoTheme: React.FC = () => {
 
 				<main id="main-content" className="portfolio-grid">
 					<div className="portfolio-grid__left">
-						<Shader />
 						<div className="intro-panel">
 							<Intro />
+						</div>
+						<div className="shader-panel" aria-hidden="true">
+							<Shader className="shader-panel__surface" />
 						</div>
 					</div>
 					<div className="portfolio-grid__right">

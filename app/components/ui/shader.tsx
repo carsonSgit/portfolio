@@ -10,9 +10,15 @@ import {
  * https://app.paper.design/file/01KH5DKX071KRK2BHJDB7FSEKQ?page=01KH5DKX07GSEX3MFQKGWT4X27&node=01KH5DM2G6WE24XCK04RJRYE6V
  * on Feb 11, 2026
  */
-export default function Shader() {
+type ShaderProps = {
+	className?: string;
+};
+
+export default function Shader({ className }: ShaderProps) {
 	return (
-		<div className="relative w-full flex-1 min-h-[229px] overflow-clip bg-white">
+		<div
+			className={`relative h-full w-full overflow-clip bg-white ${className ?? ""}`}
+		>
 			<Dithering
 				speed={0.08}
 				shape="warp"
