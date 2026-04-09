@@ -25,12 +25,6 @@ const ProjectList = () => {
 			>
 				{projects.map((project: z.infer<typeof projectSchema>) => {
 					const stack = Object.values(project.languages);
-					const meta = [
-						project.year,
-						project.caseStudySlug
-							? "Case study available"
-							: "Source links available",
-					].join(" | ");
 
 					return (
 						<Accordion.Item
@@ -59,7 +53,7 @@ const ProjectList = () => {
 										links={project.links}
 										caseStudySlug={project.caseStudySlug}
 										stack={stack}
-										meta={meta}
+										year={project.year}
 									/>
 								</div>
 							</Accordion.Panel>

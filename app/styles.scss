@@ -347,6 +347,58 @@
     }
   }
 
+  .shader-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 68% 32%, rgba(255, 255, 255, 0.22), transparent 28%),
+      linear-gradient(145deg, #c5c2b4 0%, #d7d2c8 38%, #98a98a 100%);
+    isolation: isolate;
+
+    &__fallback,
+    &__live {
+      position: absolute;
+      inset: 0;
+      transition: opacity 280ms ease;
+    }
+
+    &__fallback {
+      opacity: 1;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0)),
+        radial-gradient(circle at 68% 32%, rgba(255, 255, 255, 0.3), transparent 28%);
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.4;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.1) 0.5px, transparent 0.5px),
+          linear-gradient(90deg, rgba(36, 47, 35, 0.08) 0.5px, transparent 0.5px);
+        background-size: 3px 3px, 4px 4px;
+        mix-blend-mode: soft-light;
+      }
+    }
+
+    &__live {
+      opacity: 0;
+      background: linear-gradient(145deg, #c8c5b9 0%, #d7d2c8 36%, #95aa88 100%);
+    }
+
+    &[data-ready="true"] {
+      .shader-stack__fallback {
+        opacity: 0;
+      }
+
+      .shader-stack__live {
+        opacity: 1;
+      }
+    }
+  }
+
   .section-block--projects {
     display: grid;
     gap: 0.8rem;
@@ -550,33 +602,32 @@
     &__content {
       display: grid;
       gap: 1rem;
-      padding: 0.1rem clamp(0.4rem, 1.2vw, 1rem) 1rem;
+      padding: 0.9rem clamp(0.75rem, 1.5vw, 1.15rem) 1.05rem;
       margin-left: 0;
-      border-left: none;
+      border-radius: 0rem;
     }
 
-    &__group {
-      font-size: 0.98rem;
-      display: grid;
-      gap: 0.72rem;
+    &__intro {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.9rem;
+      flex-wrap: wrap;
     }
 
-    &__label {
-      margin: 0;
-      color: var(--editorial-muted);
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    &__meta {
+    &__meta,
+    &__status {
       margin: 0;
       font-family: 'CommitMono', monospace;
-      font-size: 0.74rem;
-      line-height: 1.55;
+      font-size: 0.72rem;
+      line-height: 1.5;
       color: var(--editorial-muted);
       letter-spacing: 0.035em;
       text-transform: uppercase;
+    }
+
+    &__status {
+      color: color-mix(in srgb, var(--accent) 30%, var(--editorial-muted) 70%);
     }
 
     &__description-list {
@@ -608,7 +659,8 @@
       }
     }
 
-    &__badge-list {
+    &__tech-list,
+    &__badges {
       list-style: none;
       margin: 0;
       padding: 0;
@@ -617,17 +669,19 @@
       gap: 0.55rem;
     }
 
-    &__badge-item {
+    &__tech-item {
       margin: 0;
     }
 
+    &__tech-pill,
     &__badge {
       display: inline-flex;
       align-items: center;
-      padding: 0.2rem 0.52rem;
+      padding: 0.26rem 0.6rem;
       border-radius: 999px;
-      border: 1px solid currentColor;
-      color: var(--editorial-text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      color: color-mix(in srgb, var(--editorial-text) 84%, var(--editorial-muted) 16%);
       font-family: var(--editorial-font);
       font-size: 0.72rem;
       line-height: 1.4;
@@ -635,16 +689,38 @@
       letter-spacing: 0.01em;
     }
 
-    &__badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-    }
-
     &__links {
       display: flex;
       gap: 0.8rem;
       flex-wrap: wrap;
+      align-items: center;
+    }
+
+    &__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: color-mix(in srgb, white 88%, var(--accent) 12%);
+      text-decoration: none;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      transition: color 160ms ease;
+
+      &:hover,
+      &:focus {
+        color: color-mix(in srgb, white 68%, var(--accent) 32%);
+        outline: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.35);
+        outline-offset: 3px;
+        border-radius: 0.2rem;
+      }
+    }
+
+    &__link--primary {
+      color: color-mix(in srgb, white 76%, var(--accent) 24%);
     }
   }
 

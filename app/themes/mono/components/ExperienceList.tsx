@@ -53,7 +53,10 @@ const ExperienceList = () => {
 							<Accordion.Panel className="detail-panel" keepMounted>
 								<div className="detail-panel__inner">
 									<div className="detail-panel__content">
-										<p className="detail-panel__meta">{dateRange}</p>
+										<div className="detail-panel__intro">
+											<p className="detail-panel__meta">{dateRange}</p>
+											<p className="detail-panel__status">Experience</p>
+										</div>
 										<ul className="detail-panel__description-list">
 											{item.description.map((desc) => (
 												<li
@@ -82,6 +85,17 @@ const ExperienceList = () => {
 													{badge.label}
 												</Badge>
 											))}
+										</div>
+										<div className="detail-panel__links detail-panel__links--editorial">
+											<a
+												href={item.link}
+												className="detail-panel__link"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												Visit {item.institution}
+												<span className="sr-only">(opens in new tab)</span>
+											</a>
 										</div>
 									</div>
 								</div>
