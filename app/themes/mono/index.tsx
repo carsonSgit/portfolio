@@ -13,6 +13,7 @@ import EducationList from "./components/EducationList";
 import ExperienceList from "./components/ExperienceList";
 import Intro from "./components/Intro";
 import ProjectList from "./components/ProjectList";
+import ThemeToggle from "./components/ThemeToggle";
 import { useVimNavigation } from "./hooks/useVimNavigation";
 import "@/styles.scss";
 import Shader from "@/components/ui/shader";
@@ -60,6 +61,8 @@ const MonoTheme: React.FC = () => {
 				<a href="#main-content" className="skip-link">
 					Skip to content
 				</a>
+
+				<ThemeToggle />
 
 				<button
 					type="button"

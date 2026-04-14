@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import "@/styles.scss";
 import { caseStudies, getCaseStudyBySlug } from "@/data/caseStudies";
+import ThemeToggle from "@/themes/mono/components/ThemeToggle";
 
 const BASE_URL = "https://carsonspriggs.me";
 const DEFAULT_SOCIAL_IMAGE = "/klungo.png";
@@ -121,6 +122,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 			className="case-study-page"
 			data-accent={caseStudy.presentation?.accent ?? "mist"}
 		>
+			<ThemeToggle />
 			<article className="case-study-shell case-study-shell--article">
 				<script
 					type="application/ld+json"

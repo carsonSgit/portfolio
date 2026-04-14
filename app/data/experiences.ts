@@ -16,7 +16,7 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 			ai: { label: "AI", backgroundColour: colours.ai },
 			devops: { label: "DevOps", backgroundColour: colours.devops },
 		},
-		link: "https://fundica.com",
+		link: "https://www.fundica.com/content/fundica-live-demo-at-finovate-spring-2022",
 	},
 	{
 		date: ["March 2024", "Present"],
@@ -94,7 +94,7 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 			rnd: { label: "R&D", backgroundColour: colours.rnd },
 			ai: { label: "AI", backgroundColour: colours.ai },
 		},
-		link: "https://launchlab.ai/rd-program/",
+		link: "https://mitacs.launchlab.ai/en/",
 	},
 ];
 

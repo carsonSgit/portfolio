@@ -3,6 +3,7 @@ import Link from "next/link";
 import "@/styles.scss";
 import { caseStudies } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
+import ThemeToggle from "@/themes/mono/components/ThemeToggle";
 
 export const metadata = createPageMetadata({
 	title: "Case Studies | Carson Spriggs",
@@ -20,6 +21,7 @@ export const metadata = createPageMetadata({
 export default function CaseStudiesIndexPage() {
 	return (
 		<main className="case-study-page">
+			<ThemeToggle />
 			<div className="case-study-shell case-study-shell--index">
 				<Link href="/" className="case-study-backlink">
 					Back home
@@ -48,7 +50,9 @@ export default function CaseStudiesIndexPage() {
 										{caseStudy.projectType}
 									</p>
 									<div className="case-study-card__text">
-										<h2 className="case-study-card__title">{caseStudy.title}</h2>
+										<h2 className="case-study-card__title">
+											{caseStudy.title}
+										</h2>
 										<p className="case-study-card__summary">
 											{caseStudy.summary}
 										</p>
