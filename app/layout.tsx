@@ -158,7 +158,7 @@ export default function RootLayout({
 	readonly children: React.ReactNode;
 }) {
 	return (
-		<html lang="en-CA" data-theme="mono" data-mode="light">
+		<html lang="en-CA" data-theme="mono" data-mode="light" suppressHydrationWarning>
 			<head>
 				<script
 					// biome-ignore lint/security/noDangerouslySetInnerHtml: static bootstrap to prevent FOUC, no user input

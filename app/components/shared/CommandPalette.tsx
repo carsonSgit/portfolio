@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useColorScheme } from "@/themes/mono/hooks/useColorScheme";
@@ -23,11 +22,11 @@ const CommandPalette: React.FC = () => {
 
 	const items = useMemo<PaletteItem[]>(
 		() => [
-			{ id: "home", label: "Home", hint: "/" },
-			{ id: "case-studies", label: "Case Studies", hint: "/case-studies" },
-			{ id: "argus", label: "Argus", hint: "/case-studies/argus" },
-			{ id: "cropcare", label: "CropCare", hint: "/case-studies/cropcare" },
-			{ id: "linky", label: "Linky", hint: "/case-studies/linky" },
+			{ id: "home", label: "Home", hint: "/", href: "/" },
+			{ id: "case-studies", label: "Case Studies", hint: "/case-studies", href: "/case-studies" },
+			{ id: "argus", label: "Argus", hint: "/case-studies/argus", href: "/case-studies/argus" },
+			{ id: "cropcare", label: "CropCare", hint: "/case-studies/cropcare", href: "/case-studies/cropcare" },
+			{ id: "linky", label: "Linky", hint: "/case-studies/linky", href: "/case-studies/linky" },
 			{ id: "theme", label: "Toggle theme", hint: "light / dark", action: toggle },
 		],
 		[toggle],
@@ -108,64 +107,54 @@ const CommandPalette: React.FC = () => {
 	}, [isOpen]);
 
 	return (
-		<AnimatePresence>
-			{isOpen && (
-				<motion.div
-					className="cmd-palette-overlay"
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
-					transition={{ duration: 0.2 }}
-					onClick={closePalette}
-				>
-					<motion.div
-						role="dialog"
-						aria-modal="true"
-						aria-label="Command palette"
-						className="cmd-palette"
-						initial={{ opacity: 0, scale: 0.97, y: -8 }}
-						animate={{ opacity: 1, scale: 1, y: 0 }}
-						exit={{ opacity: 0, scale: 0.97, y: -8 }}
-						transition={{ duration: 0.18, ease: "easeOut" }}
-						onClick={(e) => e.stopPropagation()}
-					>
-						<div className="cmd-palette__input-row">
-							<input
-								ref={(el) => { el?.focus(); }}
-								type="text"
-								className="cmd-palette__input"
-								placeholder="Search commands…"
-								value={query}
-								onChange={handleQueryChange}
-								onKeyDown={handleKeyDown}
-								autoComplete="off"
-								spellCheck={false}
-							/>
-							<kbd className="cmd-palette__esc">Esc</kbd>
-						</div>
-						<ul ref={listRef} className="cmd-palette__list" role="listbox">
-							{filtered.map((item, i) => (
-								<li
-									key={item.id}
-									role="option"
-									aria-selected={i === activeIndex}
-									className="cmd-palette__item"
-									data-active={i === activeIndex}
-									onMouseEnter={() => setActiveIndex(i)}
-									onClick={() => execute(item)}
-								>
-									<span className="cmd-palette__item-label">{item.label}</span>
-									<span className="cmd-palette__item-hint">{item.hint}</span>
-								</li>
-							))}
-							{filtered.length === 0 && (
-								<li className="cmd-palette__empty">No results for "{query}"</li>
-							)}
-						</ul>
-					</motion.div>
-				</motion.div>
-			)}
-		</AnimatePresence>
+		<div
+			className="cmd-palette-overlay"
+			data-open={isOpen}
+			inert={!isOpen}
+			onClick={closePalette}
+		>
+			<div
+				role="dialog"
+				aria-modal="true"
+				aria-label="Command palette"
+				className="cmd-palette"
+				onClick={(e) => e.stopPropagation()}
+			>
+				<div className="cmd-palette__input-row">
+					<input
+						ref={(el) => { if (isOpen) el?.focus(); }}
+						type="text"
+						className="cmd-palette__input"
+						placeholder="Search commands…"
+						value={query}
+						onChange={handleQueryChange}
+						onKeyDown={handleKeyDown}
+						autoComplete="off"
+						spellCheck={false}
+					/>
+					<kbd className="cmd-palette__esc">Esc</kbd>
+				</div>
+				<ul ref={listRef} className="cmd-palette__list" role="listbox">
+					{filtered.map((item, i) => (
+						<li
+							key={item.id}
+							role="option"
+							aria-selected={i === activeIndex}
+							className="cmd-palette__item"
+							data-active={i === activeIndex}
+							onMouseEnter={() => setActiveIndex(i)}
+							onClick={() => execute(item)}
+						>
+							<span className="cmd-palette__item-label">{item.label}</span>
+							<span className="cmd-palette__item-hint">{item.hint}</span>
+						</li>
+					))}
+					{filtered.length === 0 && (
+						<li className="cmd-palette__empty">No results for "{query}"</li>
+					)}
+				</ul>
+			</div>
+		</div>
 	);
 };
 
