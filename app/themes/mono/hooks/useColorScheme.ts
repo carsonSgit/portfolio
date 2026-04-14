@@ -35,7 +35,7 @@ const applyMode = (mode: ColorMode) => {
 };
 
 export const useColorScheme = () => {
-	const [mode, setModeState] = useState<ColorMode>("dark");
+	const [mode, setModeState] = useState<ColorMode>("light");
 
 	useEffect(() => {
 		const initial = detectInitialMode();

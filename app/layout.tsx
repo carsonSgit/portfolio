@@ -12,6 +12,7 @@ import {
 	SITE_NAME,
 	siteVerification,
 } from "@/lib/seo";
+import CommandPaletteProvider from "@/components/shared/CommandPaletteProvider";
 import "./globals.scss";
 
 const HOME_KEYWORDS = [
@@ -84,7 +85,7 @@ const COLOR_MODE_BOOTSTRAP = `(() => {
     document.documentElement.style.colorScheme = mode;
     if (mode === 'light') document.documentElement.style.backgroundColor = '#f4f4f7';
   } catch (_) {
-    document.documentElement.setAttribute('data-mode', 'dark');
+    document.documentElement.setAttribute('data-mode', 'light');
   }
 })();`;
 
@@ -157,7 +158,7 @@ export default function RootLayout({
 	readonly children: React.ReactNode;
 }) {
 	return (
-		<html lang="en-CA" data-theme="mono" data-mode="dark">
+		<html lang="en-CA" data-theme="mono" data-mode="light">
 			<head>
 				<script
 					// biome-ignore lint/security/noDangerouslySetInnerHtml: static bootstrap to prevent FOUC, no user input
@@ -197,6 +198,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="theme-mono">
+				<CommandPaletteProvider />
 				{children}
 				<Analytics />
 				<SpeedInsights />

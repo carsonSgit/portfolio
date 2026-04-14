@@ -198,53 +198,6 @@
     }
   }
 
-  .guide-trigger {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 2px;
-    cursor: pointer;
-    z-index: 50;
-    transition: border-color 150ms ease, background-color 150ms ease;
-    background: var(--bg-surface);
-    border: none;
-
-    kbd {
-      font-family: 'CommitMono', monospace;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      transition: color 150ms ease;
-    }
-
-    &:hover,
-    &:focus {
-      border-color: var(--accent);
-      background: var(--bg-hover);
-      outline: none;
-
-      kbd {
-        color: var(--text);
-      }
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    @media (max-width: 768px) {
-      bottom: 1rem;
-      right: 1rem;
-      width: 2.25rem;
-      height: 2.25rem;
-    }
-  }
-
   .intro-panel {
     width: 100%;
     height: 100%;
@@ -853,14 +806,10 @@
   .mono-portfolio {
 
     .detail-panel,
-    .guide-trigger,
     .section-list__item {
       transition: none;
     }
 
-    .guide-trigger kbd {
-      transition: none;
-    }
   }
 }
 
@@ -1403,293 +1352,171 @@
   }
 }
 
-// Guide Modal Styles
+// Command Palette
 
-@mixin guide-theme-v2 {
-  --guide-overlay-bg: rgba(13, 13, 15, 0.9);
-  --guide-modal-bg: rgba(20, 20, 24, 0.95);
-  --guide-modal-border: rgba(255, 255, 255, 0.1);
-  --guide-modal-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --guide-text: #e8e8ec;
-  --guide-text-muted: #8a8a94;
-  --guide-border: rgba(255, 255, 255, 0.1);
-  --guide-surface: rgba(255, 255, 255, 0.03);
-  --guide-accent: #60a5fa;
-  --guide-accent-soft: rgba(96, 165, 250, 0.15);
-  --guide-kbd-bg: rgba(255, 255, 255, 0.05);
-  --guide-kbd-border: rgba(255, 255, 255, 0.1);
-  --guide-font: "CommitMono", monospace;
+@mixin cmd-palette-theme {
+  --cmd-overlay-bg: rgba(13, 13, 15, 0.88);
+  --cmd-bg: rgba(20, 20, 24, 0.97);
+  --cmd-border: rgba(255, 255, 255, 0.1);
+  --cmd-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+  --cmd-text: #e8e8ec;
+  --cmd-text-muted: #8a8a94;
+  --cmd-input-border: rgba(255, 255, 255, 0.09);
+  --cmd-item-hover-bg: rgba(255, 255, 255, 0.055);
+  --cmd-item-active-bg: rgba(96, 165, 250, 0.14);
+  --cmd-accent: #60a5fa;
+  --cmd-font: 'CommitMono', monospace;
 }
 
-@mixin guide-theme-light {
-  --guide-overlay-bg: rgba(228, 228, 234, 0.78);
-  --guide-modal-bg: rgba(250, 250, 253, 0.96);
-  --guide-modal-border: rgba(20, 18, 28, 0.12);
-  --guide-modal-shadow: 0 12px 36px rgba(40, 35, 55, 0.12);
-  --guide-text: #14121a;
-  --guide-text-muted: #6a6472;
-  --guide-border: rgba(20, 18, 28, 0.12);
-  --guide-surface: rgba(20, 18, 28, 0.04);
-  --guide-accent: #2a5bd7;
-  --guide-accent-soft: rgba(42, 91, 215, 0.12);
-  --guide-kbd-bg: rgba(20, 18, 28, 0.05);
-  --guide-kbd-border: rgba(20, 18, 28, 0.14);
+@mixin cmd-palette-theme-light {
+  --cmd-overlay-bg: rgba(228, 228, 234, 0.72);
+  --cmd-bg: rgba(250, 250, 253, 0.97);
+  --cmd-border: rgba(20, 18, 28, 0.12);
+  --cmd-shadow: 0 8px 40px rgba(40, 35, 55, 0.14);
+  --cmd-text: #14121a;
+  --cmd-text-muted: #6a6472;
+  --cmd-input-border: rgba(20, 18, 28, 0.1);
+  --cmd-item-hover-bg: rgba(20, 18, 28, 0.045);
+  --cmd-item-active-bg: rgba(42, 91, 215, 0.11);
+  --cmd-accent: #2a5bd7;
 }
 
-.guide-modal-overlay {
+.cmd-palette-overlay {
+  @include cmd-palette-theme;
   position: fixed;
   inset: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
+  padding-top: 12vh;
   z-index: 100;
-  padding: 1rem;
   backdrop-filter: blur(4px);
+  background: var(--cmd-overlay-bg);
 
-  &.guide-modal--v2 {
-    @include guide-theme-v2;
-    background: var(--guide-overlay-bg);
-  }
-
-  [data-mode="light"] &.guide-modal--v2 {
-    @include guide-theme-light;
-    background: var(--guide-overlay-bg);
+  [data-mode="light"] & {
+    @include cmd-palette-theme-light;
+    background: var(--cmd-overlay-bg);
   }
 }
 
-.guide-modal {
-  max-width: 520px;
+.cmd-palette {
+  @include cmd-palette-theme;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-width: 520px;
+  margin: 0 1rem;
+  background: var(--cmd-bg);
+  border: 1px solid var(--cmd-border);
+  border-radius: 2px;
+  box-shadow: var(--cmd-shadow);
+  font-family: var(--cmd-font);
+  color: var(--cmd-text);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
 
-  &.guide-modal--v2 {
-    @include guide-theme-v2;
-    background: var(--guide-modal-bg);
-    border: 1px solid var(--guide-modal-border);
-    border-radius: 2px;
-    box-shadow: var(--guide-modal-shadow);
-    font-family: var(--guide-font);
-    color: var(--guide-text);
-    backdrop-filter: blur(12px);
+  [data-mode="light"] & {
+    @include cmd-palette-theme-light;
+    background: var(--cmd-bg);
+    border-color: var(--cmd-border);
+    box-shadow: var(--cmd-shadow);
+    color: var(--cmd-text);
   }
 
-  [data-mode="light"] &.guide-modal--v2 {
-    @include guide-theme-light;
-    background: var(--guide-modal-bg);
-    border-color: var(--guide-modal-border);
-    box-shadow: var(--guide-modal-shadow);
-    color: var(--guide-text);
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.25rem;
-
-    h2 {
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin: 0;
-      color: var(--guide-text);
-    }
-  }
-
-  &__close {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.75rem;
-    color: var(--guide-text-muted);
-    transition: color 150ms ease;
-
-    kbd {
-      font-family: inherit;
-      font-size: 0.6875rem;
-      padding: 0.125rem 0.375rem;
-      border: 1px solid var(--guide-kbd-border);
-      background: var(--guide-kbd-bg);
-      border-radius: 2px;
-      color: var(--guide-text-muted);
-    }
-
-    &:hover {
-      color: var(--guide-text);
-    }
-
-    &:focus {
-      color: var(--guide-text);
-      outline: none;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--guide-accent);
-      outline-offset: 2px;
-    }
-  }
-
-  &__content {
-    padding: 1.25rem;
-  }
-
-  &__section {
-    &:not(:last-child) {
-      margin-bottom: 1.5rem;
-    }
-
-    h3 {
-      font-size: 0.8125rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--guide-text-muted);
-      margin: 0 0 0.75rem;
-    }
-  }
-
-  &__shortcuts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem 2rem;
-
-    @media (max-width: 480px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &__shortcut-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  &__shortcut {
+  &__input-row {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 0.8125rem;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--cmd-input-border);
   }
 
-  &__keys {
-    display: flex;
-    align-items: center;
-    gap: 0.125rem;
-    min-width: 5.5rem;
+  &__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--cmd-font);
+    font-size: 0.9375rem;
+    color: var(--cmd-text);
+    caret-color: var(--cmd-accent);
+    min-width: 0;
 
-    kbd {
-      font-family: inherit;
-      font-size: 0.6875rem;
-      padding: 0.125rem 0.375rem;
-      border: 1px solid var(--guide-kbd-border);
-      background: var(--guide-kbd-bg);
-      border-radius: 2px;
-      color: var(--guide-text);
+    &::placeholder {
+      color: var(--cmd-text-muted);
     }
   }
 
-  &__action {
-    color: var(--guide-text-muted);
-    font-size: 0.75rem;
+  &__esc {
+    font-family: var(--cmd-font);
+    font-size: 0.6875rem;
+    color: var(--cmd-text-muted);
+    background: none;
+    border: 1px solid var(--cmd-input-border);
+    border-radius: 2px;
+    padding: 0.15rem 0.35rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    pointer-events: none;
+    user-select: none;
   }
-}
 
-// Theme toggle — shared across mono-portfolio and case-study-page
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0.375rem 0;
+    max-height: 320px;
+    overflow-y: auto;
+  }
 
-.theme-toggle {
-  --toggle-surface: rgba(255, 255, 255, 0.03);
-  --toggle-surface-hover: rgba(255, 255, 255, 0.06);
-  --toggle-text: #8a8a94;
-  --toggle-text-hover: #e8e8ec;
-  --toggle-accent: #60a5fa;
-
-  position: fixed;
-  bottom: 1.5rem;
-  right: 4.25rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
-  cursor: pointer;
-  z-index: 50;
-  transition: background-color 150ms ease, color 150ms ease, outline-color 150ms ease;
-  background: var(--toggle-surface);
-  border: none;
-  color: var(--toggle-text);
-  font-family: 'CommitMono', monospace;
-  font-size: 0.95rem;
-  line-height: 1;
-  padding: 0;
-
-  &__glyph {
-    display: inline-flex;
+  &__item {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    line-height: 1;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    cursor: default;
+    font-family: var(--cmd-font);
+    font-size: 0.875rem;
+    color: var(--cmd-text);
+    text-align: left;
+    gap: 1rem;
+
+    &:hover {
+      background: var(--cmd-item-hover-bg);
+    }
+
+    &[data-active="true"] {
+      background: var(--cmd-item-active-bg);
+    }
   }
 
-  &:hover,
-  &:focus {
-    background: var(--toggle-surface-hover);
-    color: var(--toggle-text-hover);
-    outline: none;
+  &__item-label {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--toggle-accent);
-    outline-offset: 2px;
+  &__item-hint {
+    font-size: 0.75rem;
+    color: var(--cmd-text-muted);
+    flex-shrink: 0;
+    font-family: var(--cmd-font);
   }
 
-  @media (max-width: 768px) {
-    bottom: 1rem;
-    right: 4rem;
-    width: 2.25rem;
-    height: 2.25rem;
+  &__empty {
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: var(--cmd-text-muted);
+    text-align: center;
   }
-}
-
-// On case-study pages there is no guide trigger — re-anchor the toggle flush to the edge
-.case-study-page .theme-toggle {
-  right: 1.5rem;
-
-  @media (max-width: 768px) {
-    right: 1rem;
-  }
-}
-
-[data-mode="light"] .theme-toggle {
-  --toggle-surface: rgba(20, 18, 28, 0.04);
-  --toggle-surface-hover: rgba(20, 18, 28, 0.08);
-  --toggle-text: #6a6472;
-  --toggle-text-hover: #14121a;
-  --toggle-accent: #2a5bd7;
 }
 
 @media (prefers-reduced-motion: reduce) {
-
-  .theme-toggle {
-    transition: none;
-  }
-
-  .guide-modal-overlay,
-  .guide-modal {
-    animation: none;
-  }
-
-  .guide-modal__close {
-    transition: none;
+  .cmd-palette-overlay,
+  .cmd-palette {
+    transition: none !important;
   }
 }

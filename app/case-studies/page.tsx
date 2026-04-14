@@ -3,8 +3,6 @@ import Link from "next/link";
 import "@/styles.scss";
 import { caseStudies } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
-import ThemeToggle from "@/themes/mono/components/ThemeToggle";
-
 export const metadata = createPageMetadata({
 	title: "Case Studies | Carson Spriggs",
 	description:
@@ -21,7 +19,6 @@ export const metadata = createPageMetadata({
 export default function CaseStudiesIndexPage() {
 	return (
 		<main className="case-study-page">
-			<ThemeToggle />
 			<div className="case-study-shell case-study-shell--index">
 				<Link href="/" className="case-study-backlink">
 					Back home
