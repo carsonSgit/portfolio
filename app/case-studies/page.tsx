@@ -3,7 +3,6 @@ import Link from "next/link";
 import "@/styles.scss";
 import { caseStudies } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
-
 export const metadata = createPageMetadata({
 	title: "Case Studies | Carson Spriggs",
 	description:
@@ -48,7 +47,9 @@ export default function CaseStudiesIndexPage() {
 										{caseStudy.projectType}
 									</p>
 									<div className="case-study-card__text">
-										<h2 className="case-study-card__title">{caseStudy.title}</h2>
+										<h2 className="case-study-card__title">
+											{caseStudy.title}
+										</h2>
 										<p className="case-study-card__summary">
 											{caseStudy.summary}
 										</p>

@@ -20,9 +20,10 @@ const ProjectDetail = ({
 	return (
 		<div className="detail-panel__content">
 			<div className="detail-panel__intro">
-				<p className="detail-panel__meta">{year}</p>
-				<p className="detail-panel__status">
-					{caseStudySlug ? "Case study" : "Project links"}
+				<p className="detail-panel__meta">
+					{year}
+					<span className="detail-panel__meta-sep" aria-hidden="true">·</span>
+					{caseStudySlug ? "Case study" : "Project"}
 				</p>
 			</div>
 			<ul className="detail-panel__tech-list" aria-label={`${projectTitle} stack`}>

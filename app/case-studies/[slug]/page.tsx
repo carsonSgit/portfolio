@@ -121,7 +121,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 			className="case-study-page"
 			data-accent={caseStudy.presentation?.accent ?? "mist"}
 		>
-			<article className="case-study-shell case-study-shell--article">
+				<article className="case-study-shell case-study-shell--article">
 				<script
 					type="application/ld+json"
 					// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD with trusted local data

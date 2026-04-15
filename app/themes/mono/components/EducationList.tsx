@@ -1,6 +1,4 @@
 import { Accordion } from "@base-ui/react/accordion";
-import { Badge } from "@/components/ui/badge";
-import { getBadgeStyle } from "@/utils/colors";
 import { educationExp } from "../../../data/experiences";
 
 const EducationList = () => {
@@ -54,8 +52,11 @@ const EducationList = () => {
 								<div className="detail-panel__inner">
 									<div className="detail-panel__content">
 										<div className="detail-panel__intro">
-											<p className="detail-panel__meta">{dateRange}</p>
-											<p className="detail-panel__status">Study & training</p>
+											<p className="detail-panel__meta">
+												{dateRange}
+												<span className="detail-panel__meta-sep" aria-hidden="true">·</span>
+												Study & training
+											</p>
 										</div>
 										<ul className="detail-panel__description-list">
 											{item.description.map((desc) => (
@@ -69,21 +70,12 @@ const EducationList = () => {
 										</ul>
 										<div className="detail-panel__badges">
 											{Object.values(item.experienceBadges).map((badge) => (
-												<Badge
+												<span
 													key={badge.label}
 													className="detail-panel__badge"
-													style={{
-														backgroundColor: getBadgeStyle(
-															badge.backgroundColour,
-														).background,
-														borderColor: getBadgeStyle(badge.backgroundColour)
-															.foreground,
-														color: getBadgeStyle(badge.backgroundColour)
-															.foreground,
-													}}
 												>
 													{badge.label}
-												</Badge>
+												</span>
 											))}
 										</div>
 										<div className="detail-panel__links detail-panel__links--editorial">

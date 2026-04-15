@@ -1,17 +1,18 @@
-import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import {
+	absoluteUrl,
 	BASE_URL,
 	DEFAULT_DESCRIPTION,
 	DEFAULT_SOCIAL_IMAGE,
 	DEFAULT_SOCIAL_IMAGE_ALT,
 	DEFAULT_TITLE,
 	SITE_NAME,
-	absoluteUrl,
 	siteVerification,
 } from "@/lib/seo";
+import CommandPaletteProvider from "@/components/shared/CommandPaletteProvider";
 import "./globals.scss";
 
 const HOME_KEYWORDS = [
@@ -69,8 +70,24 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: "#111",
+	themeColor: [
+		{ media: "(prefers-color-scheme: dark)", color: "#111" },
+		{ media: "(prefers-color-scheme: light)", color: "#f4f4f7" },
+	],
 };
+
+const COLOR_MODE_BOOTSTRAP = `(() => {
+  try {
+    const stored = window.localStorage.getItem('portfolio:color-mode');
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const mode = stored === 'light' || stored === 'dark' ? stored : (prefersLight ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-mode', mode);
+    document.documentElement.style.colorScheme = mode;
+    if (mode === 'light') document.documentElement.style.backgroundColor = '#f4f4f7';
+  } catch (_) {
+    document.documentElement.setAttribute('data-mode', 'light');
+  }
+})();`;
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -141,8 +158,12 @@ export default function RootLayout({
 	readonly children: React.ReactNode;
 }) {
 	return (
-		<html lang="en-CA" data-theme="mono">
+		<html lang="en-CA" data-theme="mono" data-mode="light" suppressHydrationWarning>
 			<head>
+				<script
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: static bootstrap to prevent FOUC, no user input
+					dangerouslySetInnerHTML={{ __html: COLOR_MODE_BOOTSTRAP }}
+				/>
 				{process.env.NODE_ENV === "development" && (
 					<Script
 						src="//unpkg.com/react-grab/dist/index.global.js"
@@ -177,6 +198,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="theme-mono">
+				<CommandPaletteProvider />
 				{children}
 				<Analytics />
 				<SpeedInsights />

@@ -7,6 +7,10 @@ html {
   cursor: default;
 }
 
+html[data-mode="light"] {
+  color-scheme: light;
+}
+
 li,
 button,
 a {
@@ -19,6 +23,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #111;
+}
+
+html[data-mode="light"] body {
+  background-color: #f4f4f7;
 }
 
 @font-face {
