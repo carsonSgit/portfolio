@@ -23,18 +23,45 @@ const CommandPalette: React.FC = () => {
 	const items = useMemo<PaletteItem[]>(
 		() => [
 			{ id: "home", label: "Home", hint: "/", href: "/" },
-			{ id: "case-studies", label: "Case Studies", hint: "/case-studies", href: "/case-studies" },
-			{ id: "argus", label: "Argus", hint: "/case-studies/argus", href: "/case-studies/argus" },
-			{ id: "cropcare", label: "CropCare", hint: "/case-studies/cropcare", href: "/case-studies/cropcare" },
-			{ id: "linky", label: "Linky", hint: "/case-studies/linky", href: "/case-studies/linky" },
-			{ id: "theme", label: "Toggle theme", hint: "light / dark", action: toggle },
+			{
+				id: "case-studies",
+				label: "Case Studies",
+				hint: "/case-studies",
+				href: "/case-studies",
+			},
+			{
+				id: "argus",
+				label: "Argus",
+				hint: "/case-studies/argus",
+				href: "/case-studies/argus",
+			},
+			{
+				id: "cropcare",
+				label: "CropCare",
+				hint: "/case-studies/cropcare",
+				href: "/case-studies/cropcare",
+			},
+			{
+				id: "linky",
+				label: "Linky",
+				hint: "/case-studies/linky",
+				href: "/case-studies/linky",
+			},
+			{
+				id: "theme",
+				label: "Toggle theme",
+				hint: "light / dark",
+				action: toggle,
+			},
 		],
 		[toggle],
 	);
 
 	const filtered = useMemo(() => {
 		const q = query.trim().toLowerCase();
-		return q ? items.filter((item) => item.label.toLowerCase().includes(q)) : items;
+		return q
+			? items.filter((item) => item.label.toLowerCase().includes(q))
+			: items;
 	}, [items, query]);
 
 	const openPalette = () => {
@@ -122,10 +149,13 @@ const CommandPalette: React.FC = () => {
 			>
 				<div className="cmd-palette__input-row">
 					<input
-						ref={(el) => { if (isOpen) el?.focus(); }}
+						ref={(el) => {
+							if (isOpen) el?.focus();
+						}}
 						type="text"
 						className="cmd-palette__input"
 						placeholder="Search commands…"
+						aria-label="Search commands"
 						value={query}
 						onChange={handleQueryChange}
 						onKeyDown={handleKeyDown}

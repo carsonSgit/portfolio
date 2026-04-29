@@ -54,7 +54,12 @@ const EducationList = () => {
 										<div className="detail-panel__intro">
 											<p className="detail-panel__meta">
 												{dateRange}
-												<span className="detail-panel__meta-sep" aria-hidden="true">·</span>
+												<span
+													className="detail-panel__meta-sep"
+													aria-hidden="true"
+												>
+													·
+												</span>
 												Study & training
 											</p>
 										</div>
@@ -70,10 +75,7 @@ const EducationList = () => {
 										</ul>
 										<div className="detail-panel__badges">
 											{Object.values(item.experienceBadges).map((badge) => (
-												<span
-													key={badge.label}
-													className="detail-panel__badge"
-												>
+												<span key={badge.label} className="detail-panel__badge">
 													{badge.label}
 												</span>
 											))}
