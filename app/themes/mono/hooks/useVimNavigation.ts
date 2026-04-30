@@ -425,7 +425,8 @@ export function useVimNavigation({
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (disabled) return;
-			if (document.documentElement.getAttribute("data-palette-open") === "true") return;
+			if (document.documentElement.getAttribute("data-palette-open") === "true")
+				return;
 
 			if (
 				e.target instanceof HTMLInputElement ||
