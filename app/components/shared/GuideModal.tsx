@@ -101,8 +101,7 @@ const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
 								onClick={onClose}
 								aria-label="Close guide"
 							>
-								<kbd aria-hidden="true">?</kbd> /{" "}
-								<kbd aria-hidden="true">Esc</kbd>
+								<kbd>?</kbd> / <kbd>Esc</kbd>
 							</button>
 						</div>
 

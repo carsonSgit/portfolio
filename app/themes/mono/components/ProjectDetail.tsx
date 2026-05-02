@@ -22,11 +22,16 @@ const ProjectDetail = ({
 			<div className="detail-panel__intro">
 				<p className="detail-panel__meta">
 					{year}
-					<span className="detail-panel__meta-sep" aria-hidden="true">·</span>
+					<span className="detail-panel__meta-sep" aria-hidden="true">
+						·
+					</span>
 					{caseStudySlug ? "Case study" : "Project"}
 				</p>
 			</div>
-			<ul className="detail-panel__tech-list" aria-label={`${projectTitle} stack`}>
+			<ul
+				className="detail-panel__tech-list"
+				aria-label={`${projectTitle} stack`}
+			>
 				{stack.map((item) => (
 					<li key={item.name} className="detail-panel__tech-item">
 						<span className="detail-panel__tech-pill">{item.name}</span>
