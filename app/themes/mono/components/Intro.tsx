@@ -53,14 +53,14 @@ const Intro = () => {
 
 				<div className="intro__title-group">
 					<h1 id="intro-heading">Carson Spriggs</h1>
-					<p className="intro__subtitle">Software Engineer at Fundica</p>
+					<p className="intro__subtitle">Full Stack Developer at Botpress</p>
 				</div>
 			</div>
 			<p className="intro__about">
-				Canada-based software engineer building product-focused web experiences,
-				internal tools, and clear technical work. I ship customer-facing
-				software at Fundica and study Engineering Technology and Applied
-				Sciences at Memorial University.
+				Canada-based full stack developer building product-focused web
+				experiences, internal tools, and clear technical work. I ship
+				customer-facing software at Botpress and study Engineering Technology and
+				Applied Sciences at Memorial University.
 			</p>
 			<p className="intro__note">
 				Based in Canada. Focused on practical software, thoughtful interfaces,

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 export const BASE_URL = "https://carsonspriggs.me";
 export const SITE_NAME = "Carson Spriggs";
-export const DEFAULT_TITLE = "Carson Spriggs | Software Engineer";
+export const DEFAULT_TITLE = "Carson Spriggs | Full Stack Developer";
 export const DEFAULT_DESCRIPTION =
-	"Carson Spriggs is a Canada-based software engineer at Fundica, focused on product engineering, developer tools, and clear technical communication.";
+	"Carson Spriggs is a Canada-based full stack developer at Botpress, focused on product engineering, developer tools, and clear technical communication.";
 export const DEFAULT_SOCIAL_IMAGE = "/social-card.svg";
 export const DEFAULT_SOCIAL_IMAGE_ALT =
 	"Carson Spriggs software engineer portfolio preview card.";
