@@ -17,13 +17,10 @@ import "./globals.scss";
 
 const HOME_KEYWORDS = [
 	"Carson Spriggs",
-	"software engineer",
-	"product engineer",
 	"software developer Canada",
 	"TypeScript developer",
-	"developer tools",
 	"hackathon projects",
-	"Fundica",
+	"Botpress",
 	"Memorial University",
 	"CUSEC",
 ];
@@ -106,8 +103,8 @@ const jsonLd = {
 			jobTitle: "Software Engineer",
 			worksFor: {
 				"@type": "Organization",
-				name: "Fundica",
-				url: "https://fundica.com/",
+				name: "Botpress",
+				url: "https://botpress.com/",
 			},
 			homeLocation: {
 				"@type": "Country",
@@ -135,7 +132,18 @@ const jsonLd = {
 				"Developer tools",
 				"TypeScript",
 				"Web applications",
-				"Technical communication",
+				"AI and machine learning",
+				"Open source software",
+				"Technical leadership",
+				"Software architecture",
+				"Cloud computing",
+				"Design systems",
+				"Accessibility",
+				"Performance optimization",
+				"Developer experience",
+				"Interface design",
+				"User experience",
+				"UI/UX design",
 			],
 		},
 		{
@@ -177,20 +185,6 @@ export default function RootLayout({
 						strategy="lazyOnload"
 					/>
 				)}
-				<link
-					rel="preload"
-					href="/fonts/CommitMono-400-Regular.woff2"
-					as="font"
-					type="font/woff2"
-					crossOrigin="anonymous"
-				/>
-				<link
-					rel="preload"
-					href="/fonts/CommitMono-700-Regular.woff2"
-					as="font"
-					type="font/woff2"
-					crossOrigin="anonymous"
-				/>
 				<script
 					type="application/ld+json"
 					// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD, no user input

@@ -4,6 +4,20 @@ import { colours } from "./colours";
 
 export const professionalExp: z.infer<typeof experienceSchema>[] = [
 	{
+		date: ["May 2026", "Present"],
+		title: "Full Stack Developer",
+		institution: "Botpress",
+		description: [
+			"Building AI agents for enterprise customers.",
+		],
+		experienceBadges: {
+			ai: { label: "AI", backgroundColour: colours.ai },
+			fullStack: { label: "Full Stack", backgroundColour: colours.devops },
+			devops: { label: "DevOps", backgroundColour: colours.devops },
+		},
+		link: "https://botpress.com/",
+	},
+	{
 		date: ["May 2025", "April 2026"],
 		title: "SQA Specialist & Dev",
 		institution: "Fundica",

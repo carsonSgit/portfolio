@@ -144,3 +144,4 @@ dist
 /coverage
 
 .serena/
+.mcp.json
