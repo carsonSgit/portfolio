@@ -901,8 +901,7 @@
 .case-study-header__details,
 .case-study-stack,
 .case-study-card__meta,
-.case-study-card__stack,
-.case-studies-kicker {
+.case-study-card__stack {
   font-family: 'CommitMono', monospace;
 }
 
@@ -1009,14 +1008,6 @@
   display: grid;
   gap: 1rem;
   padding: clamp(1.5rem, 4vw, 2.75rem) 0 0.25rem;
-}
-
-.case-studies-kicker {
-  margin: 0;
-  font-size: 0.76rem;
-  color: rgba(var(--cs-accent-rgb), 0.95);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .case-studies-title {
