@@ -24,7 +24,6 @@ export default function CaseStudiesIndexPage() {
 					Back home
 				</Link>
 				<header className="case-studies-hero">
-					<p className="case-studies-kicker">Selected work</p>
 					<h1 className="case-studies-title">Case Studies</h1>
 					<p className="case-studies-intro">
 						Readable project write-ups on how each prototype was framed, built,
