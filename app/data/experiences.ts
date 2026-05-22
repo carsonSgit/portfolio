@@ -7,23 +7,29 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		date: ["May 2026", "Present"],
 		title: "Full Stack Developer",
 		institution: "Botpress",
+		tagline:
+			"Shipping AI integrations and data products at a fast-moving startup.",
 		description: [
-			"Building AI agents for enterprise customers.",
+			"Building software integrations to connect customer's services with Agentic AI systems.",
+			"Engineered an end-to-end product for generating insights based on customer support data with custom AI inference flows, data classification, logic gating and deduplication.",
 		],
 		experienceBadges: {
 			ai: { label: "AI", backgroundColour: colours.ai },
 			fullStack: { label: "Full Stack", backgroundColour: colours.devops },
 			devops: { label: "DevOps", backgroundColour: colours.devops },
 		},
+		caseStudySlug: "botpress",
 		link: "https://botpress.com/",
 	},
 	{
 		date: ["May 2025", "April 2026"],
-		title: "SQA Specialist & Dev",
+		title: "Junior Software Developer",
 		institution: "Fundica",
+		tagline:
+			"Scaling microservices and automating the core of a fintech platform.",
 		description: [
-			"Building an automated CI/CD AI WCAG accessibility tool reducing audit times by 99%.",
-			"Handling product development for customer-facing AI tools and features.",
+			"Optimized microservices improving scalability and performance by up to 99%. (PHP, Node.js)",
+			"Built automations for core business workflows to drastically increase scale and speed of growth and efficiency. (TypeScript, Python, Golang)",
 		],
 		experienceBadges: {
 			automation: { label: "Automation", backgroundColour: colours.automation },
@@ -33,26 +39,49 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		link: "https://www.fundica.com/content/fundica-live-demo-at-finovate-spring-2022",
 	},
 	{
-		date: ["March 2024", "Present"],
+		date: ["Jan 2026", "Present"],
 		title: "Co-Chair",
 		institution: "CUSEC",
+		tagline:
+			"Leading the team behind Canada's longest-running student tech conference.",
 		description: [
-			"Leading the organization of Canada's largest student tech conference, with 350+ attendees from 15+ universities nationwide.",
+			"Running Canada's longest running student tech conference, 10,000+ attendees, 380+ sponsors, 280+ speakers.",
+			"Leading a team of 30+ members to ensure highest quality work is done and all members are supported to the fullest in their work.",
 		],
 		experienceBadges: {
 			leadership: { label: "Leadership", backgroundColour: colours.leadership },
 			management: { label: "Management", backgroundColour: colours.management },
 			logistics: { label: "Logistics", backgroundColour: colours.logistics },
 		},
+		roles: [
+			{
+				title: "Director of Logistics",
+				date: ["Jan 2025", "Jan 2026"],
+				description: [
+					"Negotiated hotel and venue arrangements for the conference, including pricing, room blocks, space requirements, and contract terms.",
+					"Coordinated vendors and operational logistics across conference planning, ensuring venue, accommodation, scheduling, and execution needs were aligned.",
+				],
+			},
+			{
+				title: "Sponsorship Executive",
+				date: ["Jan 2024", "Jan 2025"],
+				description: [
+					"Built and maintained relationships with corporate sponsors, university partners, and local technology organizations to support conference funding goals.",
+					"Prepared and delivered sponsorship outreach materials, communicating conference value, audience demographics, partnership tiers, and sponsor benefits.",
+				],
+			},
+		],
 		link: "https://2026.cusec.net/",
 	},
 	{
 		date: ["May 2024", "Aug 2024"],
 		title: "SDE Intern",
 		institution: "Tail'ed",
+		tagline:
+			"Building full-stack features and AI pipelines to lift user conversions.",
 		description: [
-			"Improved UI/UX, ensuring responsiveness and consistency. (Next.js, TypeScript, Docker)",
-			"Built an AI recruitment tool using Python, vector databases, and AWS Lambda, improving accuracy by 90%",
+			"Architected backend jobs and UI/UX across products, increasing user conversions by over 80%. (Next.js, TypeScript, Docker)",
+			"Engineered an AI-ingestion pipeline for analyzing user resumes and job listings for improved classification and suggestion algorithms. (Python, Vector Database, AWS Lambda)",
 		],
 		experienceBadges: {
 			ai: { label: "AI", backgroundColour: colours.ai },
@@ -65,9 +94,10 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		date: ["Jan 2024", "May 2024"],
 		title: "IT Intern",
 		institution: "Ville de Kirkland",
+		tagline: "Automating security remediation across municipal IT systems.",
 		description: [
-			"Resolved 100+ critical IT incidents across municipal infrastructure, ensuring uninterrupted city services.",
-			"Performed cybersecurity remediation using CrowdStrike Falcon, eliminating 4,500+ vulnerabilities.",
+			"Scripted and automated bulk vulnerability scans and patch deployments, improving mitigation efficiency by 80%.",
+			"Cybersecurity tasks using CrowdStrike Falcon and Python, eliminating 4,500+ vulnerabilities.",
 		],
 		experienceBadges: {
 			it: { label: "IT", backgroundColour: colours.it },
@@ -83,6 +113,7 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		date: ["March 2024", "July 2024"],
 		title: "President",
 		institution: "JACHacks",
+		tagline: "Standing up a 130+ attendee hackathon on a six-week timeline.",
 		description: [
 			"Managed a team of 5 to ensure the successful organization and execution of the hackathon.",
 			"Organized the event with a short timeline of 1.5 months, resulting in 130+ attendees and overly positive feedback.",
@@ -98,6 +129,8 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		date: ["Feb 2024", "Apr 2024"],
 		title: "R&D Fellow",
 		institution: "AI Launch Lab",
+		tagline:
+			"Researching ML and building a stock-prediction model under PhD mentorship.",
 		description: [
 			"Learned Machine Learning and AI topics and material under PhDs.",
 			"Developed the ML project TradeMind to predict the stock market using Python and Keras.",

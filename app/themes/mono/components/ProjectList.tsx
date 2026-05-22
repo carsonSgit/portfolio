@@ -2,6 +2,7 @@ import { Accordion } from "@base-ui/react/accordion";
 import type * as z from "zod";
 import type { projectSchema } from "@/types/zodTypes";
 import { projects } from "../../../data/projects";
+import { preventToggleWhileSelecting } from "../../../utils/triggerSelection";
 import ProjectDetail from "./ProjectDetail";
 
 const ProjectList = () => {
@@ -15,7 +16,7 @@ const ProjectList = () => {
 					id="projects-heading"
 					className="section-title section-title--secondary"
 				>
-					Hackathon Projects
+					Projects
 				</h2>
 			</div>
 			<Accordion.Root
@@ -33,7 +34,10 @@ const ProjectList = () => {
 							className="section-list__item"
 						>
 							<Accordion.Header>
-								<Accordion.Trigger className="section-list__trigger">
+								<Accordion.Trigger
+									className="section-list__trigger"
+									onClick={preventToggleWhileSelecting}
+								>
 									<div className="section-list__header">
 										<div className="section-list__meta">
 											<span className="section-list__title">

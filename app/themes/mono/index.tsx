@@ -32,9 +32,9 @@ const MonoTheme: React.FC = () => {
 						</div>
 					</div>
 					<div className="portfolio-grid__right">
-						<ProjectList />
 						<ExperienceList />
 						<EducationList />
+						<ProjectList />
 						<AsciiFooter />
 					</div>
 				</main>

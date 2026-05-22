@@ -496,6 +496,7 @@
       font-family: inherit;
       text-align: left;
       position: relative;
+      user-select: text;
 
       &:focus {
         outline: none;
@@ -645,6 +646,31 @@
       opacity: 0.45;
     }
 
+    &__roles {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    &__role {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    &__role-title {
+      margin: 0;
+      font-family: var(--editorial-font);
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      color: var(--editorial-heading);
+    }
+
+    &__role-date {
+      font-weight: 400;
+      color: var(--editorial-muted);
+    }
+
     &__description-list {
       list-style: none;
       margin: 0;
@@ -664,13 +690,13 @@
       color: var(--editorial-text);
 
       &::before {
-        content: "";
+        content: "∙";
         position: absolute;
         left: 0;
-        top: 0.78rem;
-        width: 0.38rem;
-        height: 1px;
-        background: var(--bullet-rule);
+        top: 0;
+        font-size: 1.5rem;
+        line-height: 1.69rem;
+        color: var(--editorial-muted);
       }
     }
 
