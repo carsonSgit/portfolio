@@ -1,5 +1,6 @@
 import { Accordion } from "@base-ui/react/accordion";
 import { educationExp } from "../../../data/experiences";
+import { preventToggleWhileSelecting } from "../../../utils/triggerSelection";
 
 const EducationList = () => {
 	return (
@@ -12,7 +13,7 @@ const EducationList = () => {
 					id="education-heading"
 					className="section-title section-title--secondary"
 				>
-					Study & training
+					Academics
 				</h2>
 			</div>
 			<Accordion.Root multiple className="section-list" aria-label="Education">
@@ -26,7 +27,10 @@ const EducationList = () => {
 							className="section-list__item"
 						>
 							<Accordion.Header>
-								<Accordion.Trigger className="section-list__trigger">
+								<Accordion.Trigger
+									className="section-list__trigger"
+									onClick={preventToggleWhileSelecting}
+								>
 									<div className="section-list__header">
 										<span className="section-list__role">
 											{item.title}{" "}
@@ -60,7 +64,7 @@ const EducationList = () => {
 												>
 													·
 												</span>
-												Study & training
+												Academics
 											</p>
 										</div>
 										<ul className="detail-panel__description-list">

@@ -1,5 +1,6 @@
 import { Accordion } from "@base-ui/react/accordion";
 import { professionalExp } from "../../../data/experiences";
+import { preventToggleWhileSelecting } from "../../../utils/triggerSelection";
 
 const ExperienceList = () => {
 	return (
@@ -26,7 +27,10 @@ const ExperienceList = () => {
 							className="section-list__item"
 						>
 							<Accordion.Header>
-								<Accordion.Trigger className="section-list__trigger">
+								<Accordion.Trigger
+									className="section-list__trigger"
+									onClick={preventToggleWhileSelecting}
+								>
 									<div className="section-list__header">
 										<span className="section-list__role">
 											{item.title}{" "}
@@ -43,7 +47,7 @@ const ExperienceList = () => {
 											</a>
 										</span>
 										<p className="section-list__summary">
-											{item.description[0]}
+											{item.tagline ?? item.description[0]}
 										</p>
 									</div>
 								</Accordion.Trigger>
@@ -52,16 +56,7 @@ const ExperienceList = () => {
 								<div className="detail-panel__inner">
 									<div className="detail-panel__content">
 										<div className="detail-panel__intro">
-											<p className="detail-panel__meta">
-												{dateRange}
-												<span
-													className="detail-panel__meta-sep"
-													aria-hidden="true"
-												>
-													·
-												</span>
-												Experience
-											</p>
+											<p className="detail-panel__meta">{dateRange}</p>
 										</div>
 										<ul className="detail-panel__description-list">
 											{item.description.map((desc) => (
@@ -80,7 +75,48 @@ const ExperienceList = () => {
 												</span>
 											))}
 										</div>
+										{item.roles && item.roles.length > 0 && (
+											<div className="detail-panel__roles">
+												{item.roles.map((role) => (
+													<div
+														key={`${role.title}-${role.date.join("-")}`}
+														className="detail-panel__role"
+													>
+														<p className="detail-panel__role-title">
+															{role.title}
+															<span
+																className="detail-panel__meta-sep"
+																aria-hidden="true"
+															>
+																·
+															</span>
+															<span className="detail-panel__role-date">
+																{role.date.join(" - ")}
+															</span>
+														</p>
+														<ul className="detail-panel__description-list">
+															{role.description.map((desc) => (
+																<li
+																	key={desc}
+																	className="detail-panel__description-item"
+																>
+																	{desc}
+																</li>
+															))}
+														</ul>
+													</div>
+												))}
+											</div>
+										)}
 										<div className="detail-panel__links detail-panel__links--editorial">
+											{item.caseStudySlug && (
+												<a
+													href={`/case-studies/${item.caseStudySlug}`}
+													className="detail-panel__link detail-panel__link--primary"
+												>
+													Case study
+												</a>
+											)}
 											<a
 												href={item.link}
 												className="detail-panel__link"
