@@ -22,6 +22,8 @@
 		"build": "next build",
 		"start": "npx serve@latest ./out",
 		"predeploy": "pnpm build",
+		"ci": "pnpm scour",
+		"scour": "scour --since HEAD --format doctor --fail-on error",
 		"format": "pnpm biome format --write",
 		"lint:unused": "knip"
 	},
