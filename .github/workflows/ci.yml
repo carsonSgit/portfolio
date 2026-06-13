@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Scour doctor
+        uses: carsonSgit/scour@v0.3.1
+        with:
+          since: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+          format: doctor
+          exit-zero: "true"
+
+      - name: Scour annotations
+        uses: carsonSgit/scour@v0.3.1
+        with:
+          since: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+          format: github
+          fail-on: error
