@@ -20,16 +20,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check Scour installation
-        run: scour --version
+      - name: Scour doctor
+        uses: carsonSgit/scour@v0.3.1
+        with:
+          since: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+          format: doctor
+          exit-zero: "true"
 
-      - name: Scour
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            SCOUR_REF="origin/${{ github.base_ref }}"
-          else
-            SCOUR_REF="${{ github.event.before }}"
-          fi
-
-          scour --since "$SCOUR_REF" --format doctor --exit-zero
-          scour --since "$SCOUR_REF" --format github --fail-on error
+      - name: Scour annotations
+        uses: carsonSgit/scour@v0.3.1
+        with:
+          since: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+          format: github
+          fail-on: error
