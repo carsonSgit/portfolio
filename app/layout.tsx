@@ -11,7 +11,6 @@ import {
 	DEFAULT_SOCIAL_IMAGE_ALT,
 	DEFAULT_TITLE,
 	SITE_NAME,
-	siteVerification,
 } from "@/lib/seo";
 import "./globals.scss";
 
@@ -39,7 +38,6 @@ export const metadata: Metadata = {
 	alternates: {
 		canonical: absoluteUrl("/"),
 	},
-	verification: siteVerification,
 	icons: {
 		icon: "/favicon.ico",
 	},

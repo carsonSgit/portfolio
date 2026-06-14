@@ -9,20 +9,6 @@ export const DEFAULT_SOCIAL_IMAGE = "/social-card.svg";
 export const DEFAULT_SOCIAL_IMAGE_ALT =
 	"Carson Spriggs software engineer portfolio preview card.";
 
-const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
-const bingVerification = process.env.BING_SITE_VERIFICATION;
-
-export const siteVerification: Metadata["verification"] = {
-	...(googleVerification ? { google: googleVerification } : {}),
-	...(bingVerification
-		? {
-				other: {
-					"msvalidate.01": bingVerification,
-				},
-			}
-		: {}),
-};
-
 export function absoluteUrl(pathname = "/") {
 	return new URL(pathname, BASE_URL).toString();
 }

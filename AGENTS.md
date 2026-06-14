@@ -19,4 +19,3 @@ This is a **statically-exported Next.js 16 portfolio site** (no backend, no data
 - `next.config.ts` uses `output: "export"` — the build produces static HTML in `./out`, not a Node.js server. `pnpm start` serves this via `npx serve`.
 - Biome is used for both formatting and linting (not ESLint/Prettier). The config lives in `biome.json`.
 - There are no automated test suites (no jest, vitest, or similar). `knip` is the closest lint-level check for dead code.
-- `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` env vars are optional SEO meta tags; the site runs fine without them.
