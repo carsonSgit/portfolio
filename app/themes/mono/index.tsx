@@ -8,6 +8,7 @@ import Intro from "./components/Intro";
 import ProjectList from "./components/ProjectList";
 import { useVimNavigation } from "./hooks/useVimNavigation";
 import "@/styles.scss";
+import "./motion-polish.scss";
 import Shader from "@/components/ui/shader";
 
 const MonoTheme: React.FC = () => {

@@ -3,7 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import "@/styles.scss";
-import { caseStudies, getCaseStudyBySlug } from "@/data/caseStudies";
+import {
+	type CaseStudy,
+	caseStudies,
+	getCaseStudyBySlug,
+} from "@/data/caseStudies";
 
 const BASE_URL = "https://carsonspriggs.me";
 const DEFAULT_SOCIAL_IMAGE = "/klungo.png";
@@ -82,6 +86,16 @@ export async function generateMetadata({
 	};
 }
 
+function StackList({ caseStudy }: { caseStudy: CaseStudy }) {
+	return (
+		<ul className="csa-stack" aria-label={`${caseStudy.title} stack`}>
+			{caseStudy.stack.map((item) => (
+				<li key={item}>{item}</li>
+			))}
+		</ul>
+	);
+}
+
 export default async function CaseStudyPage({ params }: PageProps) {
 	const { slug } = await params;
 	const caseStudy = getCaseStudyBySlug(slug);
@@ -89,6 +103,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
 	if (!caseStudy) {
 		notFound();
 	}
+
+	const highlights = caseStudy.presentation?.highlights ?? [];
 
 	const articleSchema = {
 		"@context": "https://schema.org",
@@ -136,49 +152,86 @@ export default async function CaseStudyPage({ params }: PageProps) {
 					<span aria-current="page">{caseStudy.title}</span>
 				</nav>
 
-				<header
-					className="case-study-header"
-					data-layout={caseStudy.presentation?.heroLayout ?? "balanced"}
-				>
-					<div className="case-study-header__meta">
-						<h1 className="case-study-header__title">{caseStudy.title}</h1>
-						<p className="case-study-header__summary">{caseStudy.summary}</p>
-						<p className="case-study-header__details">
+				<header className="csa-split">
+					<div className="csa-split__meta">
+						{caseStudy.presentation?.eyebrow ? (
+							<p className="csa-eyebrow">{caseStudy.presentation.eyebrow}</p>
+						) : null}
+						<h1 className="csa-split__title">{caseStudy.title}</h1>
+						<p className="csa-split__summary">{caseStudy.summary}</p>
+						<p className="csa-meta-line">
 							{caseStudy.projectType}
-							<span aria-hidden="true"> {" | "} </span>
+							<span aria-hidden="true"> · </span>
 							Published {formatCaseStudyDate(caseStudy.publishedAt)}
-							<span aria-hidden="true"> {" | "} </span>
+							<span aria-hidden="true"> · </span>
 							Updated {formatCaseStudyDate(caseStudy.updatedAt)}
 						</p>
-						<ul
-							className="case-study-stack"
-							aria-label={`${caseStudy.title} stack`}
-						>
-							{caseStudy.stack.map((item) => (
-								<li key={item} className="case-study-stack__item">
-									{item}
-								</li>
-							))}
-						</ul>
 					</div>
-
 					{caseStudy.image ? (
-						<div className="case-study-header__art-panel">
-							<div className="case-study-header__image-wrapper">
-								<Image
-									src={caseStudy.image}
-									alt={`${caseStudy.title} hero image`}
-									fill
-									priority
-									className="case-study-header__image"
-									sizes="(max-width: 960px) 100vw, 720px"
-								/>
-							</div>
+						<div className="csa-media">
+							<Image
+								src={caseStudy.image}
+								alt={`${caseStudy.title} hero image`}
+								fill
+								priority
+								sizes="(max-width: 960px) 100vw, 26rem"
+							/>
 						</div>
 					) : null}
 				</header>
 
-				<div className="case-study-content">
+				{highlights.length > 0 ? (
+					<dl className="csa-highlights">
+						{highlights.map((highlight) => (
+							<div key={highlight.label} className="csa-highlight">
+								<dt>{highlight.label}</dt>
+								<dd>{highlight.value}</dd>
+							</div>
+						))}
+					</dl>
+				) : null}
+
+				<div className="csa-layout">
+					<aside className="csa-rail" aria-label="Article navigation">
+						<nav className="csa-rail__group" aria-label="On this page">
+							<p className="csa-rail__label">On this page</p>
+							<ol className="csa-rail__list">
+								{caseStudy.sections.map((section) => (
+									<li key={section.id}>
+										<a
+											className="csa-rail__link"
+											href={`#${section.id}-heading`}
+										>
+											{section.title}
+										</a>
+									</li>
+								))}
+							</ol>
+						</nav>
+						<div className="csa-rail__group">
+							<p className="csa-rail__label">Stack</p>
+							<StackList caseStudy={caseStudy} />
+						</div>
+						<div className="csa-rail__group">
+							<p className="csa-rail__label">Links</p>
+							<div className="case-study-links">
+								{caseStudy.links.map((link) => (
+									<a
+										key={link.href}
+										href={link.href}
+										target="_blank"
+										rel="noreferrer"
+										className="case-study-ext-link"
+									>
+										<span>{link.label}</span>
+										<span className="sr-only">
+											{` (${link.label} for ${caseStudy.title}, opens in new tab)`}
+										</span>
+									</a>
+								))}
+							</div>
+						</div>
+					</aside>
 					<div className="case-study-body">
 						{caseStudy.sections.map((section) => (
 							<section
@@ -195,29 +248,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
 							</section>
 						))}
 					</div>
-
-					<section
-						className="case-study-resources"
-						aria-labelledby="links-heading"
-					>
-						<h2 id="links-heading">Links</h2>
-						<div className="case-study-links">
-							{caseStudy.links.map((link) => (
-								<a
-									key={link.href}
-									href={link.href}
-									target="_blank"
-									rel="noreferrer"
-									className="case-study-ext-link"
-								>
-									<span>{link.label}</span>
-									<span className="sr-only">
-										{` (${link.label} for ${caseStudy.title}, opens in new tab)`}
-									</span>
-								</a>
-							))}
-						</div>
-					</section>
 				</div>
 			</article>
 		</main>

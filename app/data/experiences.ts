@@ -4,7 +4,23 @@ import { colours } from "./colours";
 
 export const professionalExp: z.infer<typeof experienceSchema>[] = [
 	{
-		date: ["May 2026", "Present"],
+		date: ["June 2026", "Present"],
+		title: "AI Automation Software Developer",
+		institution: "Qohash",
+		tagline: "Building towards Sovereign Zero Copy Data Security for responsible AI.",
+		description: [
+			"Building & deploying AI-powered automations and tooling to improve workflows and automate GTM strategies.",
+			"Continuously researching and developing the latest in AI, applying it towards building a responsible and secure data platform for the future of AI.",
+		],
+		experienceBadges: {
+			ai: { label: "AI", backgroundColour: colours.ai },
+			automation: { label: "Automation", backgroundColour: colours.automation },
+			security: { label: "Security", backgroundColour: colours.security },
+		},
+		link: "https://qohash.com/",
+	},
+	{
+		date: ["2026", "2026"],
 		title: "Full Stack Developer",
 		institution: "Botpress",
 		tagline:

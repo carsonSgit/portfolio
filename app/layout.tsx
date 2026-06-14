@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import CommandPaletteProvider from "@/components/shared/CommandPaletteProvider";
 import {
 	absoluteUrl,
 	BASE_URL,
@@ -12,7 +13,6 @@ import {
 	SITE_NAME,
 	siteVerification,
 } from "@/lib/seo";
-import CommandPaletteProvider from "@/components/shared/CommandPaletteProvider";
 import "./globals.scss";
 
 const HOME_KEYWORDS = [
@@ -20,9 +20,11 @@ const HOME_KEYWORDS = [
 	"software developer Canada",
 	"TypeScript developer",
 	"hackathon projects",
+	"Qohash",
 	"Botpress",
 	"Memorial University",
 	"CUSEC",
+	"Canadian University Software Engineering Conference",
 ];
 
 export const metadata: Metadata = {
@@ -100,11 +102,11 @@ const jsonLd = {
 				"https://github.com/carsonSgit",
 				"https://linkedin.com/in/carsonspriggs",
 			],
-			jobTitle: "Software Engineer",
+			jobTitle: "AI Software Engineer",
 			worksFor: {
 				"@type": "Organization",
-				name: "Botpress",
-				url: "https://botpress.com/",
+				name: "Qohash",
+				url: "https://Qohash.com/",
 			},
 			homeLocation: {
 				"@type": "Country",

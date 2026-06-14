@@ -3,6 +3,7 @@ import Link from "next/link";
 import "@/styles.scss";
 import { caseStudies } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
+
 export const metadata = createPageMetadata({
 	title: "Case Studies | Carson Spriggs",
 	description:
@@ -15,6 +16,12 @@ export const metadata = createPageMetadata({
 		"Canada software engineer portfolio",
 	],
 });
+
+const monthYear = (iso: string) =>
+	new Date(`${iso}T00:00:00`).toLocaleDateString("en-CA", {
+		month: "long",
+		year: "numeric",
+	});
 
 export default function CaseStudiesIndexPage() {
 	return (
@@ -30,46 +37,44 @@ export default function CaseStudiesIndexPage() {
 						and shaped into something more intentional than a demo.
 					</p>
 				</header>
-				<section aria-label="Case study list" className="case-studies-list">
+				<section aria-label="Case study list" className="case-studies-panels">
 					{caseStudies.map((caseStudy) => (
 						<article
 							key={caseStudy.slug}
-							className="case-study-card"
+							className="case-study-panel"
 							data-accent={caseStudy.presentation?.accent ?? "mist"}
 						>
 							<Link
 								href={`/case-studies/${caseStudy.slug}`}
-								className="case-study-card__surface"
+								className="case-study-panel__surface"
 							>
-								<div className="case-study-card__content">
-									<p className="case-study-card__meta">
-										{caseStudy.projectType}
+								<div className="case-study-panel__content">
+									<p className="case-study-panel__meta">
+										<strong>{caseStudy.projectType}</strong> ·{" "}
+										{monthYear(caseStudy.publishedAt)}
 									</p>
-									<div className="case-study-card__text">
-										<h2 className="case-study-card__title">
-											{caseStudy.title}
-										</h2>
-										<p className="case-study-card__summary">
-											{caseStudy.summary}
-										</p>
-									</div>
-									<ul className="case-study-card__stack" aria-hidden="true">
-										{caseStudy.stack.slice(0, 3).map((item) => (
-											<li key={item}>{item}</li>
-										))}
-									</ul>
+									<h2 className="case-study-panel__title">{caseStudy.title}</h2>
+									<p className="case-study-panel__summary">
+										{caseStudy.summary}
+									</p>
+									<span className="case-study-panel__read">
+										Continue reading
+										<span
+											className="case-study-panel__read-arrow"
+											aria-hidden="true"
+										>
+											→
+										</span>
+									</span>
 								</div>
 								{caseStudy.image ? (
-									<div className="case-study-card__media">
-										<div className="case-study-card__image-wrap">
-											<Image
-												src={caseStudy.image}
-												alt=""
-												fill
-												className="case-study-card__image"
-												sizes="(max-width: 900px) 100vw, 30rem"
-											/>
-										</div>
+									<div className="case-study-panel__media">
+										<Image
+											src={caseStudy.image}
+											alt=""
+											fill
+											sizes="(max-width: 960px) 100vw, 20rem"
+										/>
 									</div>
 								) : null}
 							</Link>
