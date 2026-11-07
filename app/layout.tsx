@@ -27,8 +27,21 @@ const HOME_KEYWORDS = [
 	"Canadian University Software Engineering Conference",
 ];
 
+// Search-engine ownership tokens, set as env vars in the Vercel project (all
+// environments, or production only). Absent vars emit no tag at all, so a fork
+// or a preview deploy never claims ownership of the domain.
+const GOOGLE_SITE_VERIFICATION =
+	process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const BING_SITE_VERIFICATION = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
 	metadataBase: new URL(BASE_URL),
+	verification: {
+		...(GOOGLE_SITE_VERIFICATION ? { google: GOOGLE_SITE_VERIFICATION } : {}),
+		...(BING_SITE_VERIFICATION
+			? { other: { "msvalidate.01": BING_SITE_VERIFICATION } }
+			: {}),
+	},
 	title: DEFAULT_TITLE,
 	description: DEFAULT_DESCRIPTION,
 	applicationName: SITE_NAME,

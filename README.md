@@ -77,6 +77,7 @@ pnpm dev            # localhost:3000
 | Lint + format check | `pnpm lint` |
 | Typecheck | `pnpm typecheck` |
 | Find dead code | `pnpm lint:unused` |
+| Notify IndexNow of the live URLs | `node scripts/indexnow.mjs` |
 
 > [!NOTE]
 > The social card is drawn in `public/social-card.svg` and shipped as PNG, because Twitter, LinkedIn, and Slack all ignore SVG. After editing the SVG:
@@ -84,6 +85,19 @@ pnpm dev            # localhost:3000
 > ```bash
 > rsvg-convert -w 1200 -h 630 public/social-card.svg -o public/social-card.png
 > ```
+
+## Search engines
+
+Two build-time env vars carry the ownership tokens, set in the Vercel project:
+
+| Variable | Emits |
+| :--- | :--- |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | `<meta name="google-site-verification">` |
+| `NEXT_PUBLIC_BING_SITE_VERIFICATION` | `<meta name="msvalidate.01">` |
+
+Unset variables emit no tag at all, so preview deploys and forks never claim ownership of the domain. Get the Google token from Search Console's *URL prefix* property and the Bing token from Webmaster Tools' *add site* flow; some hosts prefer the DNS TXT record instead, which works the same as far as the crawler is concerned and needs no deploy.
+
+`.github/workflows/indexnow.yml` submits every URL in the live sitemap after each push to `main` (Bing, Yandex, Seznam, Naver — Google only uses the sitemap). Run it by hand with `node scripts/indexnow.mjs`, or preview with `node scripts/indexnow.mjs --dry-run`.
 
 ## Case studies
 
