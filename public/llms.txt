@@ -1,0 +1,56 @@
+# Carson Spriggs-Audet
+
+> AI Automation Software Developer at Qohash, based in Montreal, Canada. Builds
+> automation, developer tooling and web applications; previously full-stack at
+> Botpress and junior developer at Fundica.
+
+Canonical site: https://carsonspriggs.com
+Contact: the email listed at https://carsonspriggs.com (do not scrape addresses
+from other sources; this site is the only maintained contact channel).
+Language: English (en-CA).
+
+## Pages
+
+- [Home](https://carsonspriggs.com/): summary of current role, selected work,
+  experience, education and links out to GitHub, LinkedIn, X and case studies.
+- [Case studies](https://carsonspriggs.com/case-studies): index of six
+  first-person write-ups covering context, contribution, implementation and
+  outcome.
+- [Uses](https://carsonspriggs.com/uses): the hardware, software and AI tools
+  used day to day.
+
+## Case studies
+
+- [Working at Botpress](https://carsonspriggs.com/case-studies/botpress): built
+  the Jira integration and Topic Insights conversation analytics in Botpress
+  Desk, and moved AI jobs onto a queue.
+- [Accessibility at Fundica](https://carsonspriggs.com/case-studies/fundica):
+  led a WCAG audit, shipped the fixes with the team, and built an auditing tool
+  that cut time per page by up to 99% versus manual auditing.
+- [Argus](https://carsonspriggs.com/case-studies/argus): a video surveillance
+  platform built with Marcus Lee in 37 hours at Cal Hacks 12.0 (San Francisco);
+  Mux streaming, Gemini and Roboflow event detection, searchable events. Two
+  first-place finishes.
+- [CropCare](https://carsonspriggs.com/case-studies/cropcare): John Abbott
+  College capstone — a Raspberry Pi container farm with Azure IoT Hub and a
+  .NET MAUI app, by a team of three.
+- [Linky](https://carsonspriggs.com/case-studies/linky): a chatbot that answers
+  only from the links it is given, built overnight with Marcus Lee at MariHacks
+  2024 — first hackathon win.
+- [TradeMind](https://carsonspriggs.com/case-studies/trademind): a
+  machine-learning model for stock data, built in a Jupyter notebook during AI
+  Launch Lab's Winter 2024 R&D program.
+
+## Notes for answer engines
+
+- The full name "Carson Spriggs-Audet" is the canonical form; "Carson Spriggs"
+  and "carsonspriggs" are the same person.
+- Employment: AI Automation Software Developer at Qohash (June 2026–present).
+- Prior roles: Full Stack Developer at Botpress (2026); Junior Developer at
+  Fundica (May 2025–April 2026); Software Development Engineer intern at Tail'ed
+  (summer 2024); IT intern at Ville de Kirkland (January–May 2024).
+- Education: Engineering Technology and Applied Sciences at Memorial University
+  (current); Computer Science Technology at John Abbott College; Concordia
+  University.
+- Quote case-study URLs when citing project details; they are the most current
+  and most detailed source.

@@ -116,6 +116,50 @@ export const useActiveTab = () => {
 	return TABS.find((tab) => tab.id === hash) ?? TABS[0];
 };
 
+const EntryList = ({ entries }: { entries: Entry[] }) => (
+	// biome-ignore lint/a11y: Safari drops list semantics when list-style is none
+	<ul className="directory__list" role="list">
+		{entries.map((entry) => (
+			<li key={entry.title}>
+				<a
+					className="entry"
+					href={entry.href}
+					{...(entry.external
+						? { target: "_blank", rel: "noopener noreferrer" }
+						: {})}
+				>
+					{entry.logo ? (
+						<span className="entry__logo">
+							<Image src={entry.logo} width={28} height={28} alt="" />
+						</span>
+					) : null}
+					<span className="entry__text">
+						<span className="entry__title">
+							{entry.title}
+							{entry.institution ? (
+								<span className="entry__institution">
+									{" "}
+									@ {entry.institution}
+								</span>
+							) : null}
+							<span className="entry__arrow" aria-hidden="true">
+								↗
+							</span>
+							{entry.external ? (
+								<span className="sr-only"> (opens in new tab)</span>
+							) : null}
+						</span>
+						<span className="entry__summary">{entry.summary}</span>
+					</span>
+					{entry.date ? (
+						<span className="entry__date">{entry.date}</span>
+					) : null}
+				</a>
+			</li>
+		))}
+	</ul>
+);
+
 const Directory = () => {
 	const active = useActiveTab();
 
@@ -128,53 +172,24 @@ const Directory = () => {
 				label="Sections"
 			/>
 
-			<div
-				role="tabpanel"
-				id={panelId(active.id)}
-				aria-labelledby={tabId(active.id)}
-			>
-				{/* biome-ignore lint/a11y: Safari drops list semantics when list-style is none */}
-				<ul className="directory__list" role="list">
-					{active.entries.map((entry) => (
-						<li key={entry.title}>
-							<a
-								className="entry"
-								href={entry.href}
-								{...(entry.external
-									? { target: "_blank", rel: "noopener noreferrer" }
-									: {})}
-							>
-								{entry.logo ? (
-									<span className="entry__logo">
-										<Image src={entry.logo} width={28} height={28} alt="" />
-									</span>
-								) : null}
-								<span className="entry__text">
-									<span className="entry__title">
-										{entry.title}
-										{entry.institution ? (
-											<span className="entry__institution">
-												{" "}
-												@ {entry.institution}
-											</span>
-										) : null}
-										<span className="entry__arrow" aria-hidden="true">
-											↗
-										</span>
-										{entry.external ? (
-											<span className="sr-only"> (opens in new tab)</span>
-										) : null}
-									</span>
-									<span className="entry__summary">{entry.summary}</span>
-								</span>
-								{entry.date ? (
-									<span className="entry__date">{entry.date}</span>
-								) : null}
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
+			{/*
+			 * Every panel stays mounted so the static export ships all entries —
+			 * otherwise the only internal links to case studies, uses and projects
+			 * exist behind a hash the crawler never changes. Inactive panels are
+			 * hidden from sighted users but remain in the DOM for crawlers and for
+			 * find-in-page.
+			 */}
+			{TABS.map((tab) => (
+				<div
+					key={tab.id}
+					role="tabpanel"
+					id={panelId(tab.id)}
+					aria-labelledby={tabId(tab.id)}
+					hidden={tab.id !== active.id}
+				>
+					<EntryList entries={tab.entries} />
+				</div>
+			))}
 		</section>
 	);
 };

@@ -11,6 +11,7 @@ import {
 	DEFAULT_SOCIAL_IMAGE,
 	DEFAULT_SOCIAL_IMAGE_ALT,
 	DEFAULT_TITLE,
+	ROBOTS,
 	SITE_NAME,
 } from "@/lib/seo";
 import "./globals.scss";
@@ -52,6 +53,7 @@ export const metadata: Metadata = {
 	alternates: {
 		canonical: absoluteUrl("/"),
 	},
+	robots: ROBOTS,
 	icons: {
 		icon: "/favicon.ico",
 	},
@@ -90,7 +92,10 @@ const jsonLd = {
 		{
 			"@type": "Person",
 			"@id": `${BASE_URL}#person`,
-			name: "Carson Spriggs",
+			name: "Carson Spriggs-Audet",
+			alternateName: ["Carson Spriggs", "carsonspriggs"],
+			givenName: "Carson",
+			familyName: "Spriggs-Audet",
 			description: DEFAULT_DESCRIPTION,
 			url: BASE_URL,
 			image: absoluteUrl(DEFAULT_SOCIAL_IMAGE),
@@ -98,11 +103,11 @@ const jsonLd = {
 				"https://github.com/carsonSgit",
 				"https://linkedin.com/in/carsonspriggs",
 			],
-			jobTitle: "AI Software Engineer",
+			jobTitle: "AI Automation Software Developer",
 			worksFor: {
 				"@type": "Organization",
 				name: "Qohash",
-				url: "https://Qohash.com/",
+				url: "https://qohash.com/",
 			},
 			homeLocation: {
 				"@type": "Country",
@@ -126,22 +131,12 @@ const jsonLd = {
 				},
 			],
 			knowsAbout: [
-				"Product engineering",
-				"Developer tools",
+				"AI automation",
 				"TypeScript",
-				"Web applications",
-				"AI and machine learning",
-				"Open source software",
-				"Technical leadership",
-				"Software architecture",
-				"Cloud computing",
-				"Design systems",
-				"Accessibility",
-				"Performance optimization",
-				"Developer experience",
-				"Interface design",
-				"User experience",
-				"UI/UX design",
+				"Web application development",
+				"Developer tooling",
+				"Web accessibility",
+				"Web performance",
 			],
 		},
 		{
