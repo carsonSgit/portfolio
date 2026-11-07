@@ -2,12 +2,17 @@ import "@/styles.scss";
 import CaseStudyIndex from "@/components/CaseStudyIndex";
 import SiteNav from "@/components/SiteNav";
 import { caseStudies, formatPeriod } from "@/data/caseStudies";
-import { createPageMetadata } from "@/lib/seo";
+import {
+	absoluteUrl,
+	collectionSchema,
+	createPageMetadata,
+	SITE_NAME,
+} from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-	title: "Case Studies | Carson Spriggs",
+	title: `Case Studies | ${SITE_NAME}`,
 	description:
-		"Short write-ups of selected hackathon projects by Carson Spriggs, focused on implementation choices, constraints, and outcomes.",
+		"Short write-ups of selected hackathon projects by Carson Spriggs-Audet, focused on implementation choices, constraints, and outcomes.",
 	pathname: "/case-studies",
 	keywords: [
 		"Carson Spriggs case studies",
@@ -20,6 +25,25 @@ export const metadata = createPageMetadata({
 export default function CaseStudiesIndexPage() {
 	return (
 		<main className="case-study-page">
+			<script
+				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD with trusted local data
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						"@context": "https://schema.org",
+						...collectionSchema({
+							name: `Case Studies | ${SITE_NAME}`,
+							pathname: "/case-studies",
+							description:
+								"Short write-ups of selected hackathon projects, focused on implementation choices, constraints, and outcomes.",
+							items: caseStudies.map((caseStudy) => ({
+								name: caseStudy.title,
+								url: absoluteUrl(`/case-studies/${caseStudy.slug}`),
+							})),
+						}),
+					}),
+				}}
+			/>
 			<SiteNav trail={[{ label: "Case studies" }]} />
 			<div className="case-study-shell">
 				<header className="case-studies-hero">

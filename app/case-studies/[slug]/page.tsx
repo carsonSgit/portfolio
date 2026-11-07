@@ -236,23 +236,26 @@ export default async function CaseStudyPage({ params }: PageProps) {
 		description: caseStudy.seo?.description ?? caseStudy.summary,
 		datePublished: caseStudy.publishedAt,
 		dateModified: caseStudy.updatedAt,
-		author: {
-			"@type": "Person",
-			name: SITE_NAME,
-			url: BASE_URL,
-		},
-		publisher: {
-			"@type": "Person",
-			name: SITE_NAME,
-			url: BASE_URL,
-		},
+		// Reference the sitewide Person node instead of restating a second,
+		// slightly different description of the same person — two competing
+		// Person nodes per page splits entity signals in Google's eyes.
+		author: { "@id": `${BASE_URL}#person` },
+		publisher: { "@id": `${BASE_URL}#person` },
 		mainEntityOfPage: `${BASE_URL}/case-studies/${caseStudy.slug}`,
 		url: `${BASE_URL}/case-studies/${caseStudy.slug}`,
+		inLanguage: "en-CA",
+		isPartOf: {
+			"@type": "WebSite",
+			"@id": `${BASE_URL}#website`,
+			url: BASE_URL,
+			name: SITE_NAME,
+		},
+		articleSection: caseStudy.projectType ?? "Case study",
 		image: [
 			`${BASE_URL}${caseStudy.seo?.socialImage ?? caseStudyCard(caseStudy.slug)}`,
 		],
 		keywords: caseStudy.stack.join(", "),
-		about: caseStudy.stack,
+		about: caseStudy.stack.map((tech) => ({ "@type": "Thing", name: tech })),
 		abstract: caseStudy.summary,
 	};
 
