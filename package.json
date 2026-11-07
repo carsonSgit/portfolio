@@ -2,7 +2,7 @@
 	"name": "carsonsgit.github.io",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://carsonspriggs.me",
+	"homepage": "https://carsonspriggs.com",
 	"dependencies": {
 		"@types/node": "^22.0.0",
 		"@types/react": "^19.0.0",
