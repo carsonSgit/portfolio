@@ -72,7 +72,7 @@ const TABS: Tab[] = [
 	{
 		id: "extra-curricular",
 		label: "Extra-Curricular",
-		entries: fromExperience(extraCurricularExp, { dated: false }),
+		entries: fromExperience(extraCurricularExp, { dated: true }),
 	},
 	{
 		id: "projects",

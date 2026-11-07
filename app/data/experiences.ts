@@ -66,7 +66,7 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 
 export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 	{
-		date: ["Jan 2026", "Present"],
+		date: ["2026", "2027"],
 		title: "Co-Chair",
 		institution: "CUSEC",
 		tagline:
@@ -78,7 +78,7 @@ export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 		link: "https://2026.cusec.net/",
 	},
 	{
-		date: [],
+		date: ["2025", "2026"],
 		title: "Director of Logistics",
 		logo: "/logos/cusec-2026.png",
 		institution: "CUSEC",
@@ -87,7 +87,7 @@ export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 		link: "https://cusec.net/",
 	},
 	{
-		date: [],
+		date: ["2024", "2025"],
 		title: "Sponsorship Executive + Head Delegate of Montreal",
 		logo: "/logos/cusec-2025.png",
 		institution: "CUSEC",
@@ -99,7 +99,7 @@ export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 		link: "https://cusec.net/",
 	},
 	{
-		date: ["Mar 2024", "Jul 2024"],
+		date: ["2024", "2024"],
 		title: "President",
 		institution: "JACHacks",
 		tagline: "Standing up a 130+ attendee hackathon on a six-week timeline.",
@@ -110,7 +110,7 @@ export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 		link: "https://jachacks.pages.dev/",
 	},
 	{
-		date: ["Feb 2024", "Apr 2024"],
+		date: ["2024", "2024"],
 		title: "R&D Fellow",
 		institution: "Mitacs",
 		tagline:
