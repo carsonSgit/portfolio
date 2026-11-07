@@ -370,6 +370,43 @@
   text-wrap: pretty;
 }
 
+.uses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.uses-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  a {
+    color: var(--ink);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: #12121233;
+    text-underline-offset: 3px;
+    &:hover { color: var(--link-hover); text-decoration-color: currentColor; }
+  }
+
+  p { margin-top: 2px; text-wrap: pretty; }
+}
+
+.uses-item__logo {
+  flex: none;
+  margin-top: 1px;
+  object-fit: contain;
+  border-radius: 6px;
+  outline: 1px solid var(--rule);
+  outline-offset: -1px;
+}
+
+.uses-item__text { min-width: 0; }
+
 .case-studies-panels {
   display: flex;
   flex-direction: column;
