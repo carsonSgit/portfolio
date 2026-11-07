@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import "@/styles.scss";
+import BrandMark from "@/components/BrandMark";
+import { linkLogo, stackLogo } from "@/data/brandLogos";
 import {
 	type CaseStudy,
 	caseStudies,
@@ -93,7 +95,9 @@ function StackList({ caseStudy }: { caseStudy: CaseStudy }) {
 	return (
 		<ul className="csa-stack" aria-label={`${caseStudy.title} stack`}>
 			{caseStudy.stack.map((item) => (
-				<li key={item}>{item}</li>
+				<li key={item}>
+					<BrandMark label={item} logo={stackLogo(item)} />
+				</li>
 			))}
 		</ul>
 	);
@@ -223,7 +227,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 										rel="noreferrer"
 										className="case-study-ext-link"
 									>
-										<span>{link.label}</span>
+										<BrandMark label={link.label} logo={linkLogo(link.href)} />
 										<span className="sr-only">
 											{` (${link.label} for ${caseStudy.title}, opens in new tab)`}
 										</span>
