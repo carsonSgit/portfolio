@@ -1,3 +1,5 @@
+import ObfuscatedEmail from "./ObfuscatedEmail";
+
 const SiteFooter = () => (
 	<footer className="site-footer">
 		<p>© {new Date().getFullYear()} Carson Spriggs-Audet</p>
@@ -16,7 +18,7 @@ const SiteFooter = () => (
 			>
 				LinkedIn
 			</a>
-			<a href="mailto:mail@carsonspriggs.com">Email</a>
+			<ObfuscatedEmail>Email</ObfuscatedEmail>
 		</nav>
 	</footer>
 );

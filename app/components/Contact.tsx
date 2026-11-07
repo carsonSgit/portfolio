@@ -1,3 +1,5 @@
+import ObfuscatedEmail from "./ObfuscatedEmail";
+
 const Contact = () => (
 	<footer className="contact">
 		<h2>More</h2>
@@ -18,7 +20,7 @@ const Contact = () => (
 			>
 				LinkedIn
 			</a>{" "}
-			or over <a href="mailto:mail@carsonspriggs.com">email</a>.
+			or over <ObfuscatedEmail>email</ObfuscatedEmail>.
 		</p>
 	</footer>
 );
