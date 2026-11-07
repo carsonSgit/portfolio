@@ -517,6 +517,165 @@ const caseStudyEntries: CaseStudy[] = [
 		},
 	},
 	{
+		slug: "fundica",
+		title: "Accessibility at Fundica",
+		summary:
+			"I led Fundica's WCAG audit, shipped the fixes with the team, and built an auditing tool that reduced time per page by up to 99% compared with manual auditing.",
+		projectType: "Professional Experience",
+		period: { start: "2025-05", end: "2026-04" },
+		stack: ["Python", "WCAG 2.0 AA", "CI automation"],
+		image: "/fundica.webp",
+		presentation: {
+			eyebrow: "Junior Software Developer at Fundica",
+			cover: { src: "/case-studies/fundica-cover.webp", tone: "dark" },
+			highlights: [
+				{
+					label: "Audit",
+					value: "Led the WCAG audit, mapped every fix and shipped them",
+				},
+				{
+					label: "R&D",
+					value: "Automated accessibility checks on every pull request",
+				},
+				{
+					label: "Result",
+					value: "Up to 99% less auditing time per page",
+				},
+			],
+		},
+		sections: [
+			{
+				id: "fundica",
+				title: "Fundica",
+				heading: "Funding search for banks, governments and advisors",
+				media: {
+					afterParagraph: 0,
+					items: [
+						{
+							src: "/case-studies/fundica-ai-search.webp",
+							aspectRatio: 1600 / 985,
+							alt: "Fundica's AI Search screen, a natural-language search box over a database of funding programs with suggested questions",
+							caption: "AI Search over Fundica's funding program database.",
+							source: {
+								label: "fundica.com",
+								href: "https://www.fundica.com/",
+							},
+						},
+						{
+							src: "/case-studies/fundica-results.webp",
+							aspectRatio: 1600 / 985,
+							alt: "Fundica funding results listing government programs with funding amounts, eligible expenses and status tags",
+							caption:
+								"Funding results, ranked by how well each program fits the business.",
+							source: {
+								label: "fundica.com",
+								href: "https://www.fundica.com/financial-institutions",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"Fundica is an AI-powered platform that matches businesses with funding. It searches more than 12,000 private, federal, provincial and municipal programs and ranks them by relevance. Banks, governments and advisors put it in front of their own clients.",
+					"Those clients are the kind where things have to just work. Fundica is trusted by 5 of the 10 largest cities and 80+ governments across Canada, by financial institutions like TD and Visa, and by research and innovation organizations like Mila, Centech, DMZ and McGill.",
+					"Clients like that don't take a vendor's word for it. They want proof, and the proof is on the website: [[SOC 2 Type II certified]], [[WCAG 2.0 AA]], and [[no IT integration required]].",
+				],
+				sources: [
+					{
+						label: "Research & education partners",
+						href: "https://www.fundica.com/research-education",
+					},
+					{
+						label: "Governments",
+						href: "https://www.fundica.com/governments",
+					},
+				],
+			},
+			{
+				id: "audit",
+				title: "The audit",
+				heading: "A client asked for the certification, so I ran the audit",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/fundica-badges.webp",
+							aspectRatio: 2,
+							alt: "SOC 2 Type 2 badge next to a W3C WCAG 2.0 AA badge",
+							caption: "The two badges Fundica's clients look for first.",
+						},
+					],
+				},
+				paragraphs: [
+					"One of our clients asked for the WCAG certification, and before we could claim it we had to prove it. I led the audit together with our security and compliance specialist.",
+					"I went through the platform against the WCAG guidelines and flagged every place we fell short. Then I mapped out the fixes, worked with the rest of the team to get them done, and applied them across the product.",
+				],
+			},
+			{
+				id: "automation",
+				title: "Automating it",
+				heading: "Catching accessibility issues before they merge",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/fundica-dashboard.webp",
+							aspectRatio: 1600 / 985,
+							alt: "Fundica analytics dashboard with totals for users, sign-ups, active programs and activation rate, plus trend charts",
+							caption:
+								"Every screen like this one has to stay accessible after each change.",
+							source: {
+								label: "fundica.com",
+								href: "https://www.fundica.com/financial-institutions",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"An audit only proves where you are on the day you run it. Every new feature can quietly break something again, so after the audit I got the chance to lead an R&D project to automate it.",
+					"I started with research: what accessibility actually means for the people using the product, the WCAG guidelines in depth, and which tools already exist for detecting issues and how far each one goes.",
+					"I built the auditing script in Python. A JSON configuration describes each page: its URL, name, elements to check and, where needed, a login URL and credentials. The script handles page navigation and authentication so it can check screens behind a login too.",
+					"The script runs WCAG checks and produces Markdown reports for review. It combines vetted open-source checkers with detection we built in-house, and runs on pull requests so the team can catch issues before they merge.",
+					"Automating that work reduced auditing time per page by [[+up to 99%]] compared with doing it manually. That measures time saved on each page; findings that need human judgment still go through review.",
+					"In my December 2025 presentation, I laid out the next step: an OpenAI integration to suggest fixes, propose custom solutions and match the repository's coding style. That was on the roadmap at the time, alongside more WCAG checks and documentation.",
+					"It was my first time leading a project this big, from the research through to a system the team uses.",
+				],
+				sources: [
+					{
+						label: "Project presentation",
+						href: "https://prezi.com/p/kuwtpxdx_aac/ai-driven-wcag-accessibility-auditing-at-fundica/",
+					},
+				],
+			},
+			{
+				id: "team",
+				title: "The team",
+				heading: "Thanks, Fundica",
+				paragraphs: [
+					"Fundica trusted a junior developer to lead a compliance audit and an R&D project for clients that can't afford for things to go wrong. I'm grateful to the whole team for that, and for how much I learned working alongside them.",
+				],
+			},
+		],
+		links: [
+			{ label: "Fundica", href: "https://www.fundica.com/" },
+			{
+				label: "Fundica for financial institutions",
+				href: "https://www.fundica.com/financial-institutions",
+			},
+			{
+				label: "Project presentation",
+				href: "https://prezi.com/p/kuwtpxdx_aac/ai-driven-wcag-accessibility-auditing-at-fundica/",
+			},
+		],
+		publishedAt: "2026-11-06",
+		updatedAt: "2026-11-06",
+		seo: {
+			title: "Fundica Case Study | Carson Spriggs-Audet",
+			description:
+				"How I led Fundica's WCAG accessibility audit and built a Python tool that reduced auditing time per page by up to 99% compared with manual auditing.",
+			socialImage: "/fundica.webp",
+		},
+	},
+	{
 		slug: "argus",
 		title: "Argus",
 		summary:
