@@ -679,42 +679,280 @@ const caseStudyEntries: CaseStudy[] = [
 		slug: "argus",
 		title: "Argus",
 		summary:
-			"Hackathon prototype for monitoring live video feeds with event detection and operator review tools.",
-		projectType: "2x Hackathon Winning Project",
+			"A video surveillance platform Marcus Lee and I built in 37 sleepless hours at Cal Hacks 12.0 in San Francisco. It streams cameras through Mux, finds events with Gemini and Roboflow, and makes them searchable. It took home two first places.",
+		projectType: "Hackathon project, 2 first places",
 		period: { start: "2025-10-24", end: "2025-10-26" },
-		stack: ["TypeScript", "AI", "Computer Vision", "PostgreSQL", "RTMP"],
+		stack: [
+			"TypeScript",
+			"Next.js",
+			"Supabase",
+			"PostgreSQL",
+			"Mux",
+			"Gemini",
+			"Roboflow",
+			"Elasticsearch",
+		],
 		image: "/argus.webp",
 		presentation: {
-			eyebrow: "Live ops tooling for machine-assisted review",
+			eyebrow: "Cal Hacks 12.0 in San Francisco, with Marcus Lee",
+			cover: { src: "/case-studies/argus-cover.webp", tone: "dark" },
 			highlights: [
-				{ label: "Outcome", value: "2x hackathon winner" },
-				{ label: "Focus", value: "Signal-first operator review" },
-				{ label: "System", value: "Vision, streaming, storage" },
+				{ label: "Result", value: "2 first places, 2 internship offers" },
+				{ label: "System", value: "Mux → Supabase → worker → models" },
+				{ label: "My focus", value: "Detection, stats, landing page" },
 			],
 		},
 		sections: [
 			{
 				id: "context",
-				title: "Context",
+				title: "Cal Hacks 12.0",
+				heading:
+					"Two students from Montreal at the largest collegiate hackathon",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-calhacks.webp",
+							alt: "Carson and Marcus at the Cal Hacks 12.0 photo booth, one holding an 'I paused my game to be here' sign, the other in a green wig and fake moustache",
+							caption: "Marcus and me at the photo booth.",
+						},
+						{
+							src: "/case-studies/argus-hall.webp",
+							alt: "A hangar-sized hall filled with rows of tables and hackers at laptops, seen from a balcony",
+							caption: "The main hall, from the balcony.",
+						},
+					],
+				},
 				paragraphs: [
-					"Argus began as an attempt to make live video review feel more humane for teams that need signal without sitting through every frame themselves.",
-					"The central question was whether ingest, computer-vision analysis, and operator review could read as one coherent workflow instead of three disconnected tools.",
+					"Marcus Lee and I applied to Cal Hacks 12.0 kind of out of the blue, and we got in. It ran October 24 to 26, 2025 at the Palace of Fine Arts in San Francisco. It's North America's largest hackathon, and supposedly the largest collegiate hackathon in the world.",
+					"We were blown away. Montreal has a good tech scene, but nothing like what we saw there. There were thousands of students in one hall, a lot of them from schools I'd only ever heard about from Canada, and it really hit me that this is where things are happening.",
+				],
+				sources: [
+					{
+						label: "Cal Hacks 12.0",
+						href: "https://cal-hacks-12-0.devpost.com/",
+					},
 				],
 			},
 			{
-				id: "build",
-				title: "Build",
+				id: "san-francisco",
+				title: "San Francisco",
+				heading: "Seeing as much of the city as we could",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/argus-trip.webp",
+							alt: "Map of North America: a solid line from Montreal direct to San Francisco, and a dashed line home from San Francisco to Vancouver to Montreal",
+							caption:
+								"Direct on the way out, through Vancouver on the way home.",
+						},
+						{
+							src: "/case-studies/argus-sf.webp",
+							alt: "Map of San Francisco marking the Palace of Fine Arts, the Golden Gate Bridge, downtown, and our hotel area between the Tenderloin and Nob Hill, with a dashed line from the hotel to the venue",
+							caption: "The venue, the hotel, and the rides between them.",
+						},
+					],
+				},
 				paragraphs: [
-					"I framed the demo around one continuous loop: bring in a live feed, analyze it automatically, and surface notable events in a review interface that still felt operator-led.",
-					"The prototype stayed grounded in real constraints, with streaming, typed application code, and persistent storage carrying the idea beyond a superficial hackathon mock-up.",
+					"I flew direct from Montreal to San Francisco and came home through Vancouver. It was my first time in a city like SF, so between building sessions we tried to take in as much as we could: walking downtown, hanging around the Palace of Fine Arts, and some seriously good Vietnamese food a few blocks from the hotel.",
+					"The venue's Wi-Fi had issues from the start, so everyone switched to their phone hotspots, and with three thousand-plus hotspots in one room, pretty much nobody could get online. Argus streams video to Mux and calls three model providers, so we needed internet. We packed up and went back to our hotel in the Tenderloin and Nob Hill area, which was definitely an environment, and built from there.",
+					"Every few hours I'd head out to the corner store to grab more energy drinks, and neither of us slept the whole time.",
+				],
+			},
+			{
+				id: "waymo",
+				title: "The Waymo",
+				heading: "Our Waymo got stuck",
+				paragraphs: [
+					"We took a Waymo for the first time, and it ended up getting stuck in a parking lot by the Palace of Fine Arts, right next to another Waymo that was also stuck. For two kids who don't have Waymo back home, that was pretty much our worst nightmare.",
+					"A bunch of people started recording us sitting there stuck in the Waymo, a few minutes from the Golden Gate Bridge, on my first trip to a city like San Francisco. So that was awesome.",
+				],
+			},
+			{
+				id: "product",
+				title: "What it does",
+				heading: "Surveillance footage you can search and question",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-watch.webp",
+							alt: "Argus watch page: doorbell camera footage with a green Roboflow box around a man reaching toward the camera, above a scrubber with event markers",
+							caption:
+								"A recording with Roboflow's person box and event markers.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+						{
+							src: "/case-studies/argus-chat.webp",
+							alt: "Argus AI chat answering 'Has anyone shoplifted recently?' with a Medium severity event card: item selected and concealed, at 0:23",
+							caption: "The chat finds the event and links to the moment.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"Argus is named after Argus Panoptes, the many-eyed watchman from Greek myth. It takes live camera feeds and uploaded recordings, figures out what happened in them, and lets an operator search those events, ask questions about them, and turn them into incident reports.",
+					"Gemini 2.5 describes each clip as a set of events, each with a severity, a type, a time, and the people and objects involved. Roboflow draws a box around every person, eight frames a second. Both land on the recording's timeline, so clicking an event jumps the player right to it.",
+					"The chat defaults to Claude Haiku 4.5, and you can switch to Claude Sonnet 4.5, Kimi K2 on Groq, or a Letta agent. It searches the database through tools and shows events as cards. From a conversation, it can draft an incident report that opens in a Tiptap editor.",
+				],
+			},
+			{
+				id: "system",
+				title: "System",
+				heading: "Four services and one Postgres queue",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-system.webp",
+							alt: "Architecture: camera over WebSocket to a Node relay running FFmpeg, RTMPS to Mux, webhook to Supabase, which feeds an analysis worker calling Gemini and Roboflow, then Elasticsearch and a Next.js dashboard with Claude, Groq and Letta chat",
+							caption:
+								"Ingest along the top; analysis and the interface along the bottom.",
+						},
+					],
+				},
+				paragraphs: [
+					"A browser camera streams WebM over a WebSocket to a Node server running next to Next.js. That server pipes it through FFmpeg and pushes RTMPS to Mux, which runs the live stream, records it, and cuts clips on demand.",
+					"When a recording is ready, Mux calls a Supabase Edge Function, which drops analysis jobs into `ai_analysis_jobs`. That Postgres table is the only queue in the whole system. Every minute, a scheduler in the worker also adds 20-second windows for live streams and 60-second windows for recordings.",
+					"Supabase Realtime pushes new events, jobs and reports to the dashboard, so nothing polls. Every event also gets synced into Elasticsearch, where ELSER semantic search plus lexical matching powers both the search page and the stats.",
+				],
+				sources: [
+					{
+						label: "Stream relay",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/server.js",
+					},
+					{
+						label: "Mux webhook",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/supabase/functions/mux-webhook/index.ts",
+					},
+					{
+						label: "Scheduler",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/segment-scheduler.ts",
+					},
+					{
+						label: "Search index",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/lib/elasticsearch.ts",
+					},
+				],
+			},
+			{
+				id: "pipeline",
+				title: "Pipeline",
+				heading: "One recording, start to finish",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-flow.webp",
+							alt: "Animation of a 60-second recording moving through seven steps, from Mux webhook to job queue, worker, FFmpeg clip, Gemini and Roboflow, saved results and Elasticsearch, while worker log lines print and a timeline event card appears",
+							caption:
+								"The log lines are the worker's own; job numbers and counts are illustrative.",
+						},
+					],
+				},
+				paragraphs: [
+					"The worker checks the queue every five seconds and runs up to three jobs at once. For each one, it asks Mux for an instant clip of that window, transmuxes the HLS segments to MP4 with FFmpeg, and sends the MP4 off to the models.",
+					"Live windows only go to Gemini. Recordings go to Gemini and Roboflow in parallel. If Roboflow fails, the job still succeeds, just without boxes. If Gemini fails, the job retries up to three times, waiting 10 seconds and doubling each time.",
+				],
+				sources: [
+					{
+						label: "Worker",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/analysis-worker.ts",
+					},
+					{
+						label: "Gemini client",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/gemini-client.ts",
+					},
+				],
+			},
+			{
+				id: "contribution",
+				title: "My part",
+				heading: "Detection, stats and the landing page",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-stats.webp",
+							alt: "Argus statistics page with totals for events, critical events, event types and entities, a severity donut, an event-type bar chart and an entity-type donut",
+							caption: "The stats page, built on Elasticsearch aggregations.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+						{
+							src: "/case-studies/argus-landing.webp",
+							alt: "Argus landing page: the word ARGUS beside a large eye drawn in red dot characters on black",
+							caption: "The landing page, built on the last night.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"Marcus owned the backend: video processing, the worker and the AI features. I owned the frontend and the pipelines feeding it, and made 49 of the 93 commits in those 37 hours.",
+					"I wrote the Roboflow detector. FFmpeg pulls 8 frames a second, each one goes to Roboflow's hosted person-detection model, and anything under 0.3 confidence gets dropped. I drew the boxes over the player and wrote the tracking stats that follow people from frame to frame.",
+					"I built the stats page on Elasticsearch aggregations: severity, event types, entities, recording lengths and occupancy, with date filters and chart colours interpolated in HCL. On the last night I built the landing page, then GitHub sign-in and the mobile nav.",
+				],
+				sources: [
+					{
+						label: "Detection commit",
+						href: "https://github.com/GodPuffin/Argus/commit/2ea0c883f06062d3f95d012ef978f7d9e5af51ce",
+					},
+					{
+						label: "Roboflow detector",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/roboflow-detector.ts",
+					},
+					{
+						label: "Stats queries",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/lib/elasticsearch-stats.ts",
+					},
+				],
+			},
+			{
+				id: "results",
+				title: "Results",
+				heading: "Two first places and two offers",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/argus-results.webp",
+							alt: "Two photos of 'Winner: Argus' on projector screens in the hall, beside cards for Conway's Most Data-Intensive Application prize and a37's Best Use of A37 prize",
+							caption: "Both prize announcements, from our seats.",
+						},
+					],
+				},
+				paragraphs: [
+					"We demoed at a table in a huge open space with thousands of other teams presenting all around us. You could tell people had built really good projects, and a lot of them were from the Ivy League schools you hear so much about where I'm from in Canada. Then Argus ended up winning two first places: Conway's Most Data-Intensive Application and a37's Best Use of A37.",
+					"Both are cool companies working on really interesting problems. Conway trains predictive models on event streams for Fortune 500 engineering teams, and a37 builds Forge, which finds, governs and polices the AI agents running inside a company. We got internship offers from both of them, which was super cool.",
+				],
+				sources: [
+					{
+						label: "Devpost",
+						href: "https://devpost.com/software/argus-w6i0pv",
+					},
+					{ label: "Conway", href: "https://www.conway.ai/" },
+					{ label: "a37 Forge", href: "https://www.forge.ai/" },
 				],
 			},
 			{
 				id: "takeaways",
 				title: "Takeaways",
+				heading: "What I took away from it",
 				paragraphs: [
-					"The result suggested that computer-vision assistance could reduce constant manual watching while still preserving clear review points for a human operator.",
-					"It also became a stronger portfolio story because the architecture, product choices, and tradeoffs could be explained as one end-to-end system.",
+					"Argus is the most complete hackathon project Marcus and I have built. It used eight outside services, and running it locally took four terminals: ngrok for Mux's webhooks, Next.js, the worker, and Supabase in Docker.",
+					"But the bigger thing for me was the people. We met so many smart people and saw so many cool projects. I'm confident, without a shadow of a doubt, that a lot of the people we saw there, and so many more that we didn't, are going to do amazing things and shape the world, so getting to be in that space with them was a crazy opportunity.",
 				],
 			},
 		],
@@ -723,11 +961,11 @@ const caseStudyEntries: CaseStudy[] = [
 			{ label: "Devpost", href: "https://devpost.com/software/argus-w6i0pv" },
 		],
 		publishedAt: "2025-10-26",
-		updatedAt: "2026-03-26",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "Argus Case Study | Carson Spriggs-Audet",
 			description:
-				"How Carson Spriggs-Audet built Argus, a hackathon prototype that combines live video ingest, event detection, and operator review.",
+				"How Marcus Lee and I built Argus at Cal Hacks 12.0: live video through Mux, events from Gemini and Roboflow, search on Elasticsearch, and two first places.",
 		},
 	},
 	{
