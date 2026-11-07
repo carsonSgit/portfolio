@@ -14,12 +14,7 @@ import {
 	formatPeriod,
 	getCaseStudyBySlug,
 } from "@/data/caseStudies";
-import {
-	absoluteUrl,
-	BASE_URL,
-	DEFAULT_SOCIAL_IMAGE,
-	SITE_NAME,
-} from "@/lib/seo";
+import { absoluteUrl, BASE_URL, caseStudyCard, SITE_NAME } from "@/lib/seo";
 
 type RouteParams = {
 	slug: string;
@@ -46,7 +41,10 @@ export async function generateMetadata({
 	const title =
 		caseStudy.seo?.title ?? `${caseStudy.title} Case Study | ${SITE_NAME}`;
 	const description = caseStudy.seo?.description ?? caseStudy.summary;
-	const socialImage = caseStudy.seo?.socialImage ?? DEFAULT_SOCIAL_IMAGE;
+	// Each study ships its own 1200x630 card in public/og, so a shared link
+	// previews that study instead of the generic site card.
+	const socialImage =
+		caseStudy.seo?.socialImage ?? caseStudyCard(caseStudy.slug);
 	const canonicalPath = `/case-studies/${caseStudy.slug}`;
 
 	return {
@@ -250,7 +248,9 @@ export default async function CaseStudyPage({ params }: PageProps) {
 		},
 		mainEntityOfPage: `${BASE_URL}/case-studies/${caseStudy.slug}`,
 		url: `${BASE_URL}/case-studies/${caseStudy.slug}`,
-		image: [`${BASE_URL}${caseStudy.seo?.socialImage ?? DEFAULT_SOCIAL_IMAGE}`],
+		image: [
+			`${BASE_URL}${caseStudy.seo?.socialImage ?? caseStudyCard(caseStudy.slug)}`,
+		],
 		keywords: caseStudy.stack.join(", "),
 		about: caseStudy.stack,
 		abstract: caseStudy.summary,

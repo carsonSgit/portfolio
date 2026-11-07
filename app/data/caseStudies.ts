@@ -513,7 +513,7 @@ const caseStudyEntries: CaseStudy[] = [
 			title: "Botpress Case Study | Carson Spriggs-Audet",
 			description:
 				"How I built Botpress's Jira integration and Topic Insights, and moved its AI inference jobs onto a QStash queue.",
-			socialImage: "/botpress.webp",
+			socialImage: "/og/botpress.jpg",
 		},
 	},
 	{
@@ -672,7 +672,7 @@ const caseStudyEntries: CaseStudy[] = [
 			title: "Fundica Case Study | Carson Spriggs-Audet",
 			description:
 				"How I led Fundica's WCAG accessibility audit and built a Python tool that reduced auditing time per page by up to 99% compared with manual auditing.",
-			socialImage: "/fundica.webp",
+			socialImage: "/og/fundica.jpg",
 		},
 	},
 	{

@@ -21,6 +21,7 @@
 		"format": "biome format --write",
 		"lint": "biome ci .",
 		"lint:unused": "knip",
+		"og:cards": "node scripts/generate-social-cards.mjs",
 		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
