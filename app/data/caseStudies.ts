@@ -9,10 +9,34 @@ interface CaseStudySeo {
 	socialImage?: string;
 }
 
+interface CaseStudyVisual {
+	src: string;
+	alt: string;
+	caption: string;
+	aspectRatio?: number;
+	source?: CaseStudyLink;
+}
+
+interface CaseStudySectionMedia {
+	afterParagraph: number;
+	items: [CaseStudyVisual] | [CaseStudyVisual, CaseStudyVisual];
+}
+
 interface CaseStudySection {
 	id: string;
 	title: string;
+	heading?: string;
 	paragraphs: string[];
+	media?: CaseStudySectionMedia;
+	callout?: CaseStudyCallout;
+	sources?: CaseStudyLink[];
+}
+
+interface CaseStudyCallout {
+	quote: string;
+	attribution: string;
+	source: CaseStudyLink;
+	image: Pick<CaseStudyVisual, "src" | "alt">;
 }
 
 interface CaseStudyHighlight {
@@ -20,9 +44,20 @@ interface CaseStudyHighlight {
 	value: string;
 }
 
+interface CaseStudyCover {
+	src: string;
+	tone: "light" | "dark";
+}
+
 interface CaseStudyPresentation {
 	eyebrow?: string;
+	cover?: CaseStudyCover;
 	highlights?: CaseStudyHighlight[];
+}
+
+interface CaseStudyPeriod {
+	start: string;
+	end?: string;
 }
 
 export interface CaseStudy {
@@ -30,6 +65,7 @@ export interface CaseStudy {
 	title: string;
 	summary: string;
 	projectType: string;
+	period: CaseStudyPeriod;
 	stack: string[];
 	image?: string;
 	sections: CaseStudySection[];
@@ -40,12 +76,13 @@ export interface CaseStudy {
 	presentation?: CaseStudyPresentation;
 }
 
-export const caseStudies: CaseStudy[] = [
+const caseStudyEntries: CaseStudy[] = [
 	{
 		slug: "botpress",
 		title: "Working at Botpress",
 		summary: "Lessons learned while working at Botpress.",
 		projectType: "Professional Experience",
+		period: { start: "2026-04", end: "2026-05" },
 		stack: ["TypeScript", "Zod", "LLMz", "Next.js", "Prisma"],
 		image: "/botpress.webp",
 		presentation: {
@@ -136,6 +173,7 @@ export const caseStudies: CaseStudy[] = [
 		summary:
 			"Hackathon prototype for monitoring live video feeds with event detection and operator review tools.",
 		projectType: "2x Hackathon Winning Project",
+		period: { start: "2025-10-24", end: "2025-10-26" },
 		stack: ["TypeScript", "AI", "Computer Vision", "PostgreSQL", "RTMP"],
 		image: "/argus.webp",
 		presentation: {
@@ -190,6 +228,7 @@ export const caseStudies: CaseStudy[] = [
 		summary:
 			"Hackathon prototype for plant monitoring and control using sensors, cloud messaging, and operator dashboards.",
 		projectType: "Capstone Project",
+		period: { start: "2024-03", end: "2024-05" },
 		stack: ["Python", "C#", "IoT", "Azure", "MQTT", "Hardware"],
 		image: "/cropcare.webp",
 		presentation: {
@@ -244,6 +283,7 @@ export const caseStudies: CaseStudy[] = [
 		summary:
 			"Hackathon prototype that turns a URL into a searchable knowledge base with retrieval-backed answers.",
 		projectType: "Hackathon Winning Project",
+		period: { start: "2024-04-05", end: "2024-04-06" },
 		stack: ["TypeScript", "AI", "RAG", "PostgreSQL", "Mantine"],
 		image: "/linky.webp",
 		presentation: {
@@ -293,6 +333,48 @@ export const caseStudies: CaseStudy[] = [
 		},
 	},
 ];
+
+const MONTHS = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+];
+
+function dateParts(iso: string) {
+	const [year, month, day] = iso.split("-").map(Number);
+	return { year, month: MONTHS[month - 1], day };
+}
+
+export function formatPeriod({ start, end }: CaseStudyPeriod): string {
+	const from = dateParts(start);
+	const to = dateParts(end ?? start);
+	if (from.year !== to.year) {
+		return `${from.month} ${from.year} to ${to.month} ${to.year}`;
+	}
+	if (from.month !== to.month) {
+		return `${from.month} to ${to.month} ${to.year}`;
+	}
+	if (from.day && to.day && from.day !== to.day) {
+		return `${from.month} ${from.day} to ${to.day}, ${to.year}`;
+	}
+	return `${to.month} ${to.year}`;
+}
+
+const periodKey = ({ start, end }: CaseStudyPeriod) =>
+	`${end ?? start}|${start}`;
+
+export const caseStudies = [...caseStudyEntries].sort((a, b) =>
+	periodKey(b.period).localeCompare(periodKey(a.period)),
+);
 
 export function getCaseStudyBySlug(slug: string) {
 	return caseStudies.find((caseStudy) => caseStudy.slug === slug);
