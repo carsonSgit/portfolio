@@ -333,90 +333,186 @@ const caseStudyEntries: CaseStudy[] = [
 	{
 		slug: "botpress",
 		title: "Working at Botpress",
-		summary: "Lessons learned while working at Botpress.",
+		summary:
+			"I built Botpress's Jira integration and Topic Insights, the conversation analytics in Botpress Desk, and moved its AI jobs onto a queue.",
 		projectType: "Professional Experience",
 		period: { start: "2026-04", end: "2026-05" },
-		stack: ["TypeScript", "Zod", "LLMz", "Next.js", "Prisma"],
+		stack: ["TypeScript", "Zod", "LLMz", "Next.js", "Prisma", "QStash", "Tilt"],
 		image: "/botpress.webp",
 		presentation: {
-			eyebrow: "Shipping at an industry-leading AI startup",
+			eyebrow: "Full Stack Developer at Botpress",
+			cover: { src: "/case-studies/botpress-cover.webp", tone: "dark" },
 			highlights: [
 				{
-					label: "Ship fast",
-					value: "Rapid iteration and deployment in a fast-paced environment",
+					label: "Jira integration",
+					value:
+						"17 action cards and an OAuth setup wizard, shipped in five days",
 				},
 				{
-					label: "Engineering",
-					value: "Building scalable and maintainable applications",
+					label: "Topic Insights",
+					value: "Schema, cron jobs, AI flows, API and UI, built end to end",
 				},
 				{
-					label: "Ownership",
-					value: "Taking end-to-end responsibility for features and products",
+					label: "Queueing",
+					value:
+						"AI jobs moved onto QStash: no duplicate runs, failed jobs retried",
 				},
 			],
 		},
 		sections: [
 			{
-				id: "pretext",
-				title: "Pretext",
+				id: "platform",
+				title: "The platform",
+				heading: "Agents built in Studio, wired to tools by integrations",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-studio.webp",
+							alt: "Botpress Studio autonomous node with Search Knowledge and Escalate To Desk tools, an Orders table, and integration icons",
+							caption:
+								"An autonomous node in Botpress Studio. Tools come from tables, knowledge bases and integrations.",
+							source: {
+								label: "botpress.com",
+								href: "https://botpress.com/features/ai-agent-studio",
+							},
+						},
+					],
+				},
 				paragraphs: [
-					"Starting in Summer 2025, I became enamoured with the work that Botpress does. The speed and quality that they go at was awe-inspiring for me, and I knew that I wanted to be a part of it.",
-					"I spent the next 8 months interviewing, practicing, learning, growing, and taking feedback to the heart to become a great engineer, ultimately I was given an offer for a full time position as a Full Stack Developer.",
-					"The offer came in back in February and I accepted it immediately, all that hard work finally paid off and I was ready to step up to the challenge and get to shipping.",
+					"Botpress is a platform for building AI agents. In Botpress Studio, you write the agent's instructions in an autonomous node and then hand it tools: search a knowledge base, read a table, pass the conversation to a human in Desk.",
+					"Most of those tools come from integrations. An integration wraps a third-party API in typed actions, and every action shows up in Studio as a card. The agent can call the card, or a builder can drop it into a workflow.",
+					"Botpress Desk is the newer product, a support inbox where the agent and the human team share tickets. I worked on Desk's analytics and on the integration catalogue.",
 				],
 			},
 			{
-				id: "week1_work",
-				title: "Week 1, move fast",
+				id: "jira",
+				title: "Jira integration",
+				heading: "Seventeen Jira actions an agent can call",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/botpress-jira.webp",
+							alt: "Botpress Studio card picker filtered to Jira, listing actions such as Add Attachment, Search Issues and Transition Issue",
+							caption: "The Jira cards in Studio's card picker.",
+						},
+						{
+							src: "/case-studies/botpress-oauth.webp",
+							alt: "Jira integration page in Botpress, describing the Connect with OAuth and Use an API Token setup options",
+							caption:
+								"The integration page. Setup offers OAuth or an API token.",
+						},
+					],
+				},
 				paragraphs: [
-					"Starting my first week was a culture shock, I had finished my onboarding in the first few hours and got straight to coding. Everyone who starts at Botpress does the same task: Build an integration for the Botpress platform.",
-					"A quick TLDR: what is an integration? Basically Botpress has a platform that allows users to build and deploy AI agents that are fully connected to their tools and data, an integration is basically the connector that allows you to link your external tools to your Botpress agent, all accessible in one place.",
-					"I was given the task to build out the Jira integration. I had heard that people typically take about 2-3 weeks to build their integration, but me being me, I wanted to challenge myself to see how quickly I could get it up and running.",
-					"After fumbling through setting up my dev environment, I got to work. Lots of reading documentation, looking at other examples, manual testing, trying to break things, before the end of the week I was done everything.",
-					"Once I was done, it actually hit me-- this tool I just built was now able to be used to help customers improve their own workflows in the blink of an eye. A little bit later, I got to set up OAuth connections which was really fun and a good learning experience, I got to really appreciate the beauty of TypeScript and intellisense.",
+					"Every new hire at Botpress builds an integration first. Mine was Jira. Most people take two to three weeks on theirs. I shipped mine in five days.",
+					"It exposes 17 actions as cards. [[Issues]] search, count, pick by free text, get, create, batch-create up to 50, update, assign, delete, attach a file, list transitions and apply one. [[Projects]] list projects, statuses and issue types. [[Users]] find one or list all. Comments go through a separate `issueComments` channel, so a message the agent sends lands on the issue as a comment.",
+					"Search uses Atlassian's `POST /rest/api/3/search/jql`, which took over from `/rest/api/3/search` when Atlassian retired it in May 2025. Pagination is cursor-based, so `searchIssues` hands back a `nextToken`, and `countIssues` is there for when all you need is the total.",
+					"Every project has its own workflow, so the agent can't hard-code a status. It calls `getIssueTransitions` to get the IDs that are valid for that issue right now, then passes one to `transitionIssue`.",
+					"Later on I built the setup wizard. You pick [[Connect with OAuth]] or [[Use an API Token]]. OAuth runs Atlassian's consent flow, and if your account can see more than one Jira site, the wizard asks which one you mean. The token path just takes a host, an email and a token. Every action and config schema is typed with Zod, so the editor caught a wrong field before I ever ran anything.",
 				],
 			},
 			{
-				id: "work",
-				title: "Work and Ownership",
+				id: "topic-insights",
+				title: "Topic Insights",
+				heading: "Desk's analytics, built end to end",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-insights.webp",
+							alt: "Topic Insights in Botpress Desk: a topic list with ticket counts and CSAT rings, and a Webhook Reliability panel showing a 63% CSAT score and a trend line",
+							caption:
+								"Topic Insights in Desk: topics with nested subtopics, ticket counts and CSAT rings.",
+							source: { label: "botpress.com", href: "https://botpress.com/" },
+						},
+					],
+				},
 				paragraphs: [
-					"During my first week, since I was basically done with my integration, I spoke with my team lead about next steps. To my shock, he decided to catapult me into building a full, comprehensive feature end-to-end.",
-					"I was tasked with building out Topic Insights for our new product that's in the works. Backend logic, CRON jobs, database schemas, API routes, AI flows, synchronization, logic gating, deduplication, frontend, testing, documentation, the whole shebang.",
-					"I was definitely nervous to start, this feature is *very* important to the product and customers, it's the one-stop shop for all the data and insights that users will be relying on to make important business decisions, and I was the one given the reigns and responsibility to build it out from ground up.",
-					"But I got to work, stayed late *every day...* (even till 11:30pm on some days) and I loved every minute of it. In the world of programming, getting to do actual engineering work at a high level is pretty rare, so getting to have full ownership over a core feature of the product *on my first week* was an absolutely unique feeling.",
+					"In my first week, with Jira done, my lead handed me Topic Insights for Desk. It groups a workspace's support tickets into topics, so a team can see what customers are reaching out about, how happy they are, and whether each topic is growing.",
+					"Each topic shows a ticket count and a CSAT ring. Click one and a side panel opens with a summary of its tickets, the CSAT score, a trend line and the actual conversations, so the team can act on it right there.",
+					"I built the whole thing: the Prisma schema, the cron jobs, the API routes, the AI inference flows, the gating and deduplication logic, the frontend, the tests and the docs.",
+				],
+			},
+			{
+				id: "topic-pipeline",
+				title: "How topics form",
+				heading: "Topics come from your own tickets, not a fixed list",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-topic-flow.webp",
+							alt: "Diagram: a closed ticket is summarised by an inference job, matched against existing topics or used to create a new one, and a topic that reaches 10 tickets generates subtopics",
+							caption:
+								"One ticket through the pipeline. Ten tickets in a topic unlocks subtopics.",
+						},
+					],
+				},
+				paragraphs: [
+					"Botpress doesn't ship a list of categories. Every topic comes out of the workspace's own tickets, so a billing-heavy SaaS and a shipping-heavy retailer end up with completely different topics.",
+					"When a ticket comes in, an inference job summarises it and scores it on [[CSAT]], [[sentiment]] and [[resolution]]. The prompt keeps topic names tight: a few words at most, and a category, not a description. A pile of refund tickets becomes [[+Billing Issues]], not [[-Clients are requesting money back]].",
+					"The first tickets in a workspace seed the first topics. After that, each new ticket gets checked against the existing topics one at a time. If it fits one, it [[+joins it]]. If it fits none, it [[starts a new topic]].",
+					"Once a topic hits 10 tickets, a second job splits it into subtopics, like [[Duplicate Charges]] and [[Refund Requests]] under [[Billing Issues]]. That check runs on every new ticket, so the tree keeps getting deeper as tickets come in.",
+				],
+			},
+			{
+				id: "queues",
+				title: "Queues",
+				heading: "One paid inference per change",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/botpress-qstash.webp",
+							alt: "Diagram comparing triggers calling inference jobs directly, with duplicate and dropped runs, against triggers going through QStash with dedup keys, retries, backoff and ordering",
+							caption:
+								"Before and after: duplicate runs and dropped jobs, then one deduplicated run with retries.",
+						},
+					],
+				},
+				paragraphs: [
+					"Ticket events were triggering the AI jobs directly, and the jobs depended on each other: A triggers B and C, and D needs both. At production volume, one change could [[-fire the same inference job several times]], a [[-failed job just disappeared]], and a [[-dependent job could start]] before its inputs existed.",
+					"Every duplicate run paid for LLM tokens again, so the bill grew with ticket volume even when nothing new was being learned. And the dropped jobs left topics stale.",
+					"My lead and I mapped out the flow and put Upstash QStash between the triggers and the jobs. Each message gets a [[+deduplication key]], failed jobs [[+retry with backoff]], and dependent jobs [[+wait for the jobs they need]]. Now each change pays for exactly one inference run.",
+					"While we were mapping it, we found other trigger-driven jobs with the same problem, so those went onto the queue too.",
 				],
 			},
 			{
 				id: "learnings",
-				title: "What did I learn?",
+				title: "What I learned",
+				heading: "Good tooling is what lets you ship fast",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-tilt.webp",
+							alt: "Terminal running tilt up with api, web, worker and postgres ready",
+							caption: "One tilt up, the same environment on every machine.",
+						},
+					],
+				},
 				paragraphs: [
-					"First and foremost, shipping fast does NOT mean slop, and second, the importance of good developer experience has such a massive impact on what you can do and how fast you can go.",
-					"QStash: QStash is a tool made by Upstash (What's up stash?), basically it's the middleman between your API and your requests. The problem I was tackling had to do with system flows and triggers. Basically, `if A triggered --> do B and C --> once B is done launch D --> D depends on C`.",
-					"Without QStash, we were running into a lot of issues with reliability, AI jobs ran on certain triggers, but at scale issues arose (deduplication, synchronization, server-stress, reliability & error catching). After going through and mapping out the architecture with my Team Lead, we decided to use QStash to handle the AI inferrence jobs.",
-					"While reading through the docs, my team lead and I realized that this was actually something that needed to be done for a lot of other jobs that get triggered, without a queueing system we were basically waiting for a disaster. After setting it up, it was night and day, no dropped requests, automatic retries, overall a much more reliable system, and the AI inferrence jobs were now bringing unquantifiably better results.",
-					"Tilt.dev: Tilt is a tool for making local development *so* much easier. Instead of having to mess around with Docker commands, kubectl, Apache configs, manage different environments, etc., Tilt just handlees everything for you. Auto-rebuild, logs, syncing, whatever you need when it comes to infrastructure and local development, Tilt handles it.",
-					"Tilt genuinely is one of the most useful tools I've ever worked with, everyone has the same config, the same docker containers and kubernetes clusters, it's all standardized and just works. The best part? All you need to do is run `tilt up` and you're good to go.",
-					"Overall I grew across all facets of engineering; backend, frontend, infrastructure, testing, scaling, and so much more. In 3 weeks I can confidently say that I learnt more than some people do in 3 years at other companies, I'm extremely grateful for the opportunity to work and learn at Botpress.",
-				],
-			},
-			{
-				id: "layoffs",
-				title: "The reality of startups: Layoffs",
-				paragraphs: [
-					"Today, when I got into work I was made aware that the company was going through restructuring, 40% of the company was being laid off effective immediately. Unfortunately, I was one of the many affected.",
-					"The news is definitely a shock, I still can't really process it. The hardest part is that I really loved working at Botpress, the people, the work, the culture, I was so proud to be part of it and I was so excited to start my career there, I honestly saw myself there for a very long time.",
-					"That being said, I understand that this is simply the reality of startups and the tech industry in general. Does that mean it doesn't hurt? No, it definitely does, but the fact is that I was able to learn and grow so much in such a short amount of time, I'm already a better developer than I was a month ago and I'm confident that I'll keep growing.",
-					"Layoffs suck and personally in most cases I think they're the wrong move for a company to make, but in tech you have to face the reality that they *do* happen, you just have to take the hit and move forward.",
+					"Shipping fast isn't the same as shipping sloppy. What kept the speed safe was typed schemas that fail in the editor, and infrastructure like the queue that catches failures instead of dropping them.",
+					'Tilt runs the whole local stack (containers, Kubernetes, rebuilds, logs) from one `tilt up`. Everyone runs the same config, so "works on my machine" pretty much stopped being a thing.',
+					"In three weeks, I got to work across the backend, frontend, infrastructure and AI pipelines of a product that was still being built.",
 				],
 			},
 		],
-		links: [{ label: "Botpress", href: "https://botpress.com/" }],
+		links: [
+			{ label: "Botpress", href: "https://botpress.com/" },
+			{
+				label: "Botpress Studio",
+				href: "https://botpress.com/features/ai-agent-studio",
+			},
+		],
 		publishedAt: "2026-05-20",
-		updatedAt: "2026-05-20",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "Botpress Case Study | Carson Spriggs-Audet",
 			description:
-				"Learn about my experience at Botpress and the lessons I learned while working on various projects.",
+				"How I built Botpress's Jira integration and Topic Insights, and moved its AI inference jobs onto a QStash queue.",
 			socialImage: "/botpress.webp",
 		},
 	},
