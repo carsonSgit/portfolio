@@ -96,7 +96,7 @@ Longer write-ups on things I've built, framed around the decisions rather than t
 
 ## Connect
 
-- Email — [carsonspriggs8@gmail.com](mailto:carsonspriggs8@gmail.com)
+- Email — [mail@carsonspriggs.com](mailto:mail@carsonspriggs.com)
 - LinkedIn — [carsonspriggs](https://www.linkedin.com/in/carsonspriggs)
 - GitHub — [carsonSgit](https://github.com/carsonSgit)
 

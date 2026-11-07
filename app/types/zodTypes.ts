@@ -4,6 +4,7 @@ export const experienceSchema = z.object({
 	date: z.array(z.string()),
 	title: z.string(),
 	institution: z.string(),
+	logo: z.string().optional(),
 	tagline: z.string().optional(),
 	description: z.array(z.string()),
 	link: z.string(),

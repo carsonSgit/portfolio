@@ -19,7 +19,7 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		title: "Full Stack Developer",
 		institution: "Botpress",
 		tagline:
-			"Shipping AI integrations and data products at a fast-moving startup.",
+			"Shipping AI integrations and data products at a fast-moving conversational AI platform.",
 		description: [
 			"Building software integrations to connect customer's services with Agentic AI systems.",
 			"Engineered an end-to-end product for generating insights based on customer support data with custom AI inference flows, data classification, logic gating and deduplication.",
@@ -31,19 +31,19 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		title: "Junior Software Developer",
 		institution: "Fundica",
 		tagline:
-			"Scaling microservices and automating the core of a fintech platform.",
+			"Scaling microservices and automating the core engine of an enterprise fintech search platform.",
 		description: [
 			"Optimized microservices improving scalability and performance by up to 99%. (PHP, Node.js)",
 			"Built automations for core business workflows to drastically increase scale and speed of growth and efficiency. (TypeScript, Python, Golang)",
 		],
-		link: "https://www.fundica.com/content/fundica-live-demo-at-finovate-spring-2022",
+		link: "https://www.fundica.com/",
 	},
 	{
 		date: ["May 2024", "Aug 2024"],
 		title: "SDE Intern",
 		institution: "Tail'ed",
 		tagline:
-			"Building full-stack features and AI pipelines to lift user conversions.",
+			"Engineered full-stack features and automated AI pipelines to boost conversion and engagement.",
 		description: [
 			"Architected backend jobs and UI/UX across products, increasing user conversions by over 80%. (Next.js, TypeScript, Docker)",
 			"Engineered an AI-ingestion pipeline for analyzing user resumes and job listings for improved classification and suggestion algorithms. (Python, Vector Database, AWS Lambda)",
@@ -54,7 +54,8 @@ export const professionalExp: z.infer<typeof experienceSchema>[] = [
 		date: ["Jan 2024", "May 2024"],
 		title: "IT Intern",
 		institution: "Ville de Kirkland",
-		tagline: "Automating security remediation across municipal IT systems.",
+		tagline:
+			"Automated security remediation and compliance workflows across municipal infrastructure.",
 		description: [
 			"Scripted and automated bulk vulnerability scans and patch deployments, improving mitigation efficiency by 80%.",
 			"Cybersecurity tasks using CrowdStrike Falcon and Python, eliminating 4,500+ vulnerabilities.",
@@ -77,6 +78,27 @@ export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 		link: "https://2026.cusec.net/",
 	},
 	{
+		date: [],
+		title: "Director of Logistics",
+		logo: "/logos/cusec-2026.png",
+		institution: "CUSEC",
+		tagline: "Coordinating conference logistics.",
+		description: ["Coordinating conference logistics."],
+		link: "https://cusec.net/",
+	},
+	{
+		date: [],
+		title: "Sponsorship Executive + Head Delegate of Montreal",
+		logo: "/logos/cusec-2025.png",
+		institution: "CUSEC",
+		tagline:
+			"Building sponsor partnerships and representing Montreal delegates.",
+		description: [
+			"Building sponsor partnerships and representing Montreal delegates.",
+		],
+		link: "https://cusec.net/",
+	},
+	{
 		date: ["Mar 2024", "Jul 2024"],
 		title: "President",
 		institution: "JACHacks",
@@ -90,16 +112,13 @@ export const extraCurricularExp: z.infer<typeof experienceSchema>[] = [
 	{
 		date: ["Feb 2024", "Apr 2024"],
 		title: "R&D Fellow",
-		institution: "AI Launch Lab",
+		institution: "Mitacs",
 		tagline:
-			"Researching ML and building a stock-prediction model under PhD mentorship.",
+			"Researched and built TradeMind's machine-learning model in AI Launch Lab's Winter 2024 R&D program.",
 		description: [
-			"Learned Machine Learning and AI topics and material under PhDs.",
-			"Developed the ML project TradeMind to predict the stock market using Python and Keras.",
-			"Presented the project to a panel of investors and industry professionals.",
-			"Noted as the top project of the program's conception.",
+			"Selected Kaggle stock data, researched scikit-learn models, and built the model in a Jupyter notebook. Also contributed interface work and documentation.",
 		],
-		link: "https://mitacs.launchlab.ai/en/",
+		link: "/case-studies/trademind",
 	},
 ];
 
