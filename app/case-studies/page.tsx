@@ -1,6 +1,6 @@
 import Link from "next/link";
 import "@/styles.scss";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, formatPeriod } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -15,12 +15,6 @@ export const metadata = createPageMetadata({
 		"Canada software engineer portfolio",
 	],
 });
-
-const monthYear = (iso: string) =>
-	new Date(`${iso}T00:00:00`).toLocaleDateString("en-CA", {
-		month: "long",
-		year: "numeric",
-	});
 
 export default function CaseStudiesIndexPage() {
 	return (
@@ -45,7 +39,7 @@ export default function CaseStudiesIndexPage() {
 							>
 								<p className="case-study-panel__meta">
 									<strong>{caseStudy.projectType}</strong> ·{" "}
-									{monthYear(caseStudy.publishedAt)}
+									{formatPeriod(caseStudy.period)}
 								</p>
 								<h2 className="case-study-panel__title">{caseStudy.title}</h2>
 								<p className="case-study-panel__summary">{caseStudy.summary}</p>
