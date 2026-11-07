@@ -1310,55 +1310,186 @@ const caseStudyEntries: CaseStudy[] = [
 		slug: "linky",
 		title: "Linky",
 		summary:
-			"Hackathon prototype that turns a URL into a searchable knowledge base with retrieval-backed answers.",
-		projectType: "Hackathon Winning Project",
+			"A chatbot that reads the links you give it and answers only from them. Marcus Lee and I built it overnight at MariHacks 2024 without sleeping, and it ended up being my first hackathon win.",
+		projectType: "Hackathon winning project",
 		period: { start: "2024-04-05", end: "2024-04-06" },
-		stack: ["TypeScript", "AI", "RAG", "PostgreSQL", "Mantine"],
+		stack: [
+			"TypeScript",
+			"Next.js",
+			"Mantine",
+			"Pinecone",
+			"OpenAI",
+			"Vercel AI SDK",
+		],
 		image: "/linky.webp",
 		presentation: {
-			eyebrow: "A calmer interface for retrieval-backed learning",
+			eyebrow: "MariHacks 2024 at Marianopolis College",
+			cover: { src: "/case-studies/linky-cover.webp", tone: "light" },
 			highlights: [
-				{ label: "Focus", value: "Learning workflow over chat UX" },
-				{ label: "System", value: "Retrieval, storage, typed frontend" },
-				{ label: "Outcome", value: "Searchable knowledge experience" },
+				{ label: "Built in", value: "One night, no sleep" },
+				{ label: "Approach", value: "Retrieval-augmented generation" },
+				{ label: "Result", value: "Prize winner" },
 			],
 		},
 		sections: [
 			{
 				id: "context",
 				title: "Context",
+				heading: "From a showcase straight to a hackathon",
 				paragraphs: [
-					"Linky started with a small but useful prompt: what if one URL could become a structured place to learn, not just a one-off chat input.",
-					"I wanted the project to show both retrieval quality and a calmer product experience, since many AI demos only prove the model call and not the interface around it.",
+					"On April 5, 2024, I presented TradeMind at the end of AI Launch Lab's Winter 2024 R&D program, and it got called out as the best project of the cohort. Right after presenting, I headed straight to MariHacks, Marianopolis College's hackathon, with my friend Marcus Lee. It was one of my earlier hackathons, and it ended up being my first win, so a pretty big moment for me.",
+					"We showed up with an idea already. About a week and a half earlier, Marcus had sent me a paper on retrieval-augmented generation and said we should build something from it. Mind you, chatbots and AI wrappers were still pretty new at hackathons back then, and models weren't general enough to just answer anything. You really had to feed them the right context.",
+					"Linky is a chatbot that answers from the links you share with it. You give it a link, it reads the page, and it answers your questions using only what it read. If the page doesn't have the answer, it tells you.",
+				],
+				sources: [
+					{ label: "MariHacks", href: "https://www.marihacks.com/" },
+					{
+						label: "What is RAG",
+						href: "https://research.ibm.com/blog/retrieval-augmented-generation-RAG",
+					},
+					{
+						label: "README",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/README.md",
+					},
 				],
 			},
 			{
-				id: "build",
-				title: "Build",
+				id: "night",
+				title: "The night",
+				heading: "Built overnight, away from the cafeteria",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/linky-night.webp",
+							alt: "Bar chart of commits per hour from 6 pm April 5 to noon April 6, 2024: Carson 36, Marcus 42, peaking at 6 am",
+							caption: "Commits per hour, Montreal time.",
+						},
+					],
+				},
 				paragraphs: [
-					"The product flow stayed intentionally simple: start with a URL, ingest the source material, and turn it into a knowledge layer that supports exploration instead of generic answers.",
-					"Under the hood, the stack paired retrieval, storage, and a typed frontend so the project felt like a usable tool with real product decisions behind it.",
+					"Hacking was in the school cafeteria right by the food lines, and it was loud, with people walking past our screens all the time. We didn't want to leak our idea, so the Fundica team let us work out of their office, and we built there overnight. We didn't sleep or have any caffeine, and we watched the sunset and the sunrise while we were building.",
+					"The repo tells the story of the night: 78 commits between 6 pm and 12:40 pm the next day, 36 of them mine. Things peaked at 6 am, which is when we were fixing the mobile layout.",
+				],
+				sources: [
+					{
+						label: "Commit history",
+						href: "https://github.com/GodPuffin/linky/commits/85eca13aa20024e6473eb4a29bdac982dc3fa4d4",
+					},
 				],
 			},
 			{
-				id: "takeaways",
-				title: "Takeaways",
+				id: "rag",
+				title: "How it works",
+				heading: "Crawl, chunk, embed, retrieve, answer",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/linky-rag.webp",
+							alt: "Five steps: crawl the page to Markdown, split into chunks, embed with ada-002 into Pinecone, retrieve the top three matches above 0.7, answer with gpt-3.5-turbo",
+							caption: "From a link to a grounded answer.",
+						},
+						{
+							src: "/case-studies/linky-prompt.webp",
+							alt: "Diff of the system prompt at 08:21: the grounding rule rewritten in capitals",
+							caption: "At 8:21 am, the grounding rule went to capitals.",
+						},
+					],
+				},
 				paragraphs: [
-					"The prototype showed how ingestion, retrieval, and interface design can reinforce each other when the product starts with a clear learning workflow.",
-					"It also became a stronger write-up because the product decisions and technical implementation could be presented with the same level of clarity.",
+					"We started from Pinecone's Vercel RAG example. Linky crawls the link, converts the page to Markdown, and splits it into 256-character chunks. Each chunk gets embedded with OpenAI's text-embedding-ada-002 and stored in Pinecone.",
+					"When you ask a question, Linky embeds it, keeps the top three chunks that score above 0.7, and passes up to 3,000 characters of them to gpt-3.5-turbo inside a context block. The answer streams back through Vercel's AI SDK.",
+					"The system prompt tells Linky to only answer from that block, and it didn't always listen, so at 8:21 am I rewrote that rule in all caps with the commit message “LINKY LISTEN TO ME YOU LITTLE CREATURE.”",
+				],
+				sources: [
+					{
+						label: "Starting point",
+						href: "https://github.com/pinecone-io/pinecone-vercel-example",
+					},
+					{
+						label: "Chunking",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/app/api/crawl/seed.ts",
+					},
+					{
+						label: "Retrieval",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/app/utils/context.ts",
+					},
+					{
+						label: "Prompt",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/app/api/chat/route.ts",
+					},
+					{
+						label: "The 8:21 commit",
+						href: "https://github.com/GodPuffin/linky/commit/c9f9af1daca3cbf76fd42309a1bb5de0dd373e1c",
+					},
+				],
+			},
+			{
+				id: "contribution",
+				title: "My contribution",
+				heading: "The interface, and making it work on a phone",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/linky-mobile.webp",
+							alt: "Git log of Carson's commits from 05:40 to 07:29: Hotfix mobile, fix mobile wrapping issue, Fix max width, and five more fixes",
+							caption: "Eight mobile fixes between 5:40 and 7:29 am.",
+						},
+					],
+				},
+				paragraphs: [
+					"Marcus restructured the starter and wired up the retrieval. I built the interface around it: the navigation, the landing page, the source cards that show each crawled link, and the little Linky mascot icon.",
+					"From 5:40 am on, I was on mobile. Long retrieved text was overflowing the screen, so I fixed the wrapping and widths over eight commits in two hours. Mobile support ended up as one of the accomplishments in the README, which I drafted.",
+				],
+				sources: [
+					{
+						label: "Navbar icon",
+						href: "https://github.com/GodPuffin/linky/commit/935258ba678b837a5eab91f385e3fbc5b5a0bc09",
+					},
+					{
+						label: "Source cards",
+						href: "https://github.com/GodPuffin/linky/commit/605fac29364f38dd950188a4a8b6be41cbaf820e",
+					},
+					{
+						label: "Mobile wrapping",
+						href: "https://github.com/GodPuffin/linky/commit/260b23527de63d3dfff929351172445ccd5d16f2",
+					},
+					{
+						label: "Write-up",
+						href: "https://github.com/GodPuffin/linky/commit/089c7857668fc9b4095e715ea5b86fbe54ac7ae1",
+					},
+				],
+			},
+			{
+				id: "outcome",
+				title: "Outcome",
+				heading: "My first hackathon win",
+				paragraphs: [
+					"In the morning we walked back to Marianopolis, and since we hadn't slept and I like to brush my teeth, I brushed them with a water bottle on the way up the hill. At the venue we talked to other teams to scope out the competition, and a lot of them said they'd been scrambling to finish, so we started feeling pretty confident.",
+					"The demo went great, and a few judges came up to us afterward to get a deeper understanding of how the retrieval worked. We made the cut after the first round of judging and ended up winning a prize, my first hackathon win. We were really tired, but we crushed it.",
+					"The hackathon build has its limits. The crawler only reads one level deep, retrieval returns at most three chunks, and we never measured answer accuracy. In December 2024, Marcus moved Linky to Mistral and gave each user their own context.",
+				],
+				sources: [
+					{ label: "Live product", href: "https://www.linky.im/" },
+					{
+						label: "Later rewrite",
+						href: "https://github.com/GodPuffin/linky/commits/main",
+					},
 				],
 			},
 		],
 		links: [
-			{ label: "GitHub", href: "https://github.com/carsonSgit/Linky" },
+			{ label: "GitHub", href: "https://github.com/GodPuffin/linky" },
 			{ label: "Website", href: "https://www.linky.im/" },
 		],
 		publishedAt: "2024-04-11",
-		updatedAt: "2026-03-26",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "Linky Case Study | Carson Spriggs-Audet",
 			description:
-				"How Carson Spriggs-Audet built Linky, a hackathon prototype that uses retrieval and interface design to improve exploration and learning.",
+				"How Carson Spriggs-Audet and Marcus Lee built Linky, a retrieval-augmented chatbot, overnight at MariHacks 2024.",
 		},
 	},
 ];
