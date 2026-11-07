@@ -13,6 +13,7 @@ import {
 	caseStudies,
 	formatPeriod,
 	getCaseStudyBySlug,
+	getRelatedStudies,
 } from "@/data/caseStudies";
 import { absoluteUrl, BASE_URL, caseStudyCard, SITE_NAME } from "@/lib/seo";
 
@@ -227,6 +228,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
 	const highlights = caseStudy.presentation?.highlights ?? [];
 	const index = caseStudies.indexOf(caseStudy);
+	const relatedStudies = getRelatedStudies(caseStudy.slug);
 
 	const articleSchema = {
 		"@context": "https://schema.org",
@@ -376,6 +378,30 @@ export default async function CaseStudyPage({ params }: PageProps) {
 						</section>
 					))}
 				</div>
+
+				{relatedStudies.length > 0 ? (
+					<section className="cs-related" aria-labelledby="cs-related-heading">
+						<h2 id="cs-related-heading" className="cs-related__heading">
+							Related work
+						</h2>
+						<ul className="cs-related__list">
+							{relatedStudies.map(({ study, reason }) => (
+								<li key={study.slug}>
+									<Link
+										href={`/case-studies/${study.slug}`}
+										className="cs-related__link"
+									>
+										<span className="cs-related__type">
+											{study.projectType}
+										</span>
+										<span className="cs-related__title">{study.title}</span>
+										<span className="cs-related__reason">{reason}</span>
+									</Link>
+								</li>
+							))}
+						</ul>
+					</section>
+				) : null}
 
 				<nav className="cs-pager" aria-label="More case studies">
 					{[
