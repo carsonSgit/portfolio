@@ -2,11 +2,11 @@
 
 <div align="center">
 
-# carsonspriggs.me
+# carsonspriggs.com
 
 **Typography-led portfolio. No frameworks I don't need, no bloat I can't justify.**
 
-[![Portfolio demo](./.github/media/demo.gif)](https://carsonspriggs.me)
+[![Portfolio demo](./.github/media/demo.gif)](https://carsonspriggs.com)
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&labelColor=black&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-20232A?style=flat-square&labelColor=black&logo=react&logoColor=61DAFB)](https://react.dev/)
@@ -14,7 +14,7 @@
 [![Biome](https://img.shields.io/badge/Biome-lint%20%2B%20format-60A5FA?style=flat-square&labelColor=black&logo=biome&logoColor=white)](https://biomejs.dev/)
 [![License](https://img.shields.io/badge/license-MIT-white?style=flat-square&labelColor=black)](./LICENSE)
 
-[**Visit the site →**](https://carsonspriggs.me)
+[**Visit the site →**](https://carsonspriggs.com)
 
 </div>
 
@@ -89,10 +89,10 @@ pnpm dev            # localhost:3000
 
 Longer write-ups on things I've built, framed around the decisions rather than the feature list.
 
-- [**Working at Botpress**](https://carsonspriggs.me/case-studies/botpress) — shipping and ownership at an AI startup
-- [**Argus**](https://carsonspriggs.me/case-studies/argus) — live video review tooling · 2x hackathon winner
-- [**Linky**](https://carsonspriggs.me/case-studies/linky) — a URL into a retrieval-backed knowledge base
-- [**CropCare**](https://carsonspriggs.me/case-studies/cropcare) — sensors, MQTT, and Azure into one field workflow
+- [**Working at Botpress**](https://carsonspriggs.com/case-studies/botpress) — shipping and ownership at an AI startup
+- [**Argus**](https://carsonspriggs.com/case-studies/argus) — live video review tooling · 2x hackathon winner
+- [**Linky**](https://carsonspriggs.com/case-studies/linky) — a URL into a retrieval-backed knowledge base
+- [**CropCare**](https://carsonspriggs.com/case-studies/cropcare) — sensors, MQTT, and Azure into one field workflow
 
 ## Connect
 
