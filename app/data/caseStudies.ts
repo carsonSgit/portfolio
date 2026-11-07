@@ -972,55 +972,338 @@ const caseStudyEntries: CaseStudy[] = [
 		slug: "cropcare",
 		title: "CropCare",
 		summary:
-			"Hackathon prototype for plant monitoring and control using sensors, cloud messaging, and operator dashboards.",
-		projectType: "Capstone Project",
+			"Our final-year capstone: a Raspberry Pi container farm, Azure IoT Hub and a .NET MAUI app, built by three students who really wanted to beat their friends' team. I built the app's monitoring and control screens, its live charts, and three of the farm's sensor drivers.",
+		projectType: "Capstone project",
 		period: { start: "2024-03", end: "2024-05" },
-		stack: ["Python", "C#", "IoT", "Azure", "MQTT", "Hardware"],
+		stack: [
+			"Python",
+			"Raspberry Pi",
+			"Azure IoT Hub",
+			"MQTT",
+			"C#",
+			".NET MAUI",
+			"Firebase",
+		],
 		image: "/cropcare.webp",
 		presentation: {
-			eyebrow: "Connected agriculture system spanning hardware and software",
+			eyebrow: "John Abbott College, Computer Science Technology, Winter 2024",
+			cover: { src: "/case-studies/cropcare-cover.webp", tone: "dark" },
 			highlights: [
-				{ label: "Focus", value: "Readable monitoring and control" },
-				{ label: "System", value: "Sensors, Azure, MQTT" },
-				{ label: "Outcome", value: "End-to-end field workflow" },
+				{ label: "My focus", value: "Mobile app and sensor drivers" },
+				{ label: "System", value: "Raspberry Pi → IoT Hub → MAUI" },
+				{ label: "Team", value: "Three developers" },
 			],
 		},
 		sections: [
 			{
 				id: "context",
 				title: "Context",
+				heading: "A final-year capstone that had to be designed first",
+				media: {
+					afterParagraph: 3,
+					items: [
+						{
+							src: "/case-studies/cropcare-timeline.webp",
+							alt: "Timeline of six phases: design in March, hardware by April 22, mobile app by April 29, telemetry by May 10, integration by May 14, polish and build by May 21",
+							caption: "From design document to physical farm in two months.",
+						},
+					],
+				},
 				paragraphs: [
-					"CropCare came from a simple observation: a lot of smart-agriculture demos prove the hardware works, but stop short of showing a software workflow that someone could actually trust day to day.",
-					"The project was meant to connect field signals, cloud automation, and a readable operator experience inside one end-to-end story.",
+					"CropCare was our capstone for John Abbott College's Computer Science Technology program, built over the Winter 2024 semester by Cristiano Fazi, Kevin Baggott and me. This was pretty much pre-ChatGPT, which was barely usable back then. The program is hands-on: you do everything yourself, and you do it properly. Two courses fed into it: Application Development 3 taught cross-platform mobile development in .NET MAUI, and Connected Objects taught Python, Raspberry Pi hardware and Azure IoT.",
+					"We set the brief ourselves: a container farm an owner or technician can monitor and control from their phone, covering growing conditions, the enclosure's security, and its location. We also had a friendly rivalry going with friends in another group over who'd have the better project. So we went all out, way past what the courses asked for.",
+					"The program made you design before you code. In March we wrote a design document, wireframed every screen and drew the UML ourselves. Then the build ran in phases, each with a due date: hardware drivers by April 22, the mobile app by April 29, telemetry to Azure by May 10, the app's link to IoT Hub by May 14, and polish and the physical farm by May 21.",
+					"The physical farm was one of the most fun parts. I modelled the enclosure in TinkerCAD across four versions, and we built it out of wood, plexiglass and hinges, with a servo locking the door and an actual plant inside.",
+				],
+				sources: [
+					{
+						label: "Program",
+						href: "https://johnabbott.qc.ca/career-programs/computer-science-technology/computer-science-420-b0/",
+					},
+					{
+						label: "Team and courses",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/README.md",
+					},
+					{
+						label: "Design document",
+						href: "https://docs.google.com/document/d/1CgeMB0Ia7MkWsxPN-nKMrvUxbPpmW7MrcGwJhg-tKfA/edit?usp=sharing",
+					},
+					{
+						label: "Wireframes",
+						href: "https://github.com/carsonSgit/CropCare/commit/571626370102830ee631f96d82958d052d246e45",
+					},
+					{
+						label: "CAD versions",
+						href: "https://github.com/carsonSgit/CropCare/tree/bccfd15cd470b0f9c182b5061d2f0c01f4306549/Documents/CAD%20files",
+					},
 				],
 			},
 			{
-				id: "build",
-				title: "Build",
+				id: "contribution",
+				title: "My contribution",
+				heading: "The app's screens, its live charts, and three drivers",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/cropcare-ui.webp",
+							alt: "Three phone screens: the owner's farm dashboard, the Plants page with readings and controls, and the Security page in dark mode with a loudness chart",
+							caption:
+								"Redrawn from the shipped screens; readings are illustrative.",
+						},
+					],
+				},
 				paragraphs: [
-					"I used an Azure-backed MQTT pipeline to move between sensing and response, so the system could both observe conditions and react without feeling like a disconnected hardware demo.",
-					"The interface work focused on making monitoring and control legible, which helped the project read as a product prototype instead of a bundle of technical parts.",
+					"In the app, I built the Plants and Security pages, fan and LED control, the owner and technician account types (technicians don't get the controls), and the dark theme.",
+					"I also added the live charts. Each controller keeps a reading history per sensor and redraws a LiveCharts line on every message, and a picker lets you choose which sensor to plot.",
+					"On the farm side, I wrote the loudness, vibration and GPS drivers, each with its own mock. The GPS took the most work: it reads NMEA sentences from the Pi's UART at /dev/ttyS0, and it only worked after we changed the Pi's serial port config. I also drew the team's UML in Mermaid and wrote the hardware port guide.",
+				],
+				sources: [
+					{
+						label: "Fan control",
+						href: "https://github.com/carsonSgit/CropCare/commit/9b1850fe0c60b0a2b8469190c3ba61ff9eb0a927",
+					},
+					{
+						label: "Technician permissions",
+						href: "https://github.com/carsonSgit/CropCare/commit/cd5cb262855a9e512670d52fcb202569e5f3776b",
+					},
+					{
+						label: "Live charts",
+						href: "https://github.com/carsonSgit/CropCare/commit/c74388f0e0714d68594d5892ab70e11b416f578e",
+					},
+					{
+						label: "Chart picker",
+						href: "https://github.com/carsonSgit/CropCare/commit/e75efbb502326bd4bde4e1d9789da2077f7cac2f",
+					},
+					{
+						label: "Dark mode",
+						href: "https://github.com/carsonSgit/CropCare/commit/e35e77f4321dbab182ed02e0321d91bbe499c5a4",
+					},
+					{
+						label: "GPS driver",
+						href: "https://github.com/carsonSgit/CropCare/commit/72b610e65eabd0d9da707f9226f81cd7a081712a",
+					},
+					{
+						label: "Vibration sensor",
+						href: "https://github.com/carsonSgit/CropCare/commit/8c7b71c4587c1fb363409be7abfb48225db8fda0",
+					},
+					{
+						label: "UML",
+						href: "https://github.com/carsonSgit/CropCare/commit/c414cf812e9bb85893e8d761a96182584e732d5a",
+					},
 				],
 			},
 			{
-				id: "takeaways",
-				title: "Takeaways",
+				id: "system",
+				title: "System",
+				heading: "One device ID ties three runtimes together",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-telemetry.webp",
+							alt: "Telemetry flow: Raspberry Pi to IoT Hub over MQTT, then the event stream to the MAUI app",
+							caption: "Readings go up every five seconds.",
+						},
+						{
+							src: "/case-studies/cropcare-command.webp",
+							alt: "Command flow: MAUI app to IoT Hub as a direct method, then to the Raspberry Pi",
+							caption: "Commands come down when someone taps a switch.",
+						},
+					],
+				},
 				paragraphs: [
-					"The final prototype demonstrated reliable two-way communication between field data and cloud-side actions, which was the most important proof point for the concept.",
-					"It also gave me a concise way to explain how embedded constraints, backend integration, and user-facing control design fit together.",
+					"The farm runs in Python on a Raspberry Pi reTerminal and sends every reading to Azure IoT Hub over MQTT through Azure's device SDK, every five seconds by default.",
+					"The app pulls those readings from IoT Hub's built-in Event Hub endpoint and sends commands back down as direct methods. Each farm record in Firebase stores its IoT Hub device ID, and that's how the app knows which farm on screen a stream of events belongs to.",
+				],
+				sources: [
+					{
+						label: "Device client",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/farm.py",
+					},
+					{
+						label: "Hub client",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Services/IOTService.cs",
+					},
+					{
+						label: "Setup guide",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/README.md",
+					},
+				],
+			},
+			{
+				id: "farm",
+				title: "The Raspberry Pi",
+				heading: "Three subsystems behind one interface",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-pi-layers.webp",
+							alt: "Four stacked layers on the Pi: Grove Base Hat, three subsystem controllers, the Farm loop, and the IoT Hub device client",
+							caption: "Four layers between a sensor and the cloud.",
+						},
+						{
+							src: "/case-studies/cropcare-pi-mock.webp",
+							alt: "ISensor with two implementations: GPS for prod and MockGPSSensor for mock",
+							caption: "Each driver has a mock behind the same interface.",
+						},
+					],
+				},
+				paragraphs: [
+					"A Grove Base Hat connects the sensors and actuators to the Pi. We followed proper design here: every sensor implements ISensor and every actuator implements IActuator. Plant, security and geolocation controllers own them, and a Farm class reads all three every five seconds.",
+					"An ENVIRONMENT_MODE variable swaps every driver for a mock behind the same interface, so the whole pipeline runs on a laptop with no hardware plugged in.",
+					"Commands come in as direct methods. A request processor maps a method name like control_actuator to a handler, and each command goes to the first actuator that accepts it. The app can also change the reading interval through the device twin.",
+				],
+				sources: [
+					{
+						label: "Farm loop",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/farm.py",
+					},
+					{
+						label: "Controller interface",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/interfaces/subsystem_controller.py",
+					},
+					{
+						label: "Mock swap",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/subsystems/plant/plant_controller.py",
+					},
+					{
+						label: "Direct methods",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/util/farm_req_processor.py",
+					},
+				],
+			},
+			{
+				id: "app",
+				title: "The app",
+				heading: "From an event stream to a health colour",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/cropcare-app-route.webp",
+							alt: "Four steps: an event arrives, the farm with that device id takes it, the controller that owns the reading type adds it, the tile and chart update",
+							caption: "One event, routed to one tile.",
+						},
+						{
+							src: "/case-studies/cropcare-app-health.webp",
+							alt: "Temperature ranges: healthy 25 to 30 °C, caution 20 to 35 °C, critical outside, unknown with no reading",
+							caption: "Four limits turn a number into a colour.",
+						},
+					],
+				},
+				paragraphs: [
+					"Every incoming event names its device ID, and the app routes it to the farm that owns that device. Three C# controllers mirror the Python subsystems, so a reading lands in the controller that knows what it is.",
+					"Each controller checks a reading against healthy and caution ranges. For temperature, 25 to 30 °C is healthy, 20 to 35 °C is caution, and anything else is critical. The farm shows its worst state, and value converters turn each state into a colour and a label.",
+					"Flipping a switch sends a direct method with a 30-second timeout. With no network, the switch flips back, and if the connection drops, every reading resets to “No data” instead of leaving stale values on screen.",
+				],
+				sources: [
+					{
+						label: "IoT service",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Services/IOTService.cs",
+					},
+					{
+						label: "Base controller",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Models/Controllers/BaseController.cs",
+					},
+					{
+						label: "Health ranges",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Models/Controllers/PlantController.cs",
+					},
+				],
+			},
+			{
+				id: "data",
+				title: "Accounts and data",
+				heading: "Owners, technicians, and the farms between them",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-data-model.webp",
+							alt: "Three collections: User and Farm joined through UserToFarm",
+							caption: "A join lets one farm have many users.",
+						},
+						{
+							src: "/case-studies/cropcare-data-roles.webp",
+							alt: "Permission table: owners see every page and control; technicians see Plants and Location only",
+							caption: "One flag decides what each account sees.",
+						},
+					],
+				},
+				paragraphs: [
+					"Firebase Auth handles sign-in, and the Realtime Database holds three collections: users, farms, and a UserToFarm join between them. A generic DatabaseService<T> implements IDataStore<T> for any keyed model, so all three share the same code.",
+					"Every account is either an owner or a technician. I built that split: owners add and delete farms and assign technicians, and technicians see Plants and Location without any of the controls.",
+				],
+				sources: [
+					{
+						label: "Data store",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Services/DatabaseService.cs",
+					},
+					{
+						label: "Repository",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/DataRepos/CropCareRepo.cs",
+					},
+					{
+						label: "Owner-only page",
+						href: "https://github.com/carsonSgit/CropCare/commit/4c057264568da70c8b70580cfe7b9d86b4f3041c",
+					},
+					{
+						label: "Hidden controls",
+						href: "https://github.com/carsonSgit/CropCare/commit/cd5cb262855a9e512670d52fcb202569e5f3776b",
+					},
+				],
+			},
+			{
+				id: "outcome",
+				title: "Outcome",
+				heading: "A working farm, and the record of how it was built",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-trail.webp",
+							alt: "Six counts: 9 sensors, 4 actuators, 3 subsystems, 13 app pages, 4 CAD versions, 336 commits",
+							caption: "The finished system, counted.",
+						},
+						{
+							src: "/case-studies/cropcare-limits.webp",
+							alt: "Three shortcuts: readings as Python dict strings, an owner key inside the app, no long-term storage",
+							caption: "Shortcuts a shipped version would remove.",
+						},
+					],
+				},
+				paragraphs: [
+					"The final build streamed readings from the enclosure to the app and switched the fan, LED, door lock and buzzer from a phone. The GitHub repo is a gold mine if you want to see how it was built, with four CAD versions, the UML, the wireframes and a port guide for every sensor, and you can view the final enclosure in 3D in your browser.",
+					"Three shortcuts wouldn't survive production. The Pi sends each reading as a Python dict string, which the app parses by swapping quote characters. The app holds an owner-level IoT Hub connection string, where a real app would need a backend between the phone and the hub. And Milestone 4 planned Cosmos DB for long-term telemetry, but the shipped app keeps readings in memory and charts the last ten.",
+				],
+				sources: [
+					{
+						label: "3D model",
+						href: "https://carsonsgit.github.io/cropcare-3d/",
+					},
+					{
+						label: "Reading format",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/interfaces/sensors.py",
+					},
+					{
+						label: "Reading parser",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Models/Farm.cs",
+					},
 				],
 			},
 		],
 		links: [
 			{ label: "GitHub", href: "https://github.com/carsonSgit/CropCare" },
-			{ label: "Live demo", href: "https://carsonsgit.github.io/cropcare-3d/" },
+			{ label: "3D model", href: "https://carsonsgit.github.io/cropcare-3d/" },
 		],
 		publishedAt: "2024-05-23",
-		updatedAt: "2026-03-26",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "CropCare Case Study | Carson Spriggs-Audet",
 			description:
-				"How Carson Spriggs-Audet built CropCare, a hackathon prototype that links sensor data, Azure services, and practical automation workflows.",
+				"How Carson Spriggs-Audet built the mobile app and sensor drivers for CropCare, a capstone IoT container farm linking a Raspberry Pi, Azure IoT Hub and .NET MAUI.",
 		},
 	},
 	{
