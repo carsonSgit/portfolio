@@ -1,6 +1,7 @@
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Directory from "@/components/Directory";
+import HomeNav from "@/components/HomeNav";
 import Identity from "@/components/Identity";
 import "@/styles.scss";
 
@@ -10,6 +11,7 @@ export default function Page() {
 			<a href="#main-content" className="skip-link">
 				Skip to content
 			</a>
+			<HomeNav />
 			<main className="column" id="main-content">
 				<Identity />
 				<About />
