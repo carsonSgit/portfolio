@@ -290,6 +290,52 @@
   &:hover { background: var(--hover-bg); }
 }
 
+.cs-related {
+  margin-top: var(--step-6);
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+
+.cs-related__heading {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-body);
+}
+
+.cs-related__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-related__link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 120ms ease;
+  &:hover { background: var(--hover-bg); }
+  &:hover .cs-related__title { color: var(--link-hover); }
+}
+
+.cs-related__type { font-size: 12px; color: var(--ink-body); }
+.cs-related__title { color: var(--ink); font-weight: 500; transition: color 120ms ease; }
+.cs-related__reason { font-size: 14px; line-height: 1.5; color: var(--ink-body); }
+
+@media (max-width: 639px) {
+  .cs-related__list { grid-template-columns: minmax(0, 1fr); }
+}
+
 .cs-pager {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

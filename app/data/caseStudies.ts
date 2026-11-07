@@ -1539,3 +1539,91 @@ export const caseStudies = [...caseStudyEntries].sort((a, b) =>
 export function getCaseStudyBySlug(slug: string) {
 	return caseStudies.find((caseStudy) => caseStudy.slug === slug);
 }
+
+/**
+ * Deliberate cross-links between studies, so each one carries two contextual
+ * links to adjacent work rather than only the sequential previous/next pager.
+ * Every slug here must exist in `caseStudies`; `getRelatedStudies` filters out
+ * anything that does not, so a rename degrades to a missing link, not a crash.
+ */
+const relatedSlugs: Record<string, { slug: string; reason: string }[]> = {
+	trademind: [
+		{
+			slug: "argus",
+			reason:
+				"The same model-wrangling instinct, but under a 37-hour clock and with vision models instead of tabular data.",
+		},
+		{
+			slug: "linky",
+			reason:
+				"Where TradeMind trained a model, Linky retrieved instead — answering only from the links you hand it.",
+		},
+	],
+	botpress: [
+		{
+			slug: "fundica",
+			reason:
+				"The other team where I shipped production code, and where the work was an audit rather than a feature.",
+		},
+		{
+			slug: "linky",
+			reason:
+				"Linky is the conversation-side answer to what Topic Insights measures: what people actually ask a bot.",
+		},
+	],
+	fundica: [
+		{
+			slug: "botpress",
+			reason:
+				"The other production team I joined, building features instead of tearing them down for accessibility.",
+		},
+		{
+			slug: "cropcare",
+			reason:
+				"Both are interfaces that have to stay legible under constraints — WCAG rules there, a phone in a greenhouse here.",
+		},
+	],
+	argus: [
+		{
+			slug: "linky",
+			reason:
+				"Built with the same teammate, Marcus Lee, on the same kind of overnight deadline.",
+		},
+		{
+			slug: "trademind",
+			reason:
+				"The first time I put a model in front of real input, and the reason the vision pipeline in Argus felt familiar.",
+		},
+	],
+	cropcare: [
+		{
+			slug: "argus",
+			reason:
+				"Both stream sensor and camera data into an interface someone has to act on in the moment.",
+		},
+		{
+			slug: "botpress",
+			reason:
+				"Where CropCare taught me to draw live charts for a physical system, Botpress taught me to ship them for a product.",
+		},
+	],
+	linky: [
+		{
+			slug: "argus",
+			reason:
+				"My first win with Marcus Lee, and the build that made the 37-hour Argus sprint feel like a known quantity.",
+		},
+		{
+			slug: "botpress",
+			reason:
+				"Linky answers from a handful of links; Topic Insights reads what a production bot said across thousands of conversations.",
+		},
+	],
+};
+
+export function getRelatedStudies(slug: string) {
+	return (relatedSlugs[slug] ?? []).flatMap(({ slug: related, reason }) => {
+		const study = getCaseStudyBySlug(related);
+		return study ? [{ study, reason }] : [];
+	});
+}
