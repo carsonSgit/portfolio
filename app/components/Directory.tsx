@@ -111,7 +111,7 @@ const TABS: Tab[] = [
 	},
 ];
 
-export const useActiveTab = () => {
+const useActiveTab = () => {
 	const hash = useHash();
 	return TABS.find((tab) => tab.id === hash) ?? TABS[0];
 };
