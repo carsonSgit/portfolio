@@ -9,10 +9,34 @@ interface CaseStudySeo {
 	socialImage?: string;
 }
 
+interface CaseStudyVisual {
+	src: string;
+	alt: string;
+	caption: string;
+	aspectRatio?: number;
+	source?: CaseStudyLink;
+}
+
+interface CaseStudySectionMedia {
+	afterParagraph: number;
+	items: [CaseStudyVisual] | [CaseStudyVisual, CaseStudyVisual];
+}
+
 interface CaseStudySection {
 	id: string;
 	title: string;
+	heading?: string;
 	paragraphs: string[];
+	media?: CaseStudySectionMedia;
+	callout?: CaseStudyCallout;
+	sources?: CaseStudyLink[];
+}
+
+interface CaseStudyCallout {
+	quote: string;
+	attribution: string;
+	source: CaseStudyLink;
+	image: Pick<CaseStudyVisual, "src" | "alt">;
 }
 
 interface CaseStudyHighlight {
@@ -20,9 +44,20 @@ interface CaseStudyHighlight {
 	value: string;
 }
 
+interface CaseStudyCover {
+	src: string;
+	tone: "light" | "dark";
+}
+
 interface CaseStudyPresentation {
 	eyebrow?: string;
+	cover?: CaseStudyCover;
 	highlights?: CaseStudyHighlight[];
+}
+
+interface CaseStudyPeriod {
+	start: string;
+	end?: string;
 }
 
 export interface CaseStudy {
@@ -30,6 +65,7 @@ export interface CaseStudy {
 	title: string;
 	summary: string;
 	projectType: string;
+	period: CaseStudyPeriod;
 	stack: string[];
 	image?: string;
 	sections: CaseStudySection[];
@@ -40,12 +76,266 @@ export interface CaseStudy {
 	presentation?: CaseStudyPresentation;
 }
 
-export const caseStudies: CaseStudy[] = [
+const caseStudyEntries: CaseStudy[] = [
+	{
+		slug: "trademind",
+		title: "TradeMind",
+		summary:
+			"I researched and built TradeMind's machine-learning model in a Jupyter notebook, using Kaggle stock data and lessons from AI Launch Lab's Winter 2024 R&D program.",
+		projectType: "AI R&D program project",
+		period: { start: "2024-02", end: "2024-04" },
+		stack: [
+			"Python",
+			"Jupyter",
+			"pandas",
+			"scikit-learn",
+			"FastAPI",
+			"React",
+			"Plotly",
+		],
+		presentation: {
+			eyebrow: "AI Launch Lab, Dawson AI, Winter 2024",
+			cover: { src: "/case-studies/trademind-cover.webp", tone: "dark" },
+			highlights: [
+				{
+					label: "My focus",
+					value: "Model research and development",
+				},
+				{
+					label: "Model",
+					value: "Quadratic regression",
+				},
+				{
+					label: "Record",
+					value: "Winter 2024 cohort listing",
+				},
+			],
+		},
+		sections: [
+			{
+				id: "context",
+				title: "Context",
+				heading: "An AI research project in winter 2024",
+				paragraphs: [
+					"TradeMind was my project for AI Launch Lab's Winter 2024 R&D program, built with a team of five. The program ran from February 10 to April 5 and wrapped up with presentations at Dawson College.",
+					"We wanted to see if historical stock data could give someone a second opinion when they're researching long-term investments, so TradeMind paired a fitted prediction model with a website where you could look at what it predicted.",
+					"AI Launch Lab listed TradeMind with the rest of the cohort, next to projects in healthcare, education and environmental modelling. Dawson kept that same project-first format going in its later accelerator programs with AI Launch Lab and Mitacs.",
+					"AI Launch Lab ran the program with Montreal NewTech, funded by the Government of Québec and in collaboration with District 3, IVADO, ConcordAI, Montréal InVivo, Korbit, V1 Studio and Concordia University. They're who gave me the chance to do this.",
+				],
+				media: {
+					afterParagraph: 4,
+					items: [
+						{
+							src: "/case-studies/trademind-launchlab-banner.webp",
+							alt: "AI Launch Lab and Montreal NewTech R&D programs banner naming Québec as financial partner and District 3, IVADO, ConcordAI, Montréal InVivo, Korbit, V1 Studio and Concordia University as collaborators",
+							caption: "The program's organizers, funder and collaborators.",
+							source: {
+								label: "AI Launch Lab",
+								href: "https://launchlab.ai/winter-2024-rd-program/",
+							},
+						},
+					],
+				},
+				sources: [
+					{
+						label: "Winter 2024 cohort",
+						href: "https://launchlab.ai/winter-2024-rd-program/",
+					},
+					{
+						label: "Team",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/frontend/trade-mind/src/pages/About.js",
+					},
+					{
+						label: "Dawson program background",
+						href: "https://www.dawsoncollege.qc.ca/ai/dawsonai-ai-launch-lab/",
+					},
+					{
+						label: "Later AI Accelerator",
+						href: "https://www.dawsoncollege.qc.ca/ai/aia-program",
+					},
+					{
+						label: "Later program curriculum",
+						href: "https://launchlab.ai/rd-program/",
+					},
+				],
+			},
+			{
+				id: "contribution",
+				title: "My contribution",
+				heading: "Researching and building the machine-learning model",
+				media: {
+					afterParagraph: 3,
+					items: [
+						{
+							src: "/case-studies/trademind-mobile.webp",
+							alt: "Illustration of the TradeMind mobile menu opened by a toggle",
+							caption: "The mobile menu moved from hover to a tap toggle.",
+						},
+						{
+							src: "/case-studies/trademind-analytics.webp",
+							alt: "Illustration of the ticker and forecast horizon controls",
+							caption: "Pick a ticker and a one-to-five-year horizon.",
+						},
+					],
+				},
+				paragraphs: [
+					"My piece was the model. I built it in a Jupyter notebook, pulled historical stock data from Kaggle, and dug through scikit-learn's models, putting what we were learning in the program to work.",
+					"That meant the whole modelling process: picking the dataset, figuring out an approach, and implementing it. The notebook let me work right on top of the stock data and build the model the rest of the project ran on.",
+					"Outside the model, I chipped in on the website too: the responsive navigation, the analytics styling, fixes for charts that resized badly or overflowed, and the project docs. That's what got the model's output in front of people through the team's web app.",
+				],
+				sources: [
+					{
+						label: "Research notebook",
+						href: "https://colab.research.google.com/drive/1iF8vrqAI5z4uwKgJQ-MhEdLHXmqqIr4k",
+					},
+					{
+						label: "Kaggle dataset",
+						href: "https://www.kaggle.com/datasets/camnugent/sandp500",
+					},
+					{
+						label: "Mobile menu",
+						href: "https://github.com/carsonSgit/TradeMind/commit/9873b8873756900155400237e6f00a0a2067eabf",
+					},
+					{
+						label: "Chart resizing",
+						href: "https://github.com/carsonSgit/TradeMind/commit/27525e8d0aaccd641abf751aea676f91c3d9de70",
+					},
+					{
+						label: "Chart overflow",
+						href: "https://github.com/carsonSgit/TradeMind/commit/3cd875edf5939ed253392dc6c392be683f34188a",
+					},
+					{
+						label: "Analytics styling",
+						href: "https://github.com/carsonSgit/TradeMind/commit/be958d6317c1b2795c3b7905e807df11876cb709",
+					},
+					{
+						label: "Dataset documentation",
+						href: "https://github.com/carsonSgit/TradeMind/commit/02dceb5354169c2b2a9931e09a9ebe567419e8ec",
+					},
+				],
+			},
+			{
+				id: "implementation",
+				title: "Implementation",
+				heading: "Historical data, a fitted model, and a chart",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/trademind-chart.webp",
+							alt: "Illustration of a line chart with solid historical prices and a dashed prediction",
+							caption:
+								"History draws as a solid line; the prediction continues dashed.",
+						},
+					],
+				},
+				paragraphs: [
+					"For data, I went with a Kaggle dataset of S&P 500 prices from 2013 to 2018. The prediction code filters down to one ticker, turns dates into days elapsed, and fits closing prices with degree-two polynomial features and a linear regression, so basically a quadratic curve.",
+					"FastAPI serves the list of symbols and a prediction endpoint. In React, you pick a ticker and a horizon from one to five years, and it asks for the historical and predicted series. Plotly draws history as a solid line and the prediction as a dashed one.",
+					"There are Keras experiments in the repo too, but the endpoint only ever calls the polynomial trainer, so what gets served stays separate from the neural-network stuff.",
+				],
+				sources: [
+					{
+						label: "Prediction model",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/backend/model_trainer.py",
+					},
+					{
+						label: "API",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/backend/server.py",
+					},
+					{
+						label: "Analytics interface",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/frontend/trade-mind/src/pages/Analytics.js",
+					},
+					{
+						label: "Chart",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/frontend/trade-mind/src/components/DataPlot.jsx",
+					},
+				],
+			},
+			{
+				id: "outcome",
+				title: "Outcome",
+				heading: "A documented prototype with a public cohort record",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/trademind-system.webp",
+							alt: "Diagram: S&P 500 data, regression, FastAPI, React and Plotly",
+							caption: "Dataset to model to API to chart.",
+						},
+						{
+							src: "/case-studies/trademind-split.webp",
+							alt: "Card showing an 80/20 train and test split with held-out accuracy not reported",
+							caption:
+								"A random 80/20 split, with no held-out accuracy reported.",
+						},
+					],
+				},
+				paragraphs: [
+					"I took the model from research and picking a dataset all the way to a working notebook. The team hooked the prediction service up to an interactive frontend, and AI Launch Lab put TradeMind in its public Winter 2024 project listing.",
+					"The trainer does a random 80/20 split but never actually reports held-out accuracy, and stretching a quadratic curve years past its training data doesn't say much about investment performance. That's why the interface frames it as an educational tool.",
+					"After the program, AI Launch Lab, Dawson AI and Mitacs sent me to World Summit AI, where the talks pushed my idea of AI past software development.",
+				],
+				callout: {
+					quote:
+						"Thrilled to see the next generation of AI enthusiasts like Carson Spriggs-Audet expanding their horizons at the World Summit AI.",
+					attribution: "AI Launch Lab, May 2024",
+					source: {
+						label: "LinkedIn post",
+						href: "https://www.linkedin.com/posts/ailaunchlab_thrilled-to-see-the-next-generation-of-ai-activity-7192163530605809666-6JvL",
+					},
+					image: {
+						src: "/case-studies/trademind-wsai.webp",
+						alt: "Exhibition hall at World Summit AI with attendees walking between booths",
+					},
+				},
+				sources: [
+					{
+						label: "Published project listing",
+						href: "https://launchlab.ai/winter-2024-rd-program/",
+					},
+					{
+						label: "Training and prediction code",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/backend/model_trainer.py",
+					},
+					{
+						label: "Educational framing",
+						href: "https://github.com/carsonSgit/TradeMind/blob/57a1964886d52ea42cf10175b36eddfa611b1a95/web/frontend/trade-mind/src/pages/Analytics.js",
+					},
+				],
+			},
+			{
+				id: "reflection",
+				title: "Reflection",
+				heading: "Next time, I'd measure it properly",
+				paragraphs: [
+					"Looking back, I'd keep the pick-a-ticker, get-a-chart flow and put a lot more evidence behind the predictions. I'd compare against a baseline that just uses the last price, test on later time periods, and show the error for each forecast horizon.",
+					"In a future version, I'd put the training period and the measured error right next to the chart. TradeMind already got a model into a browser. The next step is helping people decide how much to trust it.",
+				],
+				sources: [],
+			},
+		],
+		links: [
+			{
+				label: "Repository",
+				href: "https://github.com/carsonSgit/TradeMind",
+			},
+			{
+				label: "Cohort listing",
+				href: "https://launchlab.ai/winter-2024-rd-program/",
+			},
+		],
+		publishedAt: "2026-11-06",
+		updatedAt: "2026-11-06",
+	},
 	{
 		slug: "botpress",
 		title: "Working at Botpress",
 		summary: "Lessons learned while working at Botpress.",
 		projectType: "Professional Experience",
+		period: { start: "2026-04", end: "2026-05" },
 		stack: ["TypeScript", "Zod", "LLMz", "Next.js", "Prisma"],
 		image: "/botpress.webp",
 		presentation: {
@@ -136,6 +426,7 @@ export const caseStudies: CaseStudy[] = [
 		summary:
 			"Hackathon prototype for monitoring live video feeds with event detection and operator review tools.",
 		projectType: "2x Hackathon Winning Project",
+		period: { start: "2025-10-24", end: "2025-10-26" },
 		stack: ["TypeScript", "AI", "Computer Vision", "PostgreSQL", "RTMP"],
 		image: "/argus.webp",
 		presentation: {
@@ -190,6 +481,7 @@ export const caseStudies: CaseStudy[] = [
 		summary:
 			"Hackathon prototype for plant monitoring and control using sensors, cloud messaging, and operator dashboards.",
 		projectType: "Capstone Project",
+		period: { start: "2024-03", end: "2024-05" },
 		stack: ["Python", "C#", "IoT", "Azure", "MQTT", "Hardware"],
 		image: "/cropcare.webp",
 		presentation: {
@@ -244,6 +536,7 @@ export const caseStudies: CaseStudy[] = [
 		summary:
 			"Hackathon prototype that turns a URL into a searchable knowledge base with retrieval-backed answers.",
 		projectType: "Hackathon Winning Project",
+		period: { start: "2024-04-05", end: "2024-04-06" },
 		stack: ["TypeScript", "AI", "RAG", "PostgreSQL", "Mantine"],
 		image: "/linky.webp",
 		presentation: {
@@ -293,6 +586,48 @@ export const caseStudies: CaseStudy[] = [
 		},
 	},
 ];
+
+const MONTHS = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+];
+
+function dateParts(iso: string) {
+	const [year, month, day] = iso.split("-").map(Number);
+	return { year, month: MONTHS[month - 1], day };
+}
+
+export function formatPeriod({ start, end }: CaseStudyPeriod): string {
+	const from = dateParts(start);
+	const to = dateParts(end ?? start);
+	if (from.year !== to.year) {
+		return `${from.month} ${from.year} to ${to.month} ${to.year}`;
+	}
+	if (from.month !== to.month) {
+		return `${from.month} to ${to.month} ${to.year}`;
+	}
+	if (from.day && to.day && from.day !== to.day) {
+		return `${from.month} ${from.day} to ${to.day}, ${to.year}`;
+	}
+	return `${to.month} ${to.year}`;
+}
+
+const periodKey = ({ start, end }: CaseStudyPeriod) =>
+	`${end ?? start}|${start}`;
+
+export const caseStudies = [...caseStudyEntries].sort((a, b) =>
+	periodKey(b.period).localeCompare(periodKey(a.period)),
+);
 
 export function getCaseStudyBySlug(slug: string) {
 	return caseStudies.find((caseStudy) => caseStudy.slug === slug);
