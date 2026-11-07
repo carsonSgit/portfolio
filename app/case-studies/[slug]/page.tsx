@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Fragment } from "react";
 import "@/styles.scss";
+import BrandMark from "@/components/BrandMark";
+import CaseStudyRail from "@/components/CaseStudyRail";
+import SiteNav from "@/components/SiteNav";
+import { linkLogo, stackLogo } from "@/data/brandLogos";
 import {
 	type CaseStudy,
 	caseStudies,
+	formatPeriod,
 	getCaseStudyBySlug,
 } from "@/data/caseStudies";
 import {
@@ -22,15 +28,6 @@ type RouteParams = {
 type PageProps = {
 	readonly params: Promise<RouteParams>;
 };
-
-function formatCaseStudyDate(value: string) {
-	return new Intl.DateTimeFormat("en", {
-		month: "long",
-		day: "numeric",
-		year: "numeric",
-		timeZone: "UTC",
-	}).format(new Date(`${value}T00:00:00Z`));
-}
 
 export function generateStaticParams() {
 	return caseStudies.map(({ slug }) => ({ slug }));
@@ -89,13 +86,136 @@ export async function generateMetadata({
 	};
 }
 
-function StackList({ caseStudy }: { caseStudy: CaseStudy }) {
+const CHIP_TONES: Record<string, string> = { "+": "good", "-": "bad" };
+
+function Prose({ text }: { text: string }) {
+	const parts = text.split(/(`[^`]+`|\*[^*]+\*|\[\[[^\]]+\]\])/g);
+	return parts.map((part, idx) => {
+		const key = `${idx}-${part}`;
+		const chip = /^\[\[([+-]?)(.+)\]\]$/.exec(part);
+		if (chip) {
+			const tone = CHIP_TONES[chip[1]];
+			return (
+				<span key={key} className={`cs-chip${tone ? ` cs-chip--${tone}` : ""}`}>
+					{chip[2]}
+				</span>
+			);
+		}
+		if (part.startsWith("`") && part.endsWith("`")) {
+			return <code key={key}>{part.slice(1, -1)}</code>;
+		}
+		if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
+			return <em key={key}>{part.slice(1, -1)}</em>;
+		}
+		return part;
+	});
+}
+
+type SectionMediaData = NonNullable<CaseStudy["sections"][number]["media"]>;
+
+function SectionMedia({ media }: { media: SectionMediaData }) {
+	const isPair = media.items.length === 2;
 	return (
-		<ul className="csa-stack" aria-label={`${caseStudy.title} stack`}>
-			{caseStudy.stack.map((item) => (
-				<li key={item}>{item}</li>
+		<div className={`cs-media${isPair ? " cs-media--pair" : ""}`}>
+			{media.items.map((item) => (
+				<figure key={item.src} className="cs-media__item">
+					<div
+						className="cs-media__frame"
+						style={
+							item.aspectRatio ? { aspectRatio: item.aspectRatio } : undefined
+						}
+					>
+						<Image
+							src={item.src}
+							alt={item.alt}
+							fill
+							sizes={
+								isPair
+									? "(max-width: 700px) 100vw, 470px"
+									: "(max-width: 1040px) 100vw, 960px"
+							}
+						/>
+					</div>
+					<figcaption>
+						{item.caption}
+						{item.source ? (
+							<>
+								{" Image: "}
+								<a href={item.source.href} target="_blank" rel="noreferrer">
+									{item.source.label}
+								</a>
+								.
+							</>
+						) : null}
+					</figcaption>
+				</figure>
 			))}
-		</ul>
+		</div>
+	);
+}
+
+type SectionCalloutData = NonNullable<CaseStudy["sections"][number]["callout"]>;
+
+function SectionCallout({ callout }: { callout: SectionCalloutData }) {
+	return (
+		<figure className="cs-callout">
+			<div className="cs-callout__frame">
+				<Image
+					src={callout.image.src}
+					alt={callout.image.alt}
+					fill
+					sizes="(max-width: 700px) 100vw, 200px"
+				/>
+			</div>
+			<div>
+				<blockquote cite={callout.source.href}>
+					<p>“{callout.quote}”</p>
+				</blockquote>
+				<figcaption>
+					{callout.attribution},{" "}
+					<a href={callout.source.href} target="_blank" rel="noreferrer">
+						{callout.source.label}
+					</a>
+				</figcaption>
+			</div>
+		</figure>
+	);
+}
+
+function MetaGrid({ caseStudy }: { caseStudy: CaseStudy }) {
+	return (
+		<dl className="cs-meta">
+			<div>
+				<dt>Type</dt>
+				<dd>{caseStudy.projectType}</dd>
+			</div>
+			<div>
+				<dt>Timeline</dt>
+				<dd>{formatPeriod(caseStudy.period)}</dd>
+			</div>
+			<div>
+				<dt>Stack</dt>
+				<dd className="cs-meta__stack">
+					{caseStudy.stack.map((name) => (
+						<BrandMark key={name} label={name} logo={stackLogo(name)} />
+					))}
+				</dd>
+			</div>
+			<div>
+				<dt>Links</dt>
+				<dd className="cs-meta__links">
+					{caseStudy.links.map((link) => (
+						<BrandMark
+							key={link.href}
+							label={link.label}
+							logo={linkLogo(link.href)}
+							href={link.href}
+							srLabel={` (${link.label} for ${caseStudy.title}, opens in new tab)`}
+						/>
+					))}
+				</dd>
+			</div>
+		</dl>
 	);
 }
 
@@ -108,6 +228,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 	}
 
 	const highlights = caseStudy.presentation?.highlights ?? [];
+	const index = caseStudies.indexOf(caseStudy);
 
 	const articleSchema = {
 		"@context": "https://schema.org",
@@ -135,55 +256,56 @@ export default async function CaseStudyPage({ params }: PageProps) {
 		abstract: caseStudy.summary,
 	};
 
+	const cover = caseStudy.presentation?.cover;
+	const railSections = [
+		{ id: "overview", title: "Overview" },
+		...caseStudy.sections.map(({ id, title }) => ({ id, title })),
+	];
+
 	return (
-		<main className="case-study-page">
-			<article className="case-study-shell case-study-shell--article">
-				<script
-					type="application/ld+json"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD with trusted local data
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-				/>
+		<main className="cs-page">
+			<script
+				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD with trusted local data
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+			/>
+			<SiteNav
+				trail={[
+					{ label: "Case studies", href: "/case-studies" },
+					{ label: caseStudy.title },
+				]}
+			/>
+			<CaseStudyRail sections={railSections} />
 
-				<nav className="case-study-breadcrumb" aria-label="Breadcrumb">
-					<Link href="/case-studies" className="case-study-breadcrumb__link">
-						Case Studies
-					</Link>
-					<span aria-hidden="true">/</span>
-					<span aria-current="page">{caseStudy.title}</span>
-				</nav>
-
-				<header className="csa-split">
-					<div className="csa-split__meta">
-						{caseStudy.presentation?.eyebrow ? (
-							<p className="csa-eyebrow">{caseStudy.presentation.eyebrow}</p>
-						) : null}
-						<h1 className="csa-split__title">{caseStudy.title}</h1>
-						<p className="csa-split__summary">{caseStudy.summary}</p>
-						<p className="csa-meta-line">
-							{caseStudy.projectType}
-							<span aria-hidden="true"> · </span>
-							Published {formatCaseStudyDate(caseStudy.publishedAt)}
-							<span aria-hidden="true"> · </span>
-							Updated {formatCaseStudyDate(caseStudy.updatedAt)}
+			<article className="cs-article">
+				{cover ? (
+					<div className={`cs-cover cs-cover--${cover.tone}`}>
+						<Image
+							src={cover.src}
+							alt=""
+							fill
+							priority
+							sizes="(max-width: 1040px) 100vw, 960px"
+						/>
+						<p className="cs-cover__title" aria-hidden="true">
+							{caseStudy.title}
 						</p>
 					</div>
-					{caseStudy.image ? (
-						<div className="csa-media">
-							<Image
-								src={caseStudy.image}
-								alt={`${caseStudy.title} hero image`}
-								fill
-								priority
-								sizes="(max-width: 960px) 100vw, 26rem"
-							/>
-						</div>
+				) : null}
+
+				<header id="overview" className="cs-header">
+					{caseStudy.presentation?.eyebrow ? (
+						<p className="cs-label">{caseStudy.presentation.eyebrow}</p>
 					) : null}
+					<h1 className="cs-title">{caseStudy.title}</h1>
+					<p className="cs-lede">{caseStudy.summary}</p>
+					<MetaGrid caseStudy={caseStudy} />
 				</header>
 
 				{highlights.length > 0 ? (
-					<dl className="csa-highlights">
+					<dl className="cs-highlights">
 						{highlights.map((highlight) => (
-							<div key={highlight.label} className="csa-highlight">
+							<div key={highlight.label}>
 								<dt>{highlight.label}</dt>
 								<dd>{highlight.value}</dd>
 							</div>
@@ -191,64 +313,92 @@ export default async function CaseStudyPage({ params }: PageProps) {
 					</dl>
 				) : null}
 
-				<div className="csa-layout">
-					<aside className="csa-rail" aria-label="Article navigation">
-						<nav className="csa-rail__group" aria-label="On this page">
-							<p className="csa-rail__label">On this page</p>
-							<ol className="csa-rail__list">
-								{caseStudy.sections.map((section) => (
-									<li key={section.id}>
-										<a
-											className="csa-rail__link"
-											href={`#${section.id}-heading`}
-										>
-											{section.title}
-										</a>
-									</li>
-								))}
-							</ol>
-						</nav>
-						<div className="csa-rail__group">
-							<p className="csa-rail__label">Stack</p>
-							<StackList caseStudy={caseStudy} />
+				{caseStudy.image ? (
+					<figure className="cs-figure">
+						<div className="cs-figure__frame">
+							<Image
+								src={caseStudy.image}
+								alt={`${caseStudy.title} key art`}
+								fill
+								sizes="(max-width: 1040px) 90vw, 760px"
+							/>
 						</div>
-						<div className="csa-rail__group">
-							<p className="csa-rail__label">Links</p>
-							<div className="case-study-links">
-								{caseStudy.links.map((link) => (
-									<a
-										key={link.href}
-										href={link.href}
-										target="_blank"
-										rel="noreferrer"
-										className="case-study-ext-link"
+					</figure>
+				) : null}
+
+				<div className="cs-body">
+					{caseStudy.sections.map((section) => (
+						<section
+							key={section.id}
+							id={section.id}
+							className="cs-section"
+							aria-labelledby={`${section.id}-heading`}
+						>
+							<p className="cs-label">{section.title}</p>
+							<h2 id={`${section.id}-heading`} className="cs-section__heading">
+								{section.heading ?? section.title}
+							</h2>
+							<div className="cs-section__body">
+								{section.paragraphs.map((paragraph, idx) => (
+									<Fragment key={`${section.id}-p-${idx}`}>
+										{section.media?.afterParagraph === idx ? (
+											<SectionMedia media={section.media} />
+										) : null}
+										<p>
+											<Prose text={paragraph} />
+										</p>
+									</Fragment>
+								))}
+								{section.media &&
+								section.media.afterParagraph >= section.paragraphs.length ? (
+									<SectionMedia media={section.media} />
+								) : null}
+								{section.callout ? (
+									<SectionCallout callout={section.callout} />
+								) : null}
+								{section.sources?.length ? (
+									<nav
+										className="cs-meta__links"
+										aria-label={`${section.title} sources`}
 									>
-										<span>{link.label}</span>
-										<span className="sr-only">
-											{` (${link.label} for ${caseStudy.title}, opens in new tab)`}
-										</span>
-									</a>
-								))}
+										{section.sources.map((source) => (
+											<BrandMark
+												key={source.href}
+												label={source.label}
+												logo={linkLogo(source.href)}
+												href={source.href}
+												srLabel=" (source, opens in new tab)"
+											/>
+										))}
+									</nav>
+								) : null}
 							</div>
-						</div>
-					</aside>
-					<div className="case-study-body">
-						{caseStudy.sections.map((section) => (
-							<section
-								key={section.id}
-								className="case-study-section"
-								aria-labelledby={`${section.id}-heading`}
-							>
-								<h2 id={`${section.id}-heading`}>{section.title}</h2>
-								<div className="case-study-section__body">
-									{section.paragraphs.map((paragraph, idx) => (
-										<p key={`${section.id}-p-${idx}`}>{paragraph}</p>
-									))}
-								</div>
-							</section>
-						))}
-					</div>
+						</section>
+					))}
 				</div>
+
+				<nav className="cs-pager" aria-label="More case studies">
+					{[
+						{ label: "Previous", study: caseStudies[index - 1] },
+						{ label: "Next", study: caseStudies[index + 1] },
+					].map(({ label, study }) =>
+						study ? (
+							<Link
+								key={label}
+								href={`/case-studies/${study.slug}`}
+								className={`cs-pager__link cs-pager__link--${label.toLowerCase()}`}
+							>
+								<span className="cs-pager__label">{label}</span>
+								<span className="cs-pager__title">{study.title}</span>
+							</Link>
+						) : (
+							<span key={label} aria-hidden="true" />
+						),
+					)}
+				</nav>
+				<Link href="/case-studies" className="cs-pager__all">
+					All case studies
+				</Link>
 			</article>
 		</main>
 	);

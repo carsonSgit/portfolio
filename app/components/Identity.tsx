@@ -1,22 +1,19 @@
 import Image from "next/image";
 
-const Identity = () => {
-	return (
-		<header className="identity">
-			<Image
-				className="identity__avatar"
-				src="/klungo.webp"
-				alt=""
-				width={48}
-				height={48}
-				priority
-			/>
-			<div>
-				<h1 className="identity__name">Carson Spriggs-Audet</h1>
-				<p className="identity__role">Software Developer</p>
-			</div>
-		</header>
-	);
-};
+const Identity = () => (
+	<header className="identity">
+		<Image
+			src="/klungo.webp"
+			alt="Carson’s avatar"
+			width={64}
+			height={64}
+			priority
+		/>
+		<h1 className="identity__name">
+			Hi, I&apos;m Carson Spriggs-Audet. I build systems that improve and
+			automate workflows.
+		</h1>
+	</header>
+);
 
 export default Identity;

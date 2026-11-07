@@ -1,15 +1,33 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { caseStudies } from "@/data/caseStudies";
+import Image from "next/image";
+import TabBar, { panelId, tabId } from "@/components/TabBar";
+import { caseStudies, formatPeriod } from "@/data/caseStudies";
 import {
 	educationExp,
 	extraCurricularExp,
 	professionalExp,
 } from "@/data/experiences";
 import { projects } from "@/data/projects";
+import { replaceHash, useHash } from "@/lib/useHash";
+
+const institutionLogos: Record<string, string> = {
+	Qohash: "/logos/qohash.png",
+	Botpress: "/logos/botpress.png",
+	Fundica: "/logos/fundica.svg",
+	"Tail'ed": "/logos/tailed-transparent.png",
+	"Ville de Kirkland": "/logos/kirkland.png",
+	"Memorial University": "/logos/memorial.png",
+	"Concordia University": "/logos/concordia.png",
+	"John Abbott College": "/logos/john-abbott.png",
+	CUSEC: "/logos/cusec.png",
+	JACHacks: "/logos/jachacks.png",
+	Mitacs: "/logos/mitacs.jpg",
+};
 
 type Entry = {
+	institution?: string;
+	logo?: string;
 	date?: string;
 	title: string;
 	summary: string;
@@ -24,7 +42,7 @@ type Tab = {
 };
 
 const dateRange = ([start, end]: string[]) =>
-	start === end ? start : `${start} — ${end}`;
+	start === end ? start : `${start} to ${end}`;
 
 const fromExperience = (
 	items: typeof professionalExp,
@@ -32,10 +50,12 @@ const fromExperience = (
 ): Entry[] =>
 	items.map((item) => ({
 		date: dated ? dateRange(item.date) : undefined,
-		title: `${item.title} at ${item.institution}`,
+		title: item.title,
+		institution: item.institution,
+		logo: item.logo ?? institutionLogos[item.institution],
 		summary: item.tagline ?? item.description[0],
 		href: item.link,
-		external: true,
+		external: !item.link.startsWith("/"),
 	}));
 
 const TABS: Tab[] = [
@@ -70,74 +90,48 @@ const TABS: Tab[] = [
 		id: "case-studies",
 		label: "Case Studies",
 		entries: caseStudies.map((caseStudy) => ({
+			date: formatPeriod(caseStudy.period),
 			title: caseStudy.title,
 			summary: caseStudy.summary,
 			href: `/case-studies/${caseStudy.slug}`,
 			external: false,
 		})),
 	},
+	{
+		id: "uses",
+		label: "Uses",
+		entries: [
+			{
+				title: "Tools I use",
+				summary: "Software, services, and interesting things in my toolkit.",
+				href: "/uses",
+				external: false,
+			},
+		],
+	},
 ];
 
+export const useActiveTab = () => {
+	const hash = useHash();
+	return TABS.find((tab) => tab.id === hash) ?? TABS[0];
+};
+
 const Directory = () => {
-	const [activeId, setActiveId] = useState(TABS[0].id);
-	const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-
-	const activeIndex = TABS.findIndex((tab) => tab.id === activeId);
-	const active = TABS[activeIndex];
-
-	const moveTo = (index: number) => {
-		const next = TABS[(index + TABS.length) % TABS.length];
-		setActiveId(next.id);
-		tabRefs.current[next.id]?.focus();
-	};
-
-	const handleKeyDown = (event: React.KeyboardEvent) => {
-		if (event.key === "ArrowRight") {
-			moveTo(activeIndex + 1);
-		} else if (event.key === "ArrowLeft") {
-			moveTo(activeIndex - 1);
-		} else if (event.key === "Home") {
-			moveTo(0);
-		} else if (event.key === "End") {
-			moveTo(TABS.length - 1);
-		} else {
-			return;
-		}
-		event.preventDefault();
-	};
+	const active = useActiveTab();
 
 	return (
 		<section className="directory" aria-label="Work and background">
-			<div
-				className="directory__tabs"
-				role="tablist"
-				aria-label="Sections"
-				onKeyDown={handleKeyDown}
-			>
-				{TABS.map((tab) => (
-					<button
-						key={tab.id}
-						type="button"
-						role="tab"
-						id={`tab-${tab.id}`}
-						className="directory__tab"
-						aria-selected={tab.id === activeId}
-						aria-controls={`panel-${tab.id}`}
-						tabIndex={tab.id === activeId ? 0 : -1}
-						ref={(node) => {
-							tabRefs.current[tab.id] = node;
-						}}
-						onClick={() => setActiveId(tab.id)}
-					>
-						{tab.label}
-					</button>
-				))}
-			</div>
+			<TabBar
+				tabs={TABS}
+				activeId={active.id}
+				onSelect={replaceHash}
+				label="Sections"
+			/>
 
 			<div
 				role="tabpanel"
-				id={`panel-${active.id}`}
-				aria-labelledby={`tab-${active.id}`}
+				id={panelId(active.id)}
+				aria-labelledby={tabId(active.id)}
 			>
 				{/* biome-ignore lint/a11y: Safari drops list semantics when list-style is none */}
 				<ul className="directory__list" role="list">
@@ -150,9 +144,23 @@ const Directory = () => {
 									? { target: "_blank", rel: "noopener noreferrer" }
 									: {})}
 							>
+								{entry.logo ? (
+									<span className="entry__logo">
+										<Image src={entry.logo} width={28} height={28} alt="" />
+									</span>
+								) : null}
 								<span className="entry__text">
 									<span className="entry__title">
 										{entry.title}
+										{entry.institution ? (
+											<span className="entry__institution">
+												{" "}
+												@ {entry.institution}
+											</span>
+										) : null}
+										<span className="entry__arrow" aria-hidden="true">
+											↗
+										</span>
 										{entry.external ? (
 											<span className="sr-only"> (opens in new tab)</span>
 										) : null}

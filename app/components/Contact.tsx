@@ -1,6 +1,7 @@
-const Contact = () => {
-	return (
-		<footer className="contact">
+const Contact = () => (
+	<footer className="contact">
+		<h2>More</h2>
+		<p>
 			You can see more of my work on{" "}
 			<a
 				href="https://github.com/carsonSgit"
@@ -17,9 +18,9 @@ const Contact = () => {
 			>
 				LinkedIn
 			</a>{" "}
-			or over <a href="mailto:carsonspriggs8@gmail.com">email</a>.
-		</footer>
-	);
-};
+			or over <a href="mailto:mail@carsonspriggs.com">email</a>.
+		</p>
+	</footer>
+);
 
 export default Contact;

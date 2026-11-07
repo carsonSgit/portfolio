@@ -333,133 +333,626 @@ const caseStudyEntries: CaseStudy[] = [
 	{
 		slug: "botpress",
 		title: "Working at Botpress",
-		summary: "Lessons learned while working at Botpress.",
+		summary:
+			"I built Botpress's Jira integration and Topic Insights, the conversation analytics in Botpress Desk, and moved its AI jobs onto a queue.",
 		projectType: "Professional Experience",
 		period: { start: "2026-04", end: "2026-05" },
-		stack: ["TypeScript", "Zod", "LLMz", "Next.js", "Prisma"],
+		stack: ["TypeScript", "Zod", "LLMz", "Next.js", "Prisma", "QStash", "Tilt"],
 		image: "/botpress.webp",
 		presentation: {
-			eyebrow: "Shipping at an industry-leading AI startup",
+			eyebrow: "Full Stack Developer at Botpress",
+			cover: { src: "/case-studies/botpress-cover.webp", tone: "dark" },
 			highlights: [
 				{
-					label: "Ship fast",
-					value: "Rapid iteration and deployment in a fast-paced environment",
+					label: "Jira integration",
+					value:
+						"17 action cards and an OAuth setup wizard, shipped in five days",
 				},
 				{
-					label: "Engineering",
-					value: "Building scalable and maintainable applications",
+					label: "Topic Insights",
+					value: "Schema, cron jobs, AI flows, API and UI, built end to end",
 				},
 				{
-					label: "Ownership",
-					value: "Taking end-to-end responsibility for features and products",
+					label: "Queueing",
+					value:
+						"AI jobs moved onto QStash: no duplicate runs, failed jobs retried",
 				},
 			],
 		},
 		sections: [
 			{
-				id: "pretext",
-				title: "Pretext",
+				id: "platform",
+				title: "The platform",
+				heading: "Agents built in Studio, wired to tools by integrations",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-studio.webp",
+							alt: "Botpress Studio autonomous node with Search Knowledge and Escalate To Desk tools, an Orders table, and integration icons",
+							caption:
+								"An autonomous node in Botpress Studio. Tools come from tables, knowledge bases and integrations.",
+							source: {
+								label: "botpress.com",
+								href: "https://botpress.com/features/ai-agent-studio",
+							},
+						},
+					],
+				},
 				paragraphs: [
-					"Starting in Summer 2025, I became enamoured with the work that Botpress does. The speed and quality that they go at was awe-inspiring for me, and I knew that I wanted to be a part of it.",
-					"I spent the next 8 months interviewing, practicing, learning, growing, and taking feedback to the heart to become a great engineer, ultimately I was given an offer for a full time position as a Full Stack Developer.",
-					"The offer came in back in February and I accepted it immediately, all that hard work finally paid off and I was ready to step up to the challenge and get to shipping.",
+					"Botpress is a platform for building AI agents. In Botpress Studio, you write the agent's instructions in an autonomous node and then hand it tools: search a knowledge base, read a table, pass the conversation to a human in Desk.",
+					"Most of those tools come from integrations. An integration wraps a third-party API in typed actions, and every action shows up in Studio as a card. The agent can call the card, or a builder can drop it into a workflow.",
+					"Botpress Desk is the newer product, a support inbox where the agent and the human team share tickets. I worked on Desk's analytics and on the integration catalogue.",
 				],
 			},
 			{
-				id: "week1_work",
-				title: "Week 1, move fast",
+				id: "jira",
+				title: "Jira integration",
+				heading: "Seventeen Jira actions an agent can call",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/botpress-jira.webp",
+							alt: "Botpress Studio card picker filtered to Jira, listing actions such as Add Attachment, Search Issues and Transition Issue",
+							caption: "The Jira cards in Studio's card picker.",
+						},
+						{
+							src: "/case-studies/botpress-oauth.webp",
+							alt: "Jira integration page in Botpress, describing the Connect with OAuth and Use an API Token setup options",
+							caption:
+								"The integration page. Setup offers OAuth or an API token.",
+						},
+					],
+				},
 				paragraphs: [
-					"Starting my first week was a culture shock, I had finished my onboarding in the first few hours and got straight to coding. Everyone who starts at Botpress does the same task: Build an integration for the Botpress platform.",
-					"A quick TLDR: what is an integration? Basically Botpress has a platform that allows users to build and deploy AI agents that are fully connected to their tools and data, an integration is basically the connector that allows you to link your external tools to your Botpress agent, all accessible in one place.",
-					"I was given the task to build out the Jira integration. I had heard that people typically take about 2-3 weeks to build their integration, but me being me, I wanted to challenge myself to see how quickly I could get it up and running.",
-					"After fumbling through setting up my dev environment, I got to work. Lots of reading documentation, looking at other examples, manual testing, trying to break things, before the end of the week I was done everything.",
-					"Once I was done, it actually hit me-- this tool I just built was now able to be used to help customers improve their own workflows in the blink of an eye. A little bit later, I got to set up OAuth connections which was really fun and a good learning experience, I got to really appreciate the beauty of TypeScript and intellisense.",
+					"Every new hire at Botpress builds an integration first. Mine was Jira. Most people take two to three weeks on theirs. I shipped mine in five days.",
+					"It exposes 17 actions as cards. [[Issues]] search, count, pick by free text, get, create, batch-create up to 50, update, assign, delete, attach a file, list transitions and apply one. [[Projects]] list projects, statuses and issue types. [[Users]] find one or list all. Comments go through a separate `issueComments` channel, so a message the agent sends lands on the issue as a comment.",
+					"Search uses Atlassian's `POST /rest/api/3/search/jql`, which took over from `/rest/api/3/search` when Atlassian retired it in May 2025. Pagination is cursor-based, so `searchIssues` hands back a `nextToken`, and `countIssues` is there for when all you need is the total.",
+					"Every project has its own workflow, so the agent can't hard-code a status. It calls `getIssueTransitions` to get the IDs that are valid for that issue right now, then passes one to `transitionIssue`.",
+					"Later on I built the setup wizard. You pick [[Connect with OAuth]] or [[Use an API Token]]. OAuth runs Atlassian's consent flow, and if your account can see more than one Jira site, the wizard asks which one you mean. The token path just takes a host, an email and a token. Every action and config schema is typed with Zod, so the editor caught a wrong field before I ever ran anything.",
 				],
 			},
 			{
-				id: "work",
-				title: "Work and Ownership",
+				id: "topic-insights",
+				title: "Topic Insights",
+				heading: "Desk's analytics, built end to end",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-insights.webp",
+							alt: "Topic Insights in Botpress Desk: a topic list with ticket counts and CSAT rings, and a Webhook Reliability panel showing a 63% CSAT score and a trend line",
+							caption:
+								"Topic Insights in Desk: topics with nested subtopics, ticket counts and CSAT rings.",
+							source: { label: "botpress.com", href: "https://botpress.com/" },
+						},
+					],
+				},
 				paragraphs: [
-					"During my first week, since I was basically done with my integration, I spoke with my team lead about next steps. To my shock, he decided to catapult me into building a full, comprehensive feature end-to-end.",
-					"I was tasked with building out Topic Insights for our new product that's in the works. Backend logic, CRON jobs, database schemas, API routes, AI flows, synchronization, logic gating, deduplication, frontend, testing, documentation, the whole shebang.",
-					"I was definitely nervous to start, this feature is *very* important to the product and customers, it's the one-stop shop for all the data and insights that users will be relying on to make important business decisions, and I was the one given the reigns and responsibility to build it out from ground up.",
-					"But I got to work, stayed late *every day...* (even till 11:30pm on some days) and I loved every minute of it. In the world of programming, getting to do actual engineering work at a high level is pretty rare, so getting to have full ownership over a core feature of the product *on my first week* was an absolutely unique feeling.",
+					"In my first week, with Jira done, my lead handed me Topic Insights for Desk. It groups a workspace's support tickets into topics, so a team can see what customers are reaching out about, how happy they are, and whether each topic is growing.",
+					"Each topic shows a ticket count and a CSAT ring. Click one and a side panel opens with a summary of its tickets, the CSAT score, a trend line and the actual conversations, so the team can act on it right there.",
+					"I built the whole thing: the Prisma schema, the cron jobs, the API routes, the AI inference flows, the gating and deduplication logic, the frontend, the tests and the docs.",
+				],
+			},
+			{
+				id: "topic-pipeline",
+				title: "How topics form",
+				heading: "Topics come from your own tickets, not a fixed list",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-topic-flow.webp",
+							alt: "Diagram: a closed ticket is summarised by an inference job, matched against existing topics or used to create a new one, and a topic that reaches 10 tickets generates subtopics",
+							caption:
+								"One ticket through the pipeline. Ten tickets in a topic unlocks subtopics.",
+						},
+					],
+				},
+				paragraphs: [
+					"Botpress doesn't ship a list of categories. Every topic comes out of the workspace's own tickets, so a billing-heavy SaaS and a shipping-heavy retailer end up with completely different topics.",
+					"When a ticket comes in, an inference job summarises it and scores it on [[CSAT]], [[sentiment]] and [[resolution]]. The prompt keeps topic names tight: a few words at most, and a category, not a description. A pile of refund tickets becomes [[+Billing Issues]], not [[-Clients are requesting money back]].",
+					"The first tickets in a workspace seed the first topics. After that, each new ticket gets checked against the existing topics one at a time. If it fits one, it [[+joins it]]. If it fits none, it [[starts a new topic]].",
+					"Once a topic hits 10 tickets, a second job splits it into subtopics, like [[Duplicate Charges]] and [[Refund Requests]] under [[Billing Issues]]. That check runs on every new ticket, so the tree keeps getting deeper as tickets come in.",
+				],
+			},
+			{
+				id: "queues",
+				title: "Queues",
+				heading: "One paid inference per change",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/botpress-qstash.webp",
+							alt: "Diagram comparing triggers calling inference jobs directly, with duplicate and dropped runs, against triggers going through QStash with dedup keys, retries, backoff and ordering",
+							caption:
+								"Before and after: duplicate runs and dropped jobs, then one deduplicated run with retries.",
+						},
+					],
+				},
+				paragraphs: [
+					"Ticket events were triggering the AI jobs directly, and the jobs depended on each other: A triggers B and C, and D needs both. At production volume, one change could [[-fire the same inference job several times]], a [[-failed job just disappeared]], and a [[-dependent job could start]] before its inputs existed.",
+					"Every duplicate run paid for LLM tokens again, so the bill grew with ticket volume even when nothing new was being learned. And the dropped jobs left topics stale.",
+					"My lead and I mapped out the flow and put Upstash QStash between the triggers and the jobs. Each message gets a [[+deduplication key]], failed jobs [[+retry with backoff]], and dependent jobs [[+wait for the jobs they need]]. Now each change pays for exactly one inference run.",
+					"While we were mapping it, we found other trigger-driven jobs with the same problem, so those went onto the queue too.",
 				],
 			},
 			{
 				id: "learnings",
-				title: "What did I learn?",
+				title: "What I learned",
+				heading: "Good tooling is what lets you ship fast",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/botpress-tilt.webp",
+							alt: "Terminal running tilt up with api, web, worker and postgres ready",
+							caption: "One tilt up, the same environment on every machine.",
+						},
+					],
+				},
 				paragraphs: [
-					"First and foremost, shipping fast does NOT mean slop, and second, the importance of good developer experience has such a massive impact on what you can do and how fast you can go.",
-					"QStash: QStash is a tool made by Upstash (What's up stash?), basically it's the middleman between your API and your requests. The problem I was tackling had to do with system flows and triggers. Basically, `if A triggered --> do B and C --> once B is done launch D --> D depends on C`.",
-					"Without QStash, we were running into a lot of issues with reliability, AI jobs ran on certain triggers, but at scale issues arose (deduplication, synchronization, server-stress, reliability & error catching). After going through and mapping out the architecture with my Team Lead, we decided to use QStash to handle the AI inferrence jobs.",
-					"While reading through the docs, my team lead and I realized that this was actually something that needed to be done for a lot of other jobs that get triggered, without a queueing system we were basically waiting for a disaster. After setting it up, it was night and day, no dropped requests, automatic retries, overall a much more reliable system, and the AI inferrence jobs were now bringing unquantifiably better results.",
-					"Tilt.dev: Tilt is a tool for making local development *so* much easier. Instead of having to mess around with Docker commands, kubectl, Apache configs, manage different environments, etc., Tilt just handlees everything for you. Auto-rebuild, logs, syncing, whatever you need when it comes to infrastructure and local development, Tilt handles it.",
-					"Tilt genuinely is one of the most useful tools I've ever worked with, everyone has the same config, the same docker containers and kubernetes clusters, it's all standardized and just works. The best part? All you need to do is run `tilt up` and you're good to go.",
-					"Overall I grew across all facets of engineering; backend, frontend, infrastructure, testing, scaling, and so much more. In 3 weeks I can confidently say that I learnt more than some people do in 3 years at other companies, I'm extremely grateful for the opportunity to work and learn at Botpress.",
-				],
-			},
-			{
-				id: "layoffs",
-				title: "The reality of startups: Layoffs",
-				paragraphs: [
-					"Today, when I got into work I was made aware that the company was going through restructuring, 40% of the company was being laid off effective immediately. Unfortunately, I was one of the many affected.",
-					"The news is definitely a shock, I still can't really process it. The hardest part is that I really loved working at Botpress, the people, the work, the culture, I was so proud to be part of it and I was so excited to start my career there, I honestly saw myself there for a very long time.",
-					"That being said, I understand that this is simply the reality of startups and the tech industry in general. Does that mean it doesn't hurt? No, it definitely does, but the fact is that I was able to learn and grow so much in such a short amount of time, I'm already a better developer than I was a month ago and I'm confident that I'll keep growing.",
-					"Layoffs suck and personally in most cases I think they're the wrong move for a company to make, but in tech you have to face the reality that they *do* happen, you just have to take the hit and move forward.",
+					"Shipping fast isn't the same as shipping sloppy. What kept the speed safe was typed schemas that fail in the editor, and infrastructure like the queue that catches failures instead of dropping them.",
+					'Tilt runs the whole local stack (containers, Kubernetes, rebuilds, logs) from one `tilt up`. Everyone runs the same config, so "works on my machine" pretty much stopped being a thing.',
+					"In three weeks, I got to work across the backend, frontend, infrastructure and AI pipelines of a product that was still being built.",
 				],
 			},
 		],
-		links: [{ label: "Botpress", href: "https://botpress.com/" }],
+		links: [
+			{ label: "Botpress", href: "https://botpress.com/" },
+			{
+				label: "Botpress Studio",
+				href: "https://botpress.com/features/ai-agent-studio",
+			},
+		],
 		publishedAt: "2026-05-20",
-		updatedAt: "2026-05-20",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "Botpress Case Study | Carson Spriggs-Audet",
 			description:
-				"Learn about my experience at Botpress and the lessons I learned while working on various projects.",
+				"How I built Botpress's Jira integration and Topic Insights, and moved its AI inference jobs onto a QStash queue.",
 			socialImage: "/botpress.webp",
+		},
+	},
+	{
+		slug: "fundica",
+		title: "Accessibility at Fundica",
+		summary:
+			"I led Fundica's WCAG audit, shipped the fixes with the team, and built an auditing tool that reduced time per page by up to 99% compared with manual auditing.",
+		projectType: "Professional Experience",
+		period: { start: "2025-05", end: "2026-04" },
+		stack: ["Python", "WCAG 2.0 AA", "CI automation"],
+		image: "/fundica.webp",
+		presentation: {
+			eyebrow: "Junior Software Developer at Fundica",
+			cover: { src: "/case-studies/fundica-cover.webp", tone: "dark" },
+			highlights: [
+				{
+					label: "Audit",
+					value: "Led the WCAG audit, mapped every fix and shipped them",
+				},
+				{
+					label: "R&D",
+					value: "Automated accessibility checks on every pull request",
+				},
+				{
+					label: "Result",
+					value: "Up to 99% less auditing time per page",
+				},
+			],
+		},
+		sections: [
+			{
+				id: "fundica",
+				title: "Fundica",
+				heading: "Funding search for banks, governments and advisors",
+				media: {
+					afterParagraph: 0,
+					items: [
+						{
+							src: "/case-studies/fundica-ai-search.webp",
+							aspectRatio: 1600 / 985,
+							alt: "Fundica's AI Search screen, a natural-language search box over a database of funding programs with suggested questions",
+							caption: "AI Search over Fundica's funding program database.",
+							source: {
+								label: "fundica.com",
+								href: "https://www.fundica.com/",
+							},
+						},
+						{
+							src: "/case-studies/fundica-results.webp",
+							aspectRatio: 1600 / 985,
+							alt: "Fundica funding results listing government programs with funding amounts, eligible expenses and status tags",
+							caption:
+								"Funding results, ranked by how well each program fits the business.",
+							source: {
+								label: "fundica.com",
+								href: "https://www.fundica.com/financial-institutions",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"Fundica is an AI-powered platform that matches businesses with funding. It searches more than 12,000 private, federal, provincial and municipal programs and ranks them by relevance. Banks, governments and advisors put it in front of their own clients.",
+					"Those clients are the kind where things have to just work. Fundica is trusted by 5 of the 10 largest cities and 80+ governments across Canada, by financial institutions like TD and Visa, and by research and innovation organizations like Mila, Centech, DMZ and McGill.",
+					"Clients like that don't take a vendor's word for it. They want proof, and the proof is on the website: [[SOC 2 Type II certified]], [[WCAG 2.0 AA]], and [[no IT integration required]].",
+				],
+				sources: [
+					{
+						label: "Research & education partners",
+						href: "https://www.fundica.com/research-education",
+					},
+					{
+						label: "Governments",
+						href: "https://www.fundica.com/governments",
+					},
+				],
+			},
+			{
+				id: "audit",
+				title: "The audit",
+				heading: "A client asked for the certification, so I ran the audit",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/fundica-badges.webp",
+							aspectRatio: 2,
+							alt: "SOC 2 Type 2 badge next to a W3C WCAG 2.0 AA badge",
+							caption: "The two badges Fundica's clients look for first.",
+						},
+					],
+				},
+				paragraphs: [
+					"One of our clients asked for the WCAG certification, and before we could claim it we had to prove it. I led the audit together with our security and compliance specialist.",
+					"I went through the platform against the WCAG guidelines and flagged every place we fell short. Then I mapped out the fixes, worked with the rest of the team to get them done, and applied them across the product.",
+				],
+			},
+			{
+				id: "automation",
+				title: "Automating it",
+				heading: "Catching accessibility issues before they merge",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/fundica-dashboard.webp",
+							aspectRatio: 1600 / 985,
+							alt: "Fundica analytics dashboard with totals for users, sign-ups, active programs and activation rate, plus trend charts",
+							caption:
+								"Every screen like this one has to stay accessible after each change.",
+							source: {
+								label: "fundica.com",
+								href: "https://www.fundica.com/financial-institutions",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"An audit only proves where you are on the day you run it. Every new feature can quietly break something again, so after the audit I got the chance to lead an R&D project to automate it.",
+					"I started with research: what accessibility actually means for the people using the product, the WCAG guidelines in depth, and which tools already exist for detecting issues and how far each one goes.",
+					"I built the auditing script in Python. A JSON configuration describes each page: its URL, name, elements to check and, where needed, a login URL and credentials. The script handles page navigation and authentication so it can check screens behind a login too.",
+					"The script runs WCAG checks and produces Markdown reports for review. It combines vetted open-source checkers with detection we built in-house, and runs on pull requests so the team can catch issues before they merge.",
+					"Automating that work reduced auditing time per page by [[+up to 99%]] compared with doing it manually. That measures time saved on each page; findings that need human judgment still go through review.",
+					"In my December 2025 presentation, I laid out the next step: an OpenAI integration to suggest fixes, propose custom solutions and match the repository's coding style. That was on the roadmap at the time, alongside more WCAG checks and documentation.",
+					"It was my first time leading a project this big, from the research through to a system the team uses.",
+				],
+				sources: [
+					{
+						label: "Project presentation",
+						href: "https://prezi.com/p/kuwtpxdx_aac/ai-driven-wcag-accessibility-auditing-at-fundica/",
+					},
+				],
+			},
+			{
+				id: "team",
+				title: "The team",
+				heading: "Thanks, Fundica",
+				paragraphs: [
+					"Fundica trusted a junior developer to lead a compliance audit and an R&D project for clients that can't afford for things to go wrong. I'm grateful to the whole team for that, and for how much I learned working alongside them.",
+				],
+			},
+		],
+		links: [
+			{ label: "Fundica", href: "https://www.fundica.com/" },
+			{
+				label: "Fundica for financial institutions",
+				href: "https://www.fundica.com/financial-institutions",
+			},
+			{
+				label: "Project presentation",
+				href: "https://prezi.com/p/kuwtpxdx_aac/ai-driven-wcag-accessibility-auditing-at-fundica/",
+			},
+		],
+		publishedAt: "2026-11-06",
+		updatedAt: "2026-11-06",
+		seo: {
+			title: "Fundica Case Study | Carson Spriggs-Audet",
+			description:
+				"How I led Fundica's WCAG accessibility audit and built a Python tool that reduced auditing time per page by up to 99% compared with manual auditing.",
+			socialImage: "/fundica.webp",
 		},
 	},
 	{
 		slug: "argus",
 		title: "Argus",
 		summary:
-			"Hackathon prototype for monitoring live video feeds with event detection and operator review tools.",
-		projectType: "2x Hackathon Winning Project",
+			"A video surveillance platform Marcus Lee and I built in 37 sleepless hours at Cal Hacks 12.0 in San Francisco. It streams cameras through Mux, finds events with Gemini and Roboflow, and makes them searchable. It took home two first places.",
+		projectType: "Hackathon project, 2 first places",
 		period: { start: "2025-10-24", end: "2025-10-26" },
-		stack: ["TypeScript", "AI", "Computer Vision", "PostgreSQL", "RTMP"],
+		stack: [
+			"TypeScript",
+			"Next.js",
+			"Supabase",
+			"PostgreSQL",
+			"Mux",
+			"Gemini",
+			"Roboflow",
+			"Elasticsearch",
+		],
 		image: "/argus.webp",
 		presentation: {
-			eyebrow: "Live ops tooling for machine-assisted review",
+			eyebrow: "Cal Hacks 12.0 in San Francisco, with Marcus Lee",
+			cover: { src: "/case-studies/argus-cover.webp", tone: "dark" },
 			highlights: [
-				{ label: "Outcome", value: "2x hackathon winner" },
-				{ label: "Focus", value: "Signal-first operator review" },
-				{ label: "System", value: "Vision, streaming, storage" },
+				{ label: "Result", value: "2 first places, 2 internship offers" },
+				{ label: "System", value: "Mux → Supabase → worker → models" },
+				{ label: "My focus", value: "Detection, stats, landing page" },
 			],
 		},
 		sections: [
 			{
 				id: "context",
-				title: "Context",
+				title: "Cal Hacks 12.0",
+				heading:
+					"Two students from Montreal at the largest collegiate hackathon",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-calhacks.webp",
+							alt: "Carson and Marcus at the Cal Hacks 12.0 photo booth, one holding an 'I paused my game to be here' sign, the other in a green wig and fake moustache",
+							caption: "Marcus and me at the photo booth.",
+						},
+						{
+							src: "/case-studies/argus-hall.webp",
+							alt: "A hangar-sized hall filled with rows of tables and hackers at laptops, seen from a balcony",
+							caption: "The main hall, from the balcony.",
+						},
+					],
+				},
 				paragraphs: [
-					"Argus began as an attempt to make live video review feel more humane for teams that need signal without sitting through every frame themselves.",
-					"The central question was whether ingest, computer-vision analysis, and operator review could read as one coherent workflow instead of three disconnected tools.",
+					"Marcus Lee and I applied to Cal Hacks 12.0 kind of out of the blue, and we got in. It ran October 24 to 26, 2025 at the Palace of Fine Arts in San Francisco. It's North America's largest hackathon, and supposedly the largest collegiate hackathon in the world.",
+					"We were blown away. Montreal has a good tech scene, but nothing like what we saw there. There were thousands of students in one hall, a lot of them from schools I'd only ever heard about from Canada, and it really hit me that this is where things are happening.",
+				],
+				sources: [
+					{
+						label: "Cal Hacks 12.0",
+						href: "https://cal-hacks-12-0.devpost.com/",
+					},
 				],
 			},
 			{
-				id: "build",
-				title: "Build",
+				id: "san-francisco",
+				title: "San Francisco",
+				heading: "Seeing as much of the city as we could",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/argus-trip.webp",
+							alt: "Map of North America: a solid line from Montreal direct to San Francisco, and a dashed line home from San Francisco to Vancouver to Montreal",
+							caption:
+								"Direct on the way out, through Vancouver on the way home.",
+						},
+						{
+							src: "/case-studies/argus-sf.webp",
+							alt: "Map of San Francisco marking the Palace of Fine Arts, the Golden Gate Bridge, downtown, and our hotel area between the Tenderloin and Nob Hill, with a dashed line from the hotel to the venue",
+							caption: "The venue, the hotel, and the rides between them.",
+						},
+					],
+				},
 				paragraphs: [
-					"I framed the demo around one continuous loop: bring in a live feed, analyze it automatically, and surface notable events in a review interface that still felt operator-led.",
-					"The prototype stayed grounded in real constraints, with streaming, typed application code, and persistent storage carrying the idea beyond a superficial hackathon mock-up.",
+					"I flew direct from Montreal to San Francisco and came home through Vancouver. It was my first time in a city like SF, so between building sessions we tried to take in as much as we could: walking downtown, hanging around the Palace of Fine Arts, and some seriously good Vietnamese food a few blocks from the hotel.",
+					"The venue's Wi-Fi had issues from the start, so everyone switched to their phone hotspots, and with three thousand-plus hotspots in one room, pretty much nobody could get online. Argus streams video to Mux and calls three model providers, so we needed internet. We packed up and went back to our hotel in the Tenderloin and Nob Hill area, which was definitely an environment, and built from there.",
+					"Every few hours I'd head out to the corner store to grab more energy drinks, and neither of us slept the whole time.",
+				],
+			},
+			{
+				id: "waymo",
+				title: "The Waymo",
+				heading: "Our Waymo got stuck",
+				paragraphs: [
+					"We took a Waymo for the first time, and it ended up getting stuck in a parking lot by the Palace of Fine Arts, right next to another Waymo that was also stuck. For two kids who don't have Waymo back home, that was pretty much our worst nightmare.",
+					"A bunch of people started recording us sitting there stuck in the Waymo, a few minutes from the Golden Gate Bridge, on my first trip to a city like San Francisco. So that was awesome.",
+				],
+			},
+			{
+				id: "product",
+				title: "What it does",
+				heading: "Surveillance footage you can search and question",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-watch.webp",
+							alt: "Argus watch page: doorbell camera footage with a green Roboflow box around a man reaching toward the camera, above a scrubber with event markers",
+							caption:
+								"A recording with Roboflow's person box and event markers.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+						{
+							src: "/case-studies/argus-chat.webp",
+							alt: "Argus AI chat answering 'Has anyone shoplifted recently?' with a Medium severity event card: item selected and concealed, at 0:23",
+							caption: "The chat finds the event and links to the moment.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"Argus is named after Argus Panoptes, the many-eyed watchman from Greek myth. It takes live camera feeds and uploaded recordings, figures out what happened in them, and lets an operator search those events, ask questions about them, and turn them into incident reports.",
+					"Gemini 2.5 describes each clip as a set of events, each with a severity, a type, a time, and the people and objects involved. Roboflow draws a box around every person, eight frames a second. Both land on the recording's timeline, so clicking an event jumps the player right to it.",
+					"The chat defaults to Claude Haiku 4.5, and you can switch to Claude Sonnet 4.5, Kimi K2 on Groq, or a Letta agent. It searches the database through tools and shows events as cards. From a conversation, it can draft an incident report that opens in a Tiptap editor.",
+				],
+			},
+			{
+				id: "system",
+				title: "System",
+				heading: "Four services and one Postgres queue",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-system.webp",
+							alt: "Architecture: camera over WebSocket to a Node relay running FFmpeg, RTMPS to Mux, webhook to Supabase, which feeds an analysis worker calling Gemini and Roboflow, then Elasticsearch and a Next.js dashboard with Claude, Groq and Letta chat",
+							caption:
+								"Ingest along the top; analysis and the interface along the bottom.",
+						},
+					],
+				},
+				paragraphs: [
+					"A browser camera streams WebM over a WebSocket to a Node server running next to Next.js. That server pipes it through FFmpeg and pushes RTMPS to Mux, which runs the live stream, records it, and cuts clips on demand.",
+					"When a recording is ready, Mux calls a Supabase Edge Function, which drops analysis jobs into `ai_analysis_jobs`. That Postgres table is the only queue in the whole system. Every minute, a scheduler in the worker also adds 20-second windows for live streams and 60-second windows for recordings.",
+					"Supabase Realtime pushes new events, jobs and reports to the dashboard, so nothing polls. Every event also gets synced into Elasticsearch, where ELSER semantic search plus lexical matching powers both the search page and the stats.",
+				],
+				sources: [
+					{
+						label: "Stream relay",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/server.js",
+					},
+					{
+						label: "Mux webhook",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/supabase/functions/mux-webhook/index.ts",
+					},
+					{
+						label: "Scheduler",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/segment-scheduler.ts",
+					},
+					{
+						label: "Search index",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/lib/elasticsearch.ts",
+					},
+				],
+			},
+			{
+				id: "pipeline",
+				title: "Pipeline",
+				heading: "One recording, start to finish",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-flow.webp",
+							alt: "Animation of a 60-second recording moving through seven steps, from Mux webhook to job queue, worker, FFmpeg clip, Gemini and Roboflow, saved results and Elasticsearch, while worker log lines print and a timeline event card appears",
+							caption:
+								"The log lines are the worker's own; job numbers and counts are illustrative.",
+						},
+					],
+				},
+				paragraphs: [
+					"The worker checks the queue every five seconds and runs up to three jobs at once. For each one, it asks Mux for an instant clip of that window, transmuxes the HLS segments to MP4 with FFmpeg, and sends the MP4 off to the models.",
+					"Live windows only go to Gemini. Recordings go to Gemini and Roboflow in parallel. If Roboflow fails, the job still succeeds, just without boxes. If Gemini fails, the job retries up to three times, waiting 10 seconds and doubling each time.",
+				],
+				sources: [
+					{
+						label: "Worker",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/analysis-worker.ts",
+					},
+					{
+						label: "Gemini client",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/gemini-client.ts",
+					},
+				],
+			},
+			{
+				id: "contribution",
+				title: "My part",
+				heading: "Detection, stats and the landing page",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/argus-stats.webp",
+							alt: "Argus statistics page with totals for events, critical events, event types and entities, a severity donut, an event-type bar chart and an entity-type donut",
+							caption: "The stats page, built on Elasticsearch aggregations.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+						{
+							src: "/case-studies/argus-landing.webp",
+							alt: "Argus landing page: the word ARGUS beside a large eye drawn in red dot characters on black",
+							caption: "The landing page, built on the last night.",
+							source: {
+								label: "Devpost",
+								href: "https://devpost.com/software/argus-w6i0pv",
+							},
+						},
+					],
+				},
+				paragraphs: [
+					"Marcus owned the backend: video processing, the worker and the AI features. I owned the frontend and the pipelines feeding it, and made 49 of the 93 commits in those 37 hours.",
+					"I wrote the Roboflow detector. FFmpeg pulls 8 frames a second, each one goes to Roboflow's hosted person-detection model, and anything under 0.3 confidence gets dropped. I drew the boxes over the player and wrote the tracking stats that follow people from frame to frame.",
+					"I built the stats page on Elasticsearch aggregations: severity, event types, entities, recording lengths and occupancy, with date filters and chart colours interpolated in HCL. On the last night I built the landing page, then GitHub sign-in and the mobile nav.",
+				],
+				sources: [
+					{
+						label: "Detection commit",
+						href: "https://github.com/GodPuffin/Argus/commit/2ea0c883f06062d3f95d012ef978f7d9e5af51ce",
+					},
+					{
+						label: "Roboflow detector",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/worker/roboflow-detector.ts",
+					},
+					{
+						label: "Stats queries",
+						href: "https://github.com/GodPuffin/Argus/blob/d4b696cf4ab285097f3bdf6239a73de7bdacb12c/lib/elasticsearch-stats.ts",
+					},
+				],
+			},
+			{
+				id: "results",
+				title: "Results",
+				heading: "Two first places and two offers",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/argus-results.webp",
+							alt: "Two photos of 'Winner: Argus' on projector screens in the hall, beside cards for Conway's Most Data-Intensive Application prize and a37's Best Use of A37 prize",
+							caption: "Both prize announcements, from our seats.",
+						},
+					],
+				},
+				paragraphs: [
+					"We demoed at a table in a huge open space with thousands of other teams presenting all around us. You could tell people had built really good projects, and a lot of them were from the Ivy League schools you hear so much about where I'm from in Canada. Then Argus ended up winning two first places: Conway's Most Data-Intensive Application and a37's Best Use of A37.",
+					"Both are cool companies working on really interesting problems. Conway trains predictive models on event streams for Fortune 500 engineering teams, and a37 builds Forge, which finds, governs and polices the AI agents running inside a company. We got internship offers from both of them, which was super cool.",
+				],
+				sources: [
+					{
+						label: "Devpost",
+						href: "https://devpost.com/software/argus-w6i0pv",
+					},
+					{ label: "Conway", href: "https://www.conway.ai/" },
+					{ label: "a37 Forge", href: "https://www.forge.ai/" },
 				],
 			},
 			{
 				id: "takeaways",
 				title: "Takeaways",
+				heading: "What I took away from it",
 				paragraphs: [
-					"The result suggested that computer-vision assistance could reduce constant manual watching while still preserving clear review points for a human operator.",
-					"It also became a stronger portfolio story because the architecture, product choices, and tradeoffs could be explained as one end-to-end system.",
+					"Argus is the most complete hackathon project Marcus and I have built. It used eight outside services, and running it locally took four terminals: ngrok for Mux's webhooks, Next.js, the worker, and Supabase in Docker.",
+					"But the bigger thing for me was the people. We met so many smart people and saw so many cool projects. I'm confident, without a shadow of a doubt, that a lot of the people we saw there, and so many more that we didn't, are going to do amazing things and shape the world, so getting to be in that space with them was a crazy opportunity.",
 				],
 			},
 		],
@@ -468,121 +961,535 @@ const caseStudyEntries: CaseStudy[] = [
 			{ label: "Devpost", href: "https://devpost.com/software/argus-w6i0pv" },
 		],
 		publishedAt: "2025-10-26",
-		updatedAt: "2026-03-26",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "Argus Case Study | Carson Spriggs-Audet",
 			description:
-				"How Carson Spriggs-Audet built Argus, a hackathon prototype that combines live video ingest, event detection, and operator review.",
+				"How Marcus Lee and I built Argus at Cal Hacks 12.0: live video through Mux, events from Gemini and Roboflow, search on Elasticsearch, and two first places.",
 		},
 	},
 	{
 		slug: "cropcare",
 		title: "CropCare",
 		summary:
-			"Hackathon prototype for plant monitoring and control using sensors, cloud messaging, and operator dashboards.",
-		projectType: "Capstone Project",
+			"Our final-year capstone: a Raspberry Pi container farm, Azure IoT Hub and a .NET MAUI app, built by three students who really wanted to beat their friends' team. I built the app's monitoring and control screens, its live charts, and three of the farm's sensor drivers.",
+		projectType: "Capstone project",
 		period: { start: "2024-03", end: "2024-05" },
-		stack: ["Python", "C#", "IoT", "Azure", "MQTT", "Hardware"],
+		stack: [
+			"Python",
+			"Raspberry Pi",
+			"Azure IoT Hub",
+			"MQTT",
+			"C#",
+			".NET MAUI",
+			"Firebase",
+		],
 		image: "/cropcare.webp",
 		presentation: {
-			eyebrow: "Connected agriculture system spanning hardware and software",
+			eyebrow: "John Abbott College, Computer Science Technology, Winter 2024",
+			cover: { src: "/case-studies/cropcare-cover.webp", tone: "dark" },
 			highlights: [
-				{ label: "Focus", value: "Readable monitoring and control" },
-				{ label: "System", value: "Sensors, Azure, MQTT" },
-				{ label: "Outcome", value: "End-to-end field workflow" },
+				{ label: "My focus", value: "Mobile app and sensor drivers" },
+				{ label: "System", value: "Raspberry Pi → IoT Hub → MAUI" },
+				{ label: "Team", value: "Three developers" },
 			],
 		},
 		sections: [
 			{
 				id: "context",
 				title: "Context",
+				heading: "A final-year capstone that had to be designed first",
+				media: {
+					afterParagraph: 3,
+					items: [
+						{
+							src: "/case-studies/cropcare-timeline.webp",
+							alt: "Timeline of six phases: design in March, hardware by April 22, mobile app by April 29, telemetry by May 10, integration by May 14, polish and build by May 21",
+							caption: "From design document to physical farm in two months.",
+						},
+					],
+				},
 				paragraphs: [
-					"CropCare came from a simple observation: a lot of smart-agriculture demos prove the hardware works, but stop short of showing a software workflow that someone could actually trust day to day.",
-					"The project was meant to connect field signals, cloud automation, and a readable operator experience inside one end-to-end story.",
+					"CropCare was our capstone for John Abbott College's Computer Science Technology program, built over the Winter 2024 semester by Cristiano Fazi, Kevin Baggott and me. This was pretty much pre-ChatGPT, which was barely usable back then. The program is hands-on: you do everything yourself, and you do it properly. Two courses fed into it: Application Development 3 taught cross-platform mobile development in .NET MAUI, and Connected Objects taught Python, Raspberry Pi hardware and Azure IoT.",
+					"We set the brief ourselves: a container farm an owner or technician can monitor and control from their phone, covering growing conditions, the enclosure's security, and its location. We also had a friendly rivalry going with friends in another group over who'd have the better project. So we went all out, way past what the courses asked for.",
+					"The program made you design before you code. In March we wrote a design document, wireframed every screen and drew the UML ourselves. Then the build ran in phases, each with a due date: hardware drivers by April 22, the mobile app by April 29, telemetry to Azure by May 10, the app's link to IoT Hub by May 14, and polish and the physical farm by May 21.",
+					"The physical farm was one of the most fun parts. I modelled the enclosure in TinkerCAD across four versions, and we built it out of wood, plexiglass and hinges, with a servo locking the door and an actual plant inside.",
+				],
+				sources: [
+					{
+						label: "Program",
+						href: "https://johnabbott.qc.ca/career-programs/computer-science-technology/computer-science-420-b0/",
+					},
+					{
+						label: "Team and courses",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/README.md",
+					},
+					{
+						label: "Design document",
+						href: "https://docs.google.com/document/d/1CgeMB0Ia7MkWsxPN-nKMrvUxbPpmW7MrcGwJhg-tKfA/edit?usp=sharing",
+					},
+					{
+						label: "Wireframes",
+						href: "https://github.com/carsonSgit/CropCare/commit/571626370102830ee631f96d82958d052d246e45",
+					},
+					{
+						label: "CAD versions",
+						href: "https://github.com/carsonSgit/CropCare/tree/bccfd15cd470b0f9c182b5061d2f0c01f4306549/Documents/CAD%20files",
+					},
 				],
 			},
 			{
-				id: "build",
-				title: "Build",
+				id: "contribution",
+				title: "My contribution",
+				heading: "The app's screens, its live charts, and three drivers",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/cropcare-ui.webp",
+							alt: "Three phone screens: the owner's farm dashboard, the Plants page with readings and controls, and the Security page in dark mode with a loudness chart",
+							caption:
+								"Redrawn from the shipped screens; readings are illustrative.",
+						},
+					],
+				},
 				paragraphs: [
-					"I used an Azure-backed MQTT pipeline to move between sensing and response, so the system could both observe conditions and react without feeling like a disconnected hardware demo.",
-					"The interface work focused on making monitoring and control legible, which helped the project read as a product prototype instead of a bundle of technical parts.",
+					"In the app, I built the Plants and Security pages, fan and LED control, the owner and technician account types (technicians don't get the controls), and the dark theme.",
+					"I also added the live charts. Each controller keeps a reading history per sensor and redraws a LiveCharts line on every message, and a picker lets you choose which sensor to plot.",
+					"On the farm side, I wrote the loudness, vibration and GPS drivers, each with its own mock. The GPS took the most work: it reads NMEA sentences from the Pi's UART at /dev/ttyS0, and it only worked after we changed the Pi's serial port config. I also drew the team's UML in Mermaid and wrote the hardware port guide.",
+				],
+				sources: [
+					{
+						label: "Fan control",
+						href: "https://github.com/carsonSgit/CropCare/commit/9b1850fe0c60b0a2b8469190c3ba61ff9eb0a927",
+					},
+					{
+						label: "Technician permissions",
+						href: "https://github.com/carsonSgit/CropCare/commit/cd5cb262855a9e512670d52fcb202569e5f3776b",
+					},
+					{
+						label: "Live charts",
+						href: "https://github.com/carsonSgit/CropCare/commit/c74388f0e0714d68594d5892ab70e11b416f578e",
+					},
+					{
+						label: "Chart picker",
+						href: "https://github.com/carsonSgit/CropCare/commit/e75efbb502326bd4bde4e1d9789da2077f7cac2f",
+					},
+					{
+						label: "Dark mode",
+						href: "https://github.com/carsonSgit/CropCare/commit/e35e77f4321dbab182ed02e0321d91bbe499c5a4",
+					},
+					{
+						label: "GPS driver",
+						href: "https://github.com/carsonSgit/CropCare/commit/72b610e65eabd0d9da707f9226f81cd7a081712a",
+					},
+					{
+						label: "Vibration sensor",
+						href: "https://github.com/carsonSgit/CropCare/commit/8c7b71c4587c1fb363409be7abfb48225db8fda0",
+					},
+					{
+						label: "UML",
+						href: "https://github.com/carsonSgit/CropCare/commit/c414cf812e9bb85893e8d761a96182584e732d5a",
+					},
 				],
 			},
 			{
-				id: "takeaways",
-				title: "Takeaways",
+				id: "system",
+				title: "System",
+				heading: "One device ID ties three runtimes together",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-telemetry.webp",
+							alt: "Telemetry flow: Raspberry Pi to IoT Hub over MQTT, then the event stream to the MAUI app",
+							caption: "Readings go up every five seconds.",
+						},
+						{
+							src: "/case-studies/cropcare-command.webp",
+							alt: "Command flow: MAUI app to IoT Hub as a direct method, then to the Raspberry Pi",
+							caption: "Commands come down when someone taps a switch.",
+						},
+					],
+				},
 				paragraphs: [
-					"The final prototype demonstrated reliable two-way communication between field data and cloud-side actions, which was the most important proof point for the concept.",
-					"It also gave me a concise way to explain how embedded constraints, backend integration, and user-facing control design fit together.",
+					"The farm runs in Python on a Raspberry Pi reTerminal and sends every reading to Azure IoT Hub over MQTT through Azure's device SDK, every five seconds by default.",
+					"The app pulls those readings from IoT Hub's built-in Event Hub endpoint and sends commands back down as direct methods. Each farm record in Firebase stores its IoT Hub device ID, and that's how the app knows which farm on screen a stream of events belongs to.",
+				],
+				sources: [
+					{
+						label: "Device client",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/farm.py",
+					},
+					{
+						label: "Hub client",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Services/IOTService.cs",
+					},
+					{
+						label: "Setup guide",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/README.md",
+					},
+				],
+			},
+			{
+				id: "farm",
+				title: "The Raspberry Pi",
+				heading: "Three subsystems behind one interface",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-pi-layers.webp",
+							alt: "Four stacked layers on the Pi: Grove Base Hat, three subsystem controllers, the Farm loop, and the IoT Hub device client",
+							caption: "Four layers between a sensor and the cloud.",
+						},
+						{
+							src: "/case-studies/cropcare-pi-mock.webp",
+							alt: "ISensor with two implementations: GPS for prod and MockGPSSensor for mock",
+							caption: "Each driver has a mock behind the same interface.",
+						},
+					],
+				},
+				paragraphs: [
+					"A Grove Base Hat connects the sensors and actuators to the Pi. We followed proper design here: every sensor implements ISensor and every actuator implements IActuator. Plant, security and geolocation controllers own them, and a Farm class reads all three every five seconds.",
+					"An ENVIRONMENT_MODE variable swaps every driver for a mock behind the same interface, so the whole pipeline runs on a laptop with no hardware plugged in.",
+					"Commands come in as direct methods. A request processor maps a method name like control_actuator to a handler, and each command goes to the first actuator that accepts it. The app can also change the reading interval through the device twin.",
+				],
+				sources: [
+					{
+						label: "Farm loop",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/farm.py",
+					},
+					{
+						label: "Controller interface",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/interfaces/subsystem_controller.py",
+					},
+					{
+						label: "Mock swap",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/subsystems/plant/plant_controller.py",
+					},
+					{
+						label: "Direct methods",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/util/farm_req_processor.py",
+					},
+				],
+			},
+			{
+				id: "app",
+				title: "The app",
+				heading: "From an event stream to a health colour",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/cropcare-app-route.webp",
+							alt: "Four steps: an event arrives, the farm with that device id takes it, the controller that owns the reading type adds it, the tile and chart update",
+							caption: "One event, routed to one tile.",
+						},
+						{
+							src: "/case-studies/cropcare-app-health.webp",
+							alt: "Temperature ranges: healthy 25 to 30 °C, caution 20 to 35 °C, critical outside, unknown with no reading",
+							caption: "Four limits turn a number into a colour.",
+						},
+					],
+				},
+				paragraphs: [
+					"Every incoming event names its device ID, and the app routes it to the farm that owns that device. Three C# controllers mirror the Python subsystems, so a reading lands in the controller that knows what it is.",
+					"Each controller checks a reading against healthy and caution ranges. For temperature, 25 to 30 °C is healthy, 20 to 35 °C is caution, and anything else is critical. The farm shows its worst state, and value converters turn each state into a colour and a label.",
+					"Flipping a switch sends a direct method with a 30-second timeout. With no network, the switch flips back, and if the connection drops, every reading resets to “No data” instead of leaving stale values on screen.",
+				],
+				sources: [
+					{
+						label: "IoT service",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Services/IOTService.cs",
+					},
+					{
+						label: "Base controller",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Models/Controllers/BaseController.cs",
+					},
+					{
+						label: "Health ranges",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Models/Controllers/PlantController.cs",
+					},
+				],
+			},
+			{
+				id: "data",
+				title: "Accounts and data",
+				heading: "Owners, technicians, and the farms between them",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-data-model.webp",
+							alt: "Three collections: User and Farm joined through UserToFarm",
+							caption: "A join lets one farm have many users.",
+						},
+						{
+							src: "/case-studies/cropcare-data-roles.webp",
+							alt: "Permission table: owners see every page and control; technicians see Plants and Location only",
+							caption: "One flag decides what each account sees.",
+						},
+					],
+				},
+				paragraphs: [
+					"Firebase Auth handles sign-in, and the Realtime Database holds three collections: users, farms, and a UserToFarm join between them. A generic DatabaseService<T> implements IDataStore<T> for any keyed model, so all three share the same code.",
+					"Every account is either an owner or a technician. I built that split: owners add and delete farms and assign technicians, and technicians see Plants and Location without any of the controls.",
+				],
+				sources: [
+					{
+						label: "Data store",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Services/DatabaseService.cs",
+					},
+					{
+						label: "Repository",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/DataRepos/CropCareRepo.cs",
+					},
+					{
+						label: "Owner-only page",
+						href: "https://github.com/carsonSgit/CropCare/commit/4c057264568da70c8b70580cfe7b9d86b4f3041c",
+					},
+					{
+						label: "Hidden controls",
+						href: "https://github.com/carsonSgit/CropCare/commit/cd5cb262855a9e512670d52fcb202569e5f3776b",
+					},
+				],
+			},
+			{
+				id: "outcome",
+				title: "Outcome",
+				heading: "A working farm, and the record of how it was built",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/cropcare-trail.webp",
+							alt: "Six counts: 9 sensors, 4 actuators, 3 subsystems, 13 app pages, 4 CAD versions, 336 commits",
+							caption: "The finished system, counted.",
+						},
+						{
+							src: "/case-studies/cropcare-limits.webp",
+							alt: "Three shortcuts: readings as Python dict strings, an owner key inside the app, no long-term storage",
+							caption: "Shortcuts a shipped version would remove.",
+						},
+					],
+				},
+				paragraphs: [
+					"The final build streamed readings from the enclosure to the app and switched the fan, LED, door lock and buzzer from a phone. The GitHub repo is a gold mine if you want to see how it was built, with four CAD versions, the UML, the wireframes and a port guide for every sensor, and you can view the final enclosure in 3D in your browser.",
+					"Three shortcuts wouldn't survive production. The Pi sends each reading as a Python dict string, which the app parses by swapping quote characters. The app holds an owner-level IoT Hub connection string, where a real app would need a backend between the phone and the hub. And Milestone 4 planned Cosmos DB for long-term telemetry, but the shipped app keeps readings in memory and charts the last ten.",
+				],
+				sources: [
+					{
+						label: "3D model",
+						href: "https://carsonsgit.github.io/cropcare-3d/",
+					},
+					{
+						label: "Reading format",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/farm/interfaces/sensors.py",
+					},
+					{
+						label: "Reading parser",
+						href: "https://github.com/carsonSgit/CropCare/blob/bccfd15cd470b0f9c182b5061d2f0c01f4306549/CropCare/CropCare/Models/Farm.cs",
+					},
 				],
 			},
 		],
 		links: [
 			{ label: "GitHub", href: "https://github.com/carsonSgit/CropCare" },
-			{ label: "Live demo", href: "https://carsonsgit.github.io/cropcare-3d/" },
+			{ label: "3D model", href: "https://carsonsgit.github.io/cropcare-3d/" },
 		],
 		publishedAt: "2024-05-23",
-		updatedAt: "2026-03-26",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "CropCare Case Study | Carson Spriggs-Audet",
 			description:
-				"How Carson Spriggs-Audet built CropCare, a hackathon prototype that links sensor data, Azure services, and practical automation workflows.",
+				"How Carson Spriggs-Audet built the mobile app and sensor drivers for CropCare, a capstone IoT container farm linking a Raspberry Pi, Azure IoT Hub and .NET MAUI.",
 		},
 	},
 	{
 		slug: "linky",
 		title: "Linky",
 		summary:
-			"Hackathon prototype that turns a URL into a searchable knowledge base with retrieval-backed answers.",
-		projectType: "Hackathon Winning Project",
+			"A chatbot that reads the links you give it and answers only from them. Marcus Lee and I built it overnight at MariHacks 2024 without sleeping, and it ended up being my first hackathon win.",
+		projectType: "Hackathon winning project",
 		period: { start: "2024-04-05", end: "2024-04-06" },
-		stack: ["TypeScript", "AI", "RAG", "PostgreSQL", "Mantine"],
+		stack: [
+			"TypeScript",
+			"Next.js",
+			"Mantine",
+			"Pinecone",
+			"OpenAI",
+			"Vercel AI SDK",
+		],
 		image: "/linky.webp",
 		presentation: {
-			eyebrow: "A calmer interface for retrieval-backed learning",
+			eyebrow: "MariHacks 2024 at Marianopolis College",
+			cover: { src: "/case-studies/linky-cover.webp", tone: "light" },
 			highlights: [
-				{ label: "Focus", value: "Learning workflow over chat UX" },
-				{ label: "System", value: "Retrieval, storage, typed frontend" },
-				{ label: "Outcome", value: "Searchable knowledge experience" },
+				{ label: "Built in", value: "One night, no sleep" },
+				{ label: "Approach", value: "Retrieval-augmented generation" },
+				{ label: "Result", value: "Prize winner" },
 			],
 		},
 		sections: [
 			{
 				id: "context",
 				title: "Context",
+				heading: "From a showcase straight to a hackathon",
 				paragraphs: [
-					"Linky started with a small but useful prompt: what if one URL could become a structured place to learn, not just a one-off chat input.",
-					"I wanted the project to show both retrieval quality and a calmer product experience, since many AI demos only prove the model call and not the interface around it.",
+					"On April 5, 2024, I presented TradeMind at the end of AI Launch Lab's Winter 2024 R&D program, and it got called out as the best project of the cohort. Right after presenting, I headed straight to MariHacks, Marianopolis College's hackathon, with my friend Marcus Lee. It was one of my earlier hackathons, and it ended up being my first win, so a pretty big moment for me.",
+					"We showed up with an idea already. About a week and a half earlier, Marcus had sent me a paper on retrieval-augmented generation and said we should build something from it. Mind you, chatbots and AI wrappers were still pretty new at hackathons back then, and models weren't general enough to just answer anything. You really had to feed them the right context.",
+					"Linky is a chatbot that answers from the links you share with it. You give it a link, it reads the page, and it answers your questions using only what it read. If the page doesn't have the answer, it tells you.",
+				],
+				sources: [
+					{ label: "MariHacks", href: "https://www.marihacks.com/" },
+					{
+						label: "What is RAG",
+						href: "https://research.ibm.com/blog/retrieval-augmented-generation-RAG",
+					},
+					{
+						label: "README",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/README.md",
+					},
 				],
 			},
 			{
-				id: "build",
-				title: "Build",
+				id: "night",
+				title: "The night",
+				heading: "Built overnight, away from the cafeteria",
+				media: {
+					afterParagraph: 1,
+					items: [
+						{
+							src: "/case-studies/linky-night.webp",
+							alt: "Bar chart of commits per hour from 6 pm April 5 to noon April 6, 2024: Carson 36, Marcus 42, peaking at 6 am",
+							caption: "Commits per hour, Montreal time.",
+						},
+					],
+				},
 				paragraphs: [
-					"The product flow stayed intentionally simple: start with a URL, ingest the source material, and turn it into a knowledge layer that supports exploration instead of generic answers.",
-					"Under the hood, the stack paired retrieval, storage, and a typed frontend so the project felt like a usable tool with real product decisions behind it.",
+					"Hacking was in the school cafeteria right by the food lines, and it was loud, with people walking past our screens all the time. We didn't want to leak our idea, so the Fundica team let us work out of their office, and we built there overnight. We didn't sleep or have any caffeine, and we watched the sunset and the sunrise while we were building.",
+					"The repo tells the story of the night: 78 commits between 6 pm and 12:40 pm the next day, 36 of them mine. Things peaked at 6 am, which is when we were fixing the mobile layout.",
+				],
+				sources: [
+					{
+						label: "Commit history",
+						href: "https://github.com/GodPuffin/linky/commits/85eca13aa20024e6473eb4a29bdac982dc3fa4d4",
+					},
 				],
 			},
 			{
-				id: "takeaways",
-				title: "Takeaways",
+				id: "rag",
+				title: "How it works",
+				heading: "Crawl, chunk, embed, retrieve, answer",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/linky-rag.webp",
+							alt: "Five steps: crawl the page to Markdown, split into chunks, embed with ada-002 into Pinecone, retrieve the top three matches above 0.7, answer with gpt-3.5-turbo",
+							caption: "From a link to a grounded answer.",
+						},
+						{
+							src: "/case-studies/linky-prompt.webp",
+							alt: "Diff of the system prompt at 08:21: the grounding rule rewritten in capitals",
+							caption: "At 8:21 am, the grounding rule went to capitals.",
+						},
+					],
+				},
 				paragraphs: [
-					"The prototype showed how ingestion, retrieval, and interface design can reinforce each other when the product starts with a clear learning workflow.",
-					"It also became a stronger write-up because the product decisions and technical implementation could be presented with the same level of clarity.",
+					"We started from Pinecone's Vercel RAG example. Linky crawls the link, converts the page to Markdown, and splits it into 256-character chunks. Each chunk gets embedded with OpenAI's text-embedding-ada-002 and stored in Pinecone.",
+					"When you ask a question, Linky embeds it, keeps the top three chunks that score above 0.7, and passes up to 3,000 characters of them to gpt-3.5-turbo inside a context block. The answer streams back through Vercel's AI SDK.",
+					"The system prompt tells Linky to only answer from that block, and it didn't always listen, so at 8:21 am I rewrote that rule in all caps with the commit message “LINKY LISTEN TO ME YOU LITTLE CREATURE.”",
+				],
+				sources: [
+					{
+						label: "Starting point",
+						href: "https://github.com/pinecone-io/pinecone-vercel-example",
+					},
+					{
+						label: "Chunking",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/app/api/crawl/seed.ts",
+					},
+					{
+						label: "Retrieval",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/app/utils/context.ts",
+					},
+					{
+						label: "Prompt",
+						href: "https://github.com/GodPuffin/linky/blob/85eca13aa20024e6473eb4a29bdac982dc3fa4d4/app/api/chat/route.ts",
+					},
+					{
+						label: "The 8:21 commit",
+						href: "https://github.com/GodPuffin/linky/commit/c9f9af1daca3cbf76fd42309a1bb5de0dd373e1c",
+					},
+				],
+			},
+			{
+				id: "contribution",
+				title: "My contribution",
+				heading: "The interface, and making it work on a phone",
+				media: {
+					afterParagraph: 2,
+					items: [
+						{
+							src: "/case-studies/linky-mobile.webp",
+							alt: "Git log of Carson's commits from 05:40 to 07:29: Hotfix mobile, fix mobile wrapping issue, Fix max width, and five more fixes",
+							caption: "Eight mobile fixes between 5:40 and 7:29 am.",
+						},
+					],
+				},
+				paragraphs: [
+					"Marcus restructured the starter and wired up the retrieval. I built the interface around it: the navigation, the landing page, the source cards that show each crawled link, and the little Linky mascot icon.",
+					"From 5:40 am on, I was on mobile. Long retrieved text was overflowing the screen, so I fixed the wrapping and widths over eight commits in two hours. Mobile support ended up as one of the accomplishments in the README, which I drafted.",
+				],
+				sources: [
+					{
+						label: "Navbar icon",
+						href: "https://github.com/GodPuffin/linky/commit/935258ba678b837a5eab91f385e3fbc5b5a0bc09",
+					},
+					{
+						label: "Source cards",
+						href: "https://github.com/GodPuffin/linky/commit/605fac29364f38dd950188a4a8b6be41cbaf820e",
+					},
+					{
+						label: "Mobile wrapping",
+						href: "https://github.com/GodPuffin/linky/commit/260b23527de63d3dfff929351172445ccd5d16f2",
+					},
+					{
+						label: "Write-up",
+						href: "https://github.com/GodPuffin/linky/commit/089c7857668fc9b4095e715ea5b86fbe54ac7ae1",
+					},
+				],
+			},
+			{
+				id: "outcome",
+				title: "Outcome",
+				heading: "My first hackathon win",
+				paragraphs: [
+					"In the morning we walked back to Marianopolis, and since we hadn't slept and I like to brush my teeth, I brushed them with a water bottle on the way up the hill. At the venue we talked to other teams to scope out the competition, and a lot of them said they'd been scrambling to finish, so we started feeling pretty confident.",
+					"The demo went great, and a few judges came up to us afterward to get a deeper understanding of how the retrieval worked. We made the cut after the first round of judging and ended up winning a prize, my first hackathon win. We were really tired, but we crushed it.",
+					"The hackathon build has its limits. The crawler only reads one level deep, retrieval returns at most three chunks, and we never measured answer accuracy. In December 2024, Marcus moved Linky to Mistral and gave each user their own context.",
+				],
+				sources: [
+					{ label: "Live product", href: "https://www.linky.im/" },
+					{
+						label: "Later rewrite",
+						href: "https://github.com/GodPuffin/linky/commits/main",
+					},
 				],
 			},
 		],
 		links: [
-			{ label: "GitHub", href: "https://github.com/carsonSgit/Linky" },
+			{ label: "GitHub", href: "https://github.com/GodPuffin/linky" },
 			{ label: "Website", href: "https://www.linky.im/" },
 		],
 		publishedAt: "2024-04-11",
-		updatedAt: "2026-03-26",
+		updatedAt: "2026-11-06",
 		seo: {
 			title: "Linky Case Study | Carson Spriggs-Audet",
 			description:
-				"How Carson Spriggs-Audet built Linky, a hackathon prototype that uses retrieval and interface design to improve exploration and learning.",
+				"How Carson Spriggs-Audet and Marcus Lee built Linky, a retrieval-augmented chatbot, overnight at MariHacks 2024.",
 		},
 	},
 ];
