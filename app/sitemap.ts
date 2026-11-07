@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { caseStudies } from "@/data/caseStudies";
+import { usesUpdatedAt } from "@/data/uses";
 import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -25,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			lastModified: latestUpdate,
 			changeFrequency: "monthly",
 			priority: 0.9,
+		},
+		{
+			url: absoluteUrl("/uses"),
+			lastModified: new Date(usesUpdatedAt),
+			changeFrequency: "monthly",
+			priority: 0.7,
 		},
 		...caseStudies.map((caseStudy) => ({
 			url: absoluteUrl(`/case-studies/${caseStudy.slug}`),
