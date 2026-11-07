@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const BASE_URL = "https://carsonspriggs.me";
+export const BASE_URL = "https://carsonspriggs.com";
 export const SITE_NAME = "Carson Spriggs-Audet";
 export const DEFAULT_TITLE = "Carson Spriggs-Audet | Software Developer";
 export const DEFAULT_DESCRIPTION =
