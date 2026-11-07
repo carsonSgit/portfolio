@@ -1,0 +1,43 @@
+name: IndexNow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    name: Submit URLs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # The key file and the sitemap both have to be live before IndexNow will
+      # accept a submission, and the Vercel deploy that follows this push is
+      # asynchronous -- so poll instead of racing it.
+      - name: Wait for the deploy
+        run: |
+          key_file=$(basename "$(ls public/*.txt | head -1)")
+          for attempt in $(seq 1 40); do
+            if curl -fsS "https://carsonspriggs.com/${key_file}" >/dev/null; then
+              echo "key file live after ${attempt} attempt(s)"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "key file never went live" >&2
+          exit 1
+
+      - name: Submit to IndexNow
+        run: node scripts/indexnow.mjs
