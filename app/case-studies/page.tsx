@@ -1,5 +1,6 @@
-import Link from "next/link";
 import "@/styles.scss";
+import CaseStudyIndex from "@/components/CaseStudyIndex";
+import SiteNav from "@/components/SiteNav";
 import { caseStudies, formatPeriod } from "@/data/caseStudies";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -19,10 +20,8 @@ export const metadata = createPageMetadata({
 export default function CaseStudiesIndexPage() {
 	return (
 		<main className="case-study-page">
+			<SiteNav trail={[{ label: "Case studies" }]} />
 			<div className="case-study-shell">
-				<Link href="/" className="case-study-backlink">
-					Back home
-				</Link>
 				<header className="case-studies-hero">
 					<h1 className="case-studies-title">Case Studies</h1>
 					<p className="case-studies-intro">
@@ -30,32 +29,16 @@ export default function CaseStudiesIndexPage() {
 						and shaped into something more intentional than a demo.
 					</p>
 				</header>
-				<section aria-label="Case study list" className="case-studies-panels">
-					{caseStudies.map((caseStudy) => (
-						<article key={caseStudy.slug}>
-							<Link
-								href={`/case-studies/${caseStudy.slug}`}
-								className="case-study-panel__surface"
-							>
-								<p className="case-study-panel__meta">
-									<strong>{caseStudy.projectType}</strong> ·{" "}
-									{formatPeriod(caseStudy.period)}
-								</p>
-								<h2 className="case-study-panel__title">{caseStudy.title}</h2>
-								<p className="case-study-panel__summary">{caseStudy.summary}</p>
-								<span className="case-study-panel__read">
-									Continue reading
-									<span
-										className="case-study-panel__read-arrow"
-										aria-hidden="true"
-									>
-										→
-									</span>
-								</span>
-							</Link>
-						</article>
-					))}
-				</section>
+				<CaseStudyIndex
+					cards={caseStudies.map((caseStudy) => ({
+						slug: caseStudy.slug,
+						title: caseStudy.title,
+						summary: caseStudy.summary,
+						projectType: caseStudy.projectType,
+						date: formatPeriod(caseStudy.period),
+						cover: caseStudy.presentation?.cover?.src,
+					}))}
+				/>
 			</div>
 		</main>
 	);
