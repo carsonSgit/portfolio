@@ -3,6 +3,15 @@ import type { projectSchema } from "../types/zodTypes";
 
 export const projects: z.infer<typeof projectSchema>[] = [
 	{
+		title: "TradeMind",
+		description:
+			"Stock-analysis model I researched and built in Jupyter using Kaggle data, with a Python prediction API and interactive charts.",
+		links: [
+			{ label: "github", href: "https://github.com/carsonSgit/TradeMind" },
+		],
+		caseStudySlug: "trademind",
+	},
+	{
 		title: "Argus",
 		description:
 			"Computer-vision hackathon prototype for monitoring live video feeds and surfacing notable events.",
@@ -15,7 +24,7 @@ export const projects: z.infer<typeof projectSchema>[] = [
 	{
 		title: "CropCare",
 		description:
-			"Sensor-driven farming prototype that connects plant monitoring, cloud messaging, and remote control.",
+			"Capstone IoT container farm: a Raspberry Pi, Azure IoT Hub, and a .NET MAUI app for monitoring and control.",
 		links: [
 			{ label: "github", href: "https://github.com/carsonSgit/CropCare" },
 			{ label: "live demo", href: "https://carsonsgit.github.io/cropcare-3d/" },
@@ -25,7 +34,7 @@ export const projects: z.infer<typeof projectSchema>[] = [
 	{
 		title: "Linky",
 		description:
-			"Retrieval-backed learning tool that turns a URL into a searchable knowledge base.",
+			"Overnight hackathon chatbot that answers questions only from the links you give it.",
 		links: [
 			{ label: "github", href: "https://github.com/carsonSgit/Linky" },
 			{ label: "live product", href: "https://www.linky.im/" },
