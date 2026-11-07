@@ -173,7 +173,7 @@ export default function RootLayout({
 			<body>
 				<link
 					rel="preload"
-					href="/fonts/inter-latin.woff2"
+					href="/fonts/geist-latin.woff2"
 					as="font"
 					type="font/woff2"
 					crossOrigin="anonymous"
