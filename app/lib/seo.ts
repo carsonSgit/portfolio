@@ -79,7 +79,11 @@ export function breadcrumbSchema(trail: { name: string; href?: string }[]) {
 			"@type": "ListItem",
 			position: index + 1,
 			name: crumb.name,
-			...(crumb.href ? { item: absoluteUrl(crumb.href) } : {}),
+			// Keep the home crumb in the same no-trailing-slash form Next emits
+			// for the canonical link, so structured data and the canonical agree.
+			...(crumb.href
+				? { item: crumb.href === "/" ? BASE_URL : absoluteUrl(crumb.href) }
+				: {}),
 		})),
 	};
 }

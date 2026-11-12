@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { caseStudies } from "@/data/caseStudies";
 import { usesUpdatedAt } from "@/data/uses";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, BASE_URL } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
@@ -16,7 +16,10 @@ const latestUpdate = new Date(
 export default function sitemap(): MetadataRoute.Sitemap {
 	return [
 		{
-			url: absoluteUrl("/"),
+			// Origin without a trailing slash: Next normalizes the root
+			// canonical to `result.origin`, so the sitemap must match it exactly
+			// or Google sees two homepage URLs and may pick its own canonical.
+			url: BASE_URL,
 			lastModified: latestUpdate,
 			changeFrequency: "monthly",
 			priority: 1,
