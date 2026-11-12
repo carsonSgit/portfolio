@@ -1,5 +1,13 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"redirects": [
+		{
+			"source": "/(.*)",
+			"has": [{ "type": "host", "value": "www.carsonspriggs.com" }],
+			"destination": "https://carsonspriggs.com/$1",
+			"permanent": true
+		}
+	],
 	"headers": [
 		{
 			"source": "/(.*)",
